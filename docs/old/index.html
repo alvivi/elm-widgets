@@ -1,0 +1,86 @@
+<html>
+<head>
+  <title>elm-widgets - Inputs</title>
+  <link href="./common.css" rel="stylesheet">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>elm-widgets</h1>
+    </div>
+  </header>
+  <main>
+    <div class="container">
+      <p>
+      <em>elm-widgets</em> is a front-end library for <a href="http://elm-lang.org/">elm</a>
+      based on <a href="http://package.elm-lang.org/packages/rtfeldman/elm-css/latest">elm-css</a>.
+      It ships with prebuilt views focusing in accessibility and customization.
+      </p>
+
+      <p>
+      This project can be compared to other front-end frameworks like
+      <a href="https://getbootstrap.com/">Bootstrap</a>,
+      <a href="https://bulma.io/">Bulma</a>, or in elm,
+      <a href="http://package.elm-lang.org/packages/mdgriffith/style-elements/latest">Style-Elements</a>.
+      There are implementation differences between Bootstrap and Bulma, these
+      are CSS and/or Javascript frameworks meanwhile elm-widgets only targets
+      elm. By the other hand, Style-Elements implements its own. There are
+      also design differences. Not an style/css framework, focusing html and
+      aria (links here). is not focused on style. It can also be compared
+      with Style-Elements, but its foundations is css and does not tries to
+      hide it to you.
+      </p>
+
+      <p>
+      There is no fancy theming or style in base library. A minimalistic theme
+      is provided by X. We use this library through this examples to show how
+      themed components can look.
+      </p>
+
+      <h2>A Quick Tour</h2>
+
+      <p>
+      Before starting, a knowledge of elm and elm-css is assumed.
+      </p>
+
+      <h3>Browser Rendering Differences</h3>
+
+      <p>
+      Not all browser renders the same elements in the same way. To solve
+      this common pain, elm-widgets ships with its own normalization styles.
+      Its based on normalize.css 8.0.0 and it's totally optional.
+      </p>
+
+      <p>
+      Is recommended to use it, but any other normalization library should
+      get the work done. You can include it in your project using `xxx` which
+      is a elm-css snippet.
+      </p>
+
+      <pre class="prettyprint lang-haskell">
+import Css.Foreign
+import Html.Styled as Html exposing (Html)
+import TODO.Base.Normalize as Normalize
+
+view : Model -> Html Msg
+view model =
+  Html.div
+      []
+      [ Css.Foreign.global Normalize.snippets
+      , ...
+      ]</pre>
+
+      <p>
+      elm-widgets is all about common reusable views. Inputs are usually the
+      view that required a little more of work and can, so making them reusable
+      save us time.
+      </p>
+
+      <p>
+      Let's start playing adding a simple email input!"
+      </p>
+    </div>
+  </main>
+  <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js?autorun=true&amp;lang=haskell&amp;lang=html&amp;lang=css"></script>
+</body>
+</html>

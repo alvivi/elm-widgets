@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,600');
+@import url('https://fonts.googleapis.com/css?family=Fira+Mono');
+
+* {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.02em;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+}
+
+em, strong {
+  font-style: normal;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 3em;
+  /*margin-bottom: 12px;*/
+  /*padding-bottom: 32px;*/
+}
+
+h2 {
+  font-size: 1.5em;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /*padding-top: 2px;*/
+  /*padding-bottom: 24px;*/
+}
+
+h3 {
+  font-size: 1.35em;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  /*padding-top: 2px;*/
+  /*padding-bottom: 22px;*/
+}
+
+a {
+  color: black;
+  text-decoration: none;
+  text-shadow:
+    -1px -1px white,
+    -1px 1px white,
+    1px -1px white,
+    1px 1px white;
+  background-size: 1px 1em;
+  box-shadow:
+    inset 0 -0.175em white,
+    inset 0 -0.225em #000;
+  display: inline;
+}
+
+a:hover {
+  color: #FBAB00;
+  box-shadow:
+    inset 0 -0.175em white,
+    inset 0 -0.225em #FBAB00;
+}
+
+p {
+  padding-bottom: 12px;
+}
+
+.prettyprint {
+  border: none !important;
+  padding: 0 0 12px 0 !important;
+}
+
+.prettyprint span {
+  font-family: 'Fira Mono', monospace;
+  font-size: 0.85em;
+}
+
+.header {
+  padding: 64px 0 32px 0;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.note {
+  font-size: 1em;
+  margin-right: 32px;
+  margin-left: 22px;
+  padding-left: 10px;
+  border-left: 1px black solid;
+}
+
+.note-header {
+  font-size: 1.2em;
+  padding-bottom: 12px;
+  display: block;
+}
