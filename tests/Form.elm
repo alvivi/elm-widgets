@@ -61,6 +61,16 @@ form =
                                 , Q.index 1 >> Q.contains [ Html.text "two" ]
                                 ]
                         ]
+        , T.test "Applies `whenFocused` attributes when focused" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.whenFocused [ Form.placeholder "foobar" ]
+                    , Form.focused
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         ]
 
 
