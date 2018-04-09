@@ -17,6 +17,7 @@ type alias Context msg =
     { autocomplete : Maybe String
     , description : String
     , descriptionLabel : Bool
+    , focused : Bool
     , id : String
     , inputCss : Array Style
     , inputHtml : Array (Html msg)
@@ -34,7 +35,9 @@ type alias Context msg =
 
 insertAttributes : List (Attribute msg) -> Context msg -> Context msg
 insertAttributes attrs ctx =
-    List.foldl setAttribute ctx attrs
+    attrs
+        |> List.foldl setAttribute ctx
+        |> (\ctx_ -> List.foldl setAttributeModifiers ctx_ attrs)
 
 
 insertElements : List ( Element, Html msg ) -> Context msg -> Context msg
@@ -47,6 +50,7 @@ empty { description, id, type_ } =
     { autocomplete = Nothing
     , description = description
     , descriptionLabel = False
+    , focused = False
     , id = id
     , inputCss = Array.empty
     , inputHtml = Array.empty
@@ -77,6 +81,9 @@ setAttribute attr ctx =
         Attributes.DescriptionLabel ->
             { ctx | descriptionLabel = True }
 
+        Attributes.Focused ->
+            { ctx | focused = True }
+
         Attributes.OnBlur msg ->
             { ctx | onBlur = Just msg }
 
@@ -94,6 +101,22 @@ setAttribute attr ctx =
 
         Attributes.Value value ->
             { ctx | value = Just value }
+
+        Attributes.WhenFocused _ ->
+            ctx
+
+
+setAttributeModifiers : Attribute msg -> Context msg -> Context msg
+setAttributeModifiers attr ctx =
+    case attr of
+        Attributes.WhenFocused focusedAttrs ->
+            if ctx.focused then
+                insertAttributes focusedAttrs ctx
+            else
+                ctx
+
+        _ ->
+            ctx
 
 
 setCss : Element -> Style -> Context msg -> Context msg

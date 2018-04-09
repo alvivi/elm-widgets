@@ -5,12 +5,14 @@ module Widgets.Form.Attributes
         , batch
         , css
         , descriptionLabel
+        , focused
         , onBlur
         , onFocus
         , onInput
         , placeholder
         , required
         , value
+        , whenFocused
         )
 
 import Css exposing (Style)
@@ -42,6 +44,11 @@ descriptionLabel =
     A.DescriptionLabel
 
 
+focused : Attribute msg
+focused =
+    A.Focused
+
+
 onBlur : msg -> Attribute msg
 onBlur =
     A.OnBlur
@@ -70,3 +77,8 @@ required =
 value : String -> Attribute msg
 value =
     A.Value
+
+
+whenFocused : List (Attribute msg) -> Attribute msg
+whenFocused =
+    A.WhenFocused

@@ -5,12 +5,14 @@ module Widgets.Form.Internal.Attributes
             , Batch
             , Css
             , DescriptionLabel
+            , Focused
             , OnBlur
             , OnFocus
             , OnInput
             , Placeholder
             , Required
             , Value
+            , WhenFocused
             )
         )
 
@@ -23,9 +25,11 @@ type Attribute msg
     | Batch (List (Attribute msg))
     | Css Element Style
     | DescriptionLabel
+    | Focused
     | OnBlur msg
     | OnFocus msg
     | OnInput (String -> msg)
     | Placeholder String
     | Required
     | Value String
+    | WhenFocused (List (Attribute msg))
