@@ -51,14 +51,24 @@ labelView ctx content =
 
 
 labelContentView : Context msg -> Array (Html msg)
-labelContentView { description, descriptionLabel, labelHtml } =
-    if Array.isEmpty labelHtml then
-        if descriptionLabel then
-            Array.push (H.text description) Array.empty
+labelContentView ctx =
+    if Array.isEmpty ctx.descriptionHtml then
+        if ctx.descriptionLabel then
+            Array.empty
+                |> Array.push
+                    (H.span
+                        [ H.css <|
+                            K.fromMany
+                                [ K.one <| C.display C.block
+                                , K.many <| Array.toList ctx.descriptionCss
+                                ]
+                        ]
+                        [ H.text ctx.description ]
+                    )
         else
             Array.empty
     else
-        labelHtml
+        ctx.descriptionHtml
 
 
 inputView : Context msg -> Html msg
@@ -91,6 +101,9 @@ inputView ctx =
 elementId : String -> Element -> String
 elementId base subElement =
     case subElement of
+        Element.Description ->
+            base ++ "__description"
+
         Element.Input ->
             base
 

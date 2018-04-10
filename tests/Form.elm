@@ -82,11 +82,11 @@ label =
                 Form.input { id = "id", description = "desc", type_ = "text" } [] []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.id "id__label" ]
-        , T.test "Has custom label html" <|
+        , T.test "Has custom description html" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Form.Label, H.text "foobar" ) ]
+                    [ ( Form.Description, H.text "foobar" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.contains [ Html.text "foobar" ]
         ]
@@ -121,11 +121,11 @@ input =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
-        , T.test "Custom label html disables ARIA label attribute" <|
+        , T.test "Custom description html disables ARIA label attribute" <|
             \() ->
                 Form.input { id = "id", description = "foobar", type_ = "text" }
                     []
-                    [ ( Form.Label, H.text "desc" ) ]
+                    [ ( Form.Description, H.text "desc" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]

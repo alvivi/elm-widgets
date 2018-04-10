@@ -16,13 +16,14 @@ import Widgets.Form.Internal.Attributes as Attributes exposing (Attribute)
 type alias Context msg =
     { autocomplete : Maybe String
     , description : String
+    , descriptionCss : Array Style
+    , descriptionHtml : Array (Html msg)
     , descriptionLabel : Bool
     , focused : Bool
     , id : String
     , inputCss : Array Style
     , inputHtml : Array (Html msg)
     , labelCss : Array Style
-    , labelHtml : Array (Html msg)
     , onBlur : Maybe msg
     , onFocus : Maybe msg
     , onInput : Maybe (String -> msg)
@@ -50,12 +51,13 @@ empty { description, id, type_ } =
     { autocomplete = Nothing
     , description = description
     , descriptionLabel = False
+    , descriptionCss = Array.empty
+    , descriptionHtml = Array.empty
     , focused = False
     , id = id
     , inputCss = Array.empty
     , inputHtml = Array.empty
     , labelCss = Array.empty
-    , labelHtml = Array.empty
     , onBlur = Nothing
     , onFocus = Nothing
     , onInput = Nothing
@@ -122,6 +124,9 @@ setAttributeModifiers attr ctx =
 setCss : Element -> Style -> Context msg -> Context msg
 setCss element css ctx =
     case element of
+        Elements.Description ->
+            { ctx | descriptionCss = Array.push css ctx.descriptionCss }
+
         Elements.Input ->
             { ctx | inputCss = Array.push css ctx.inputCss }
 
@@ -132,8 +137,11 @@ setCss element css ctx =
 setElement : ( Element, Html msg ) -> Context msg -> Context msg
 setElement ( element, html ) ctx =
     case element of
+        Elements.Description ->
+            { ctx | descriptionHtml = Array.push html ctx.descriptionHtml }
+
         Elements.Input ->
             { ctx | inputHtml = Array.push html ctx.inputHtml }
 
         Elements.Label ->
-            { ctx | labelHtml = Array.push html ctx.labelHtml }
+            Debug.log "Custom label element is not supported" ctx
