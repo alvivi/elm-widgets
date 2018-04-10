@@ -71,6 +71,18 @@ form =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
+        , T.test "Applies batched `whenFocused` attributes when focused (regression)" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.batch
+                        [ Form.whenFocused [ Form.placeholder "foobar" ]
+                        ]
+                    , Form.focused
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         ]
 
 
