@@ -111,6 +111,9 @@ setAttribute attr ctx =
 setAttributeModifiers : Attribute msg -> Context msg -> Context msg
 setAttributeModifiers attr ctx =
     case attr of
+        Attributes.Batch moreAttrs ->
+            List.foldl setAttributeModifiers ctx moreAttrs
+
         Attributes.WhenFocused focusedAttrs ->
             if ctx.focused then
                 insertAttributes focusedAttrs ctx
