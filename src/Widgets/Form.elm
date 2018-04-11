@@ -10,6 +10,7 @@ import KeywordList as K
 import Widgets.Form.Attributes exposing (Attribute)
 import Widgets.Form.Elements as Element exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
+import Widgets.Helpers.Array as Array
 
 
 input :
@@ -54,17 +55,15 @@ labelContentView : Context msg -> Array (Html msg)
 labelContentView ctx =
     if Array.isEmpty ctx.descriptionHtml then
         if ctx.descriptionLabel then
-            Array.empty
-                |> Array.push
-                    (H.span
-                        [ H.css <|
-                            K.fromMany
-                                [ K.one <| C.display C.block
-                                , K.many <| Array.toList ctx.descriptionCss
-                                ]
-                        ]
-                        [ H.text ctx.description ]
-                    )
+            Array.singleton <|
+                H.span
+                    [ H.css <|
+                        K.fromMany
+                            [ K.one <| C.display C.block
+                            , K.many <| Array.toList ctx.descriptionCss
+                            ]
+                    ]
+                    [ H.text ctx.description ]
         else
             Array.empty
     else
