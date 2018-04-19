@@ -6,7 +6,13 @@
     "source-directories": [
         "src"
     ],
-    "exposed-modules": [],
+    "exposed-modules": [
+      "Widgets.Form",
+      "Widgets.Form.Attributes",
+      "Widgets.Form.Elements",
+      "Widgets.Normalize",
+      "Widgets.Themes.Mint"
+    ],
     "dependencies": {
         "alvivi/elm-css-aria": "1.0.0 <= v < 2.0.0",
         "alvivi/elm-keyword-list": "1.0.1 <= v < 2.0.0",
