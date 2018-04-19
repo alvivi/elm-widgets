@@ -7,10 +7,16 @@ module Widgets.Form.Elements
             )
         )
 
--- Input represent the form control, it can be the input tag, or textarea,
--- select, etc. Note that no children nodes are allowed in input tag.
+{-| This module provides a type for referencing each of the element which are
+part of the form controls.
+
+@docs Element
+
+-}
 
 
+{-| Identifies each sub element of a Form control.
+-}
 type Element
     = Description
     | Input

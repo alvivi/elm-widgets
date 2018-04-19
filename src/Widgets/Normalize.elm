@@ -1,21 +1,33 @@
 module Widgets.Normalize exposing (snippets)
 
+{-| Snippets for normalize browser styling. You should use this snippets with
+Css.Foreign at the beginning of your content. Here is an example:
+
+    view : Model -> Html Msg
+    view model =
+        Html.main_ []
+            [ Css.Foreign.global Widgets.Normalize.snippets
+            , Html.text "My Content"
+            ]
+
+The styles are based on [Normalize](https://necolas.github.io/normalize.css/)
+8.0.0. Notable changes:
+
+  - Use of `border-box` and `box-sizing` everywhere.
+  - Make images not selectable by default.
+  - Disable focus outline everywhere.
+  - Disable forced focus outline in select for Firefox.
+
+@docs snippets
+
+-}
+
 import Css exposing (property)
 import Css.Foreign exposing (Snippet, selector)
 
 
-{-
-   Based on Normalize 8.0.0
-   Notable changes:
-     * Use of border-box box-sizing everywhere.
-     * Make images not selectable by default.
-     * Disable focus outline everywhere.
-     * Disable forced focus outline in select for Firefox.
-
-   Generated with https://gist.github.com/alvivi/4297e6232d55db1fb62671a060519b8b
+{-| Browser normalization snippets. Use this with Css.Foreign functions.
 -}
-
-
 snippets : List Snippet
 snippets =
     [ selector "html"

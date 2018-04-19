@@ -1,5 +1,14 @@
 module Widgets.Form exposing (input)
 
+{-| Form controls following ARIA recommendations.
+
+
+# Controls
+
+@docs input
+
+-}
+
 import Array exposing (Array)
 import Css as C
 import Html.Styled as H exposing (Html)
@@ -13,6 +22,11 @@ import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Helpers.Array as Array
 
 
+{-| A generic input control. An `id` and a `description` is always required.
+`type` is the type of input, it could be `text`, `email`, `submit` or any
+[other](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input).
+Usually, is better to use the other semantic controls provided by this module.
+-}
 input :
     { id : String, description : String, type_ : String }
     -> List (Attribute msg)
