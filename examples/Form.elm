@@ -126,6 +126,24 @@ view model =
                           )
                         ]
                   )
+                , ( "Disabled"
+                  , Form.input
+                        { id = "input-disabled"
+                        , description = "A basic input"
+                        , type_ = "text"
+                        }
+                        [ Form.disabled ]
+                        []
+                  , Form.input
+                        { id = "themed-input-disabled"
+                        , description = "A basic input"
+                        , type_ = "text"
+                        }
+                        [ Theme.input
+                        , Form.disabled
+                        ]
+                        []
+                  )
                 ]
             ]
         ]
