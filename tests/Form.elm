@@ -176,6 +176,14 @@ input =
                     |> Q.find [ S.tag "input" ]
                     |> E.simulate (E.input "foobar")
                     |> E.expect (OnInput "foobar")
+        , T.test "disabled sets html disabled attribute" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "test" }
+                    [ Form.disabled ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.disabled True ]
         , T.test "placeholder attribute sets html placeholder attribute" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
