@@ -42,8 +42,8 @@ form =
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Form.Label, H.span [] [ H.text "one" ] )
-                    , ( Form.Label, H.span [] [ H.text "two" ] )
+                    [ ( Form.Description, H.span [] [ H.text "one" ] )
+                    , ( Form.Description, H.span [] [ H.text "two" ] )
                     , ( Form.Input, H.span [] [ H.text "one" ] )
                     , ( Form.Input, H.span [] [ H.text "two" ] )
                     ]
