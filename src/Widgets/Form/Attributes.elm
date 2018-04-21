@@ -23,7 +23,7 @@ module Widgets.Form.Attributes
 
 # Properties
 
-@docs autocomplete, descriptionLabel, placeholder, required, value
+@docs autocomplete, descriptionLabel, disabled, placeholder, required, value
 
 
 # Events
