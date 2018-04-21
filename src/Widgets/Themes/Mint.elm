@@ -69,9 +69,14 @@ input =
             , C.borderRadius <| C.px 3
             , C.margin <| C.px 1
             , C.padding2 (C.px 10) (C.px 12)
+            , C.backgroundColor backgroundColor
             , C.focus
                 [ C.border3 (C.px 2) C.solid primaryColor
                 , C.margin <| C.zero
+                ]
+            , C.disabled
+                [ C.backgroundColor disabledBackgroundColor
+                , C.cursor C.notAllowed
                 ]
             ]
         , Form.css Form.Description
@@ -101,6 +106,16 @@ text =
 
 
 -- Colors
+
+
+backgroundColor : C.Color
+backgroundColor =
+    C.hex "#FFFFFF"
+
+
+disabledBackgroundColor : C.Color
+disabledBackgroundColor =
+    C.hex "#FAFAFF"
 
 
 hintColor : C.Color
