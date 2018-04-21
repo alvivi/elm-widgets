@@ -5,6 +5,7 @@ module Widgets.Form.Attributes
         , batch
         , css
         , descriptionLabel
+        , disabled
         , focused
         , onBlur
         , onFocus
@@ -82,6 +83,13 @@ own custom Label element.
 descriptionLabel : Attribute msg
 descriptionLabel =
     A.DescriptionLabel
+
+
+{-| Sets the control as disabled.
+-}
+disabled : Attribute msg
+disabled =
+    A.Disabled
 
 
 {-| Sets the control as focused

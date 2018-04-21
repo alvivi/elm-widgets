@@ -89,14 +89,15 @@ inputView ctx =
     H.input
         (K.fromMany
             [ K.one <| H.id <| elementId ctx.id Element.Input
-            , K.one <| H.type_ ctx.type_
             , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
+            , K.ifTrue ctx.disabled <| H.disabled True
             , K.ifTrue ctx.required <| H.required True
             , K.maybeMap H.onBlur ctx.onBlur
             , K.maybeMap H.onFocus ctx.onFocus
             , K.maybeMap H.onInput ctx.onInput
             , K.maybeMap H.placeholder ctx.placeholder
             , K.maybeMap H.value ctx.value
+            , K.one <| H.type_ ctx.type_
             , K.one <|
                 H.css <|
                     K.fromMany

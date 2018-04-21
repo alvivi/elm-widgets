@@ -5,6 +5,7 @@ module Widgets.Form.Internal.Attributes
             , Batch
             , Css
             , DescriptionLabel
+            , Disabled
             , Focused
             , OnBlur
             , OnFocus
@@ -25,6 +26,7 @@ type Attribute msg
     | Batch (List (Attribute msg))
     | Css Element Style
     | DescriptionLabel
+    | Disabled
     | Focused
     | OnBlur msg
     | OnFocus msg
