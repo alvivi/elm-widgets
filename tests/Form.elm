@@ -209,3 +209,99 @@ input =
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.value "foobar" ]
         ]
+
+
+semanticInput : Test
+semanticInput =
+    T.describe "Semantic Input Controls"
+        [ T.test "currentPassword input type is password" <|
+            \() ->
+                Form.currentPassword { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "password" ]
+        , T.test "currentPassword has attribute autocomplete set to current-password" <|
+            \() ->
+                Form.currentPassword { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "current-password" ]
+        , T.test "email input type is email" <|
+            \() ->
+                Form.email { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "email" ]
+        , T.test "email has attribute autocomplete set to email" <|
+            \() ->
+                Form.email { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "email" ]
+        , T.test "firstName input type is text" <|
+            \() ->
+                Form.firstName { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "text" ]
+        , T.test "firstName has attribute autocomplete set to given-name" <|
+            \() ->
+                Form.firstName { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "given-name" ]
+        , T.test "lastName input type is text" <|
+            \() ->
+                Form.lastName { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "text" ]
+        , T.test "lastName has attribute autocomplete set to given-name" <|
+            \() ->
+                Form.lastName { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "family-name" ]
+        , T.test "newPassword input type is password" <|
+            \() ->
+                Form.newPassword { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "password" ]
+        , T.test "newPassword has attribute autocomplete set to new-password" <|
+            \() ->
+                Form.newPassword { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "new-password" ]
+        , T.test "nickname input type is text" <|
+            \() ->
+                Form.nickname { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "text" ]
+        , T.test "nickname has attribute autocomplete set to given-name" <|
+            \() ->
+                Form.nickname { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "nickname" ]
+        , T.test "organization input type is text" <|
+            \() ->
+                Form.organization { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "text" ]
+        , T.test "organization has attribute autocomplete set to given-name" <|
+            \() ->
+                Form.organization { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "autocomplete" "organization" ]
+        , T.test "text input type is text" <|
+            \() ->
+                Form.text { id = "id", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.type_ "text" ]
+        ]
