@@ -1,11 +1,27 @@
-module Widgets.Form exposing (input)
+module Widgets.Form
+    exposing
+        ( currentPassword
+        , email
+        , firstName
+        , input
+        , lastName
+        , newPassword
+        , nickname
+        , organization
+        , text
+        )
 
 {-| Form controls following ARIA recommendations.
 
 
 # Controls
 
-@docs input
+@docs email, input, text
+
+
+## Semantic Wrappers
+
+@docs currentPassword, firstName, lastName, newPassword, nickname, organization
 
 -}
 
@@ -16,10 +32,121 @@ import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Events as H
 import KeywordList as K
-import Widgets.Form.Attributes exposing (Attribute)
+import Widgets.Form.Attributes as Form exposing (Attribute)
 import Widgets.Form.Elements as Element exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Helpers.Array as Array
+
+
+{-| A semantic password input with a current password value. Useful for log in
+forms. Equal to a password input control with autocomplete attribute set to
+`"current-password"`.
+-}
+currentPassword :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+currentPassword { id, description } attrs elems =
+    input { id = id, description = description, type_ = "password" }
+        (Form.autocomplete "current-password" :: attrs)
+        elems
+
+
+{-| A semantic email input. Equal to an email input control with autocomplete
+attribute set to `"email"`.
+-}
+email :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+email { id, description } attrs elems =
+    input { id = id, description = description, type_ = "email" }
+        (Form.autocomplete "email" :: attrs)
+        elems
+
+
+{-| A semantic text input with a first name value. Equal to a text input control
+with autocomplete attribute set to `"given-name"`.
+-}
+firstName :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+firstName { id, description } attrs elems =
+    input { id = id, description = description, type_ = "text" }
+        (Form.autocomplete "given-name" :: attrs)
+        elems
+
+
+{-| A semantic text input with a last name value. Equal to a text input control
+with autocomplete attribute set to `"family-name"`.
+-}
+lastName :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+lastName { id, description } attrs elems =
+    input { id = id, description = description, type_ = "text" }
+        (Form.autocomplete "family-name" :: attrs)
+        elems
+
+
+{-| A semantic password input with a new password value. Useful for sign up
+forms. Equal to a password input control with autocomplete attribute set to
+`"new-password"`.
+-}
+newPassword :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+newPassword { id, description } attrs elems =
+    input { id = id, description = description, type_ = "password" }
+        (Form.autocomplete "new-password" :: attrs)
+        elems
+
+
+{-| A semantic text input with a nickname value. Equal to a text input control
+with autocomplete attribute set to `"nickname"`.
+-}
+nickname :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+nickname { id, description } attrs elems =
+    input { id = id, description = description, type_ = "text" }
+        (Form.autocomplete "nickname" :: attrs)
+        elems
+
+
+{-| A semantic text input with an organization name value. Equal to a text input
+control with autocomplete attribute set to `"organization"`.
+-}
+organization :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+organization { id, description } attrs elems =
+    input { id = id, description = description, type_ = "text" }
+        (Form.autocomplete "organization" :: attrs)
+        elems
+
+
+{-| A text input. Equal to a input control with a type attribute set to text.
+-}
+text :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+text { id, description } =
+    input { id = id, description = description, type_ = "text" }
 
 
 {-| A generic input control. An `id` and a `description` is always required.
@@ -40,7 +167,7 @@ input config attrs elements =
                 |> Context.insertAttributes attrs
                 |> Context.insertElements elements
     in
-        labelView ctx [ inputView ctx ]
+    labelView ctx [ inputView ctx ]
 
 
 
@@ -92,6 +219,7 @@ inputView ctx =
             , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
             , K.ifTrue ctx.disabled <| H.disabled True
             , K.ifTrue ctx.required <| H.required True
+            , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
             , K.maybeMap H.onBlur ctx.onBlur
             , K.maybeMap H.onFocus ctx.onFocus
             , K.maybeMap H.onInput ctx.onInput
