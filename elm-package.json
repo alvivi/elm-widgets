@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "summary": "A Styled ARIA HTML Widget Collection",
     "repository": "https://github.com/alvivi/elm-widgets.git",
     "license": "BSD3",
@@ -7,11 +7,11 @@
         "src"
     ],
     "exposed-modules": [
-      "Widgets.Form",
-      "Widgets.Form.Attributes",
-      "Widgets.Form.Elements",
-      "Widgets.Normalize",
-      "Widgets.Themes.Mint"
+        "Widgets.Form",
+        "Widgets.Form.Attributes",
+        "Widgets.Form.Elements",
+        "Widgets.Normalize",
+        "Widgets.Themes.Mint"
     ],
     "dependencies": {
         "alvivi/elm-css-aria": "1.0.0 <= v < 2.0.0",
