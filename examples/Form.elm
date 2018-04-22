@@ -144,6 +144,104 @@ view model =
                         ]
                         []
                   )
+                , ( "Semantic - Current Password"
+                  , Form.currentPassword
+                        { id = "input-current-password"
+                        , description = "current password"
+                        }
+                        []
+                        []
+                  , Form.currentPassword
+                        { id = "themed-input-current-password"
+                        , description = "current password"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - Email"
+                  , Form.email
+                        { id = "input-email"
+                        , description = "email"
+                        }
+                        []
+                        []
+                  , Form.email
+                        { id = "themed-input-email"
+                        , description = "email"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - First Name"
+                  , Form.firstName
+                        { id = "input-first-name"
+                        , description = "first name"
+                        }
+                        []
+                        []
+                  , Form.firstName
+                        { id = "themed-input-first-name"
+                        , description = "first name"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - Last Name"
+                  , Form.lastName
+                        { id = "input-last-name"
+                        , description = "last name"
+                        }
+                        []
+                        []
+                  , Form.lastName
+                        { id = "themed-input-last-name"
+                        , description = "last name"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - New Password"
+                  , Form.newPassword
+                        { id = "input-new-password"
+                        , description = "new password"
+                        }
+                        []
+                        []
+                  , Form.newPassword
+                        { id = "themed-input-new-password"
+                        , description = "new password"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - Nickname"
+                  , Form.nickname
+                        { id = "input-nickname"
+                        , description = "nickname"
+                        }
+                        []
+                        []
+                  , Form.nickname
+                        { id = "themed-input-nickname"
+                        , description = "nickname"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
+                , ( "Semantic - Organization"
+                  , Form.organization
+                        { id = "input-organization"
+                        , description = "organization"
+                        }
+                        []
+                        []
+                  , Form.organization
+                        { id = "themed-input-organization"
+                        , description = "organization"
+                        }
+                        [ Theme.input ]
+                        []
+                  )
                 ]
             ]
         ]
@@ -212,19 +310,19 @@ table list =
                 ]
                 [ content ]
     in
-        H.div
-            [ H.css
-                [ C.width <| C.pct 100
-                , C.displayFlex
-                , C.flexWrap C.wrap
-                ]
+    H.div
+        [ H.css
+            [ C.width <| C.pct 100
+            , C.displayFlex
+            , C.flexWrap C.wrap
             ]
-        <|
-            List.concatMap
-                (\( title, lhs, rhs ) ->
-                    [ cell 20 (H.text title), cell 40 lhs, cell 40 rhs ]
-                )
-                list
+        ]
+    <|
+        List.concatMap
+            (\( title, lhs, rhs ) ->
+                [ cell 20 (H.text title), cell 40 lhs, cell 40 rhs ]
+            )
+            list
 
 
 
