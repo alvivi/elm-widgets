@@ -275,7 +275,7 @@ iconSide =
 
 iconPaddingVertical : C.Px
 iconPaddingVertical =
-    C.px 2
+    C.px 3
 
 
 iconPaddingHorizontal : C.Px
