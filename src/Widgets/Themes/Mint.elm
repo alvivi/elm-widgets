@@ -65,11 +65,11 @@ input =
     Form.batch
         [ Form.css Form.Input
             [ text
+            , C.backgroundColor backgroundColor
             , C.border3 (C.px 1) C.solid hintColor
             , C.borderRadius <| C.px 3
             , C.margin <| C.px 1
-            , C.padding2 (C.px 10) (C.px 12)
-            , C.backgroundColor backgroundColor
+            , C.padding4 (C.px 10) (C.px 8) (C.px 10) (C.px 42)
             , C.focus
                 [ C.border3 (C.px 2) C.solid primaryColor
                 , C.margin <| C.zero
@@ -83,8 +83,18 @@ input =
             [ text
             , C.padding <| C.px 4
             ]
+        , Form.css Form.Icon
+            [ C.width <| C.px 32
+            , C.height <| C.px 32
+            , C.color hintColor
+            , C.paddingTop <| C.px 10
+            , C.paddingLeft <| C.px 12
+            ]
         , Form.whenFocused
             [ Form.css Form.Description
+                [ C.color primaryColor
+                ]
+            , Form.css Form.Icon
                 [ C.color primaryColor
                 ]
             ]
