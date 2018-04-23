@@ -113,6 +113,9 @@ setAttribute attr ctx =
         Attributes.Value value ->
             { ctx | value = Just value }
 
+        Attributes.WhenHasIcon _ ->
+            ctx
+
         Attributes.WhenFocused _ ->
             ctx
 
@@ -122,6 +125,12 @@ setAttributeModifiers attr ctx =
     case attr of
         Attributes.Batch moreAttrs ->
             List.foldl setAttributeModifiers ctx moreAttrs
+
+        Attributes.WhenHasIcon iconAttrs ->
+            if Array.isEmpty ctx.iconHtml then
+                ctx
+            else
+                insertAttributes iconAttrs ctx
 
         Attributes.WhenFocused focusedAttrs ->
             if ctx.focused then

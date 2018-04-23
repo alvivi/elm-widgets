@@ -165,8 +165,8 @@ input config attrs elements =
         ctx =
             config
                 |> Context.empty
-                |> Context.insertAttributes attrs
                 |> Context.insertElements elements
+                |> Context.insertAttributes attrs
     in
     labelView ctx <| K.group [ iconView ctx, inputView ctx ]
 

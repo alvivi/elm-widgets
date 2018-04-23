@@ -14,6 +14,7 @@ module Widgets.Form.Attributes
         , required
         , value
         , whenFocused
+        , whenHasIcon
         )
 
 {-| Attributes for Form controls.
@@ -31,9 +32,9 @@ module Widgets.Form.Attributes
 @docs onBlur, onFocus, onInput
 
 
-# State
+# Attribute Modifiers
 
-@docs focused, whenFocused
+@docs focused, whenHasIcon, whenFocused
 
 
 # Helpers
@@ -139,6 +140,14 @@ required =
 value : String -> Attribute msg
 value =
     A.Value
+
+
+{-| Applies attributes only when the control has an icon. Useful for building
+themes.
+-}
+whenHasIcon : List (Attribute msg) -> Attribute msg
+whenHasIcon =
+    A.WhenHasIcon
 
 
 {-| Applies attributes only when the control is focused. You can combine this
