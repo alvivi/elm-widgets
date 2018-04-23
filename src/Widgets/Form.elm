@@ -31,11 +31,12 @@ import Html.Styled as H exposing (Html)
 import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Events as H
-import KeywordList as K
+import KeywordList as K exposing (KeywordList)
 import Widgets.Form.Attributes as Form exposing (Attribute)
 import Widgets.Form.Elements as Element exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Helpers.Array as Array
+import Widgets.Helpers.Css as C
 
 
 {-| A semantic password input with a current password value. Useful for log in
@@ -167,14 +168,14 @@ input config attrs elements =
                 |> Context.insertAttributes attrs
                 |> Context.insertElements elements
     in
-    labelView ctx [ inputView ctx ]
+    labelView ctx <| K.group [ iconView ctx, inputView ctx ]
 
 
 
 -- Elements Rendering --
 
 
-labelView : Context msg -> List (Html msg) -> Html msg
+labelView : Context msg -> KeywordList (Html msg) -> Html msg
 labelView ctx content =
     H.label
         [ H.id <| elementId ctx.id Element.Label
@@ -187,7 +188,7 @@ labelView ctx content =
         ]
         (K.fromMany
             [ K.many <| Array.toList <| labelContentView ctx
-            , K.many content
+            , content
             ]
         )
 
@@ -211,29 +212,80 @@ labelContentView ctx =
         ctx.descriptionHtml
 
 
-inputView : Context msg -> Html msg
+iconView : Context msg -> KeywordList (Html msg)
+iconView { iconHtml } =
+    if Array.isEmpty iconHtml then
+        K.zero
+    else
+        K.one <|
+            H.div
+                [ Aria.hidden True
+                , H.css
+                    [ C.position C.absolute
+                    , C.height iconSide
+                    , C.noPointerEvents
+                    , C.paddingLeft iconPaddingHorizontal
+                    , C.paddingTop iconPaddingVertical
+                    , C.width iconSide
+                    ]
+                ]
+                (Array.toList iconHtml)
+
+
+inputView : Context msg -> KeywordList (Html msg)
 inputView ctx =
-    H.input
-        (K.fromMany
-            [ K.one <| H.id <| elementId ctx.id Element.Input
-            , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
-            , K.ifTrue ctx.disabled <| H.disabled True
-            , K.ifTrue ctx.required <| H.required True
-            , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
-            , K.maybeMap H.onBlur ctx.onBlur
-            , K.maybeMap H.onFocus ctx.onFocus
-            , K.maybeMap H.onInput ctx.onInput
-            , K.maybeMap H.placeholder ctx.placeholder
-            , K.maybeMap H.value ctx.value
-            , K.one <| H.type_ ctx.type_
-            , K.one <|
-                H.css <|
-                    K.fromMany
-                        [ K.many <| Array.toList ctx.inputCss
-                        ]
-            ]
-        )
-        (Array.toList ctx.inputHtml)
+    K.one <|
+        H.input
+            (K.fromMany
+                [ K.one <| H.id <| elementId ctx.id Element.Input
+                , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
+                , K.ifTrue ctx.disabled <| H.disabled True
+                , K.ifTrue ctx.required <| H.required True
+                , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
+                , K.maybeMap H.onBlur ctx.onBlur
+                , K.maybeMap H.onFocus ctx.onFocus
+                , K.maybeMap H.onInput ctx.onInput
+                , K.maybeMap H.placeholder ctx.placeholder
+                , K.maybeMap H.value ctx.value
+                , K.one <| H.type_ ctx.type_
+                , K.one <|
+                    H.css <|
+                        K.fromMany
+                            [ K.many <| Array.toList ctx.inputCss
+                            , K.one <| C.width <| C.pct 100
+                            , K.maybeMap C.paddingLeft <| inputPaddingLeft ctx
+                            ]
+                ]
+            )
+            (Array.toList ctx.inputHtml)
+
+
+
+-- Values --
+
+
+iconSide : C.Px
+iconSide =
+    C.px 24
+
+
+iconPaddingVertical : C.Px
+iconPaddingVertical =
+    C.px 2
+
+
+iconPaddingHorizontal : C.Px
+iconPaddingHorizontal =
+    C.px 4
+
+
+inputPaddingLeft : Context msg -> Maybe C.Px
+inputPaddingLeft { iconHtml } =
+    if Array.isEmpty iconHtml then
+        Nothing
+    else
+        Just <|
+            C.px (iconSide.numericValue + iconPaddingHorizontal.numericValue)
 
 
 
@@ -245,6 +297,9 @@ elementId base subElement =
     case subElement of
         Element.Description ->
             base ++ "__description"
+
+        Element.Icon ->
+            base ++ "__icon"
 
         Element.Input ->
             base
