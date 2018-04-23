@@ -2,8 +2,9 @@ module Form exposing (main)
 
 import Css as C
 import Css.Foreign as C
+import FontAwesome.Regular as FontAwesome
 import Html
-import Html.Styled as H exposing (Html)
+import Html.Styled as H exposing (Html, fromUnstyled)
 import Html.Styled.Attributes as H
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
@@ -143,6 +144,20 @@ view model =
                         , Form.disabled
                         ]
                         []
+                  )
+                , ( "With an Icon"
+                  , Form.email
+                        { id = "input-icon"
+                        , description = "A basic input"
+                        }
+                        []
+                        [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
+                  , Form.email
+                        { id = "themed-input-disabled"
+                        , description = "A basic input"
+                        }
+                        [ Theme.input ]
+                        [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
                   )
                 , ( "Semantic - Current Password"
                   , Form.currentPassword
