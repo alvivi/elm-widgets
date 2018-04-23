@@ -21,6 +21,7 @@ type alias Context msg =
     , descriptionLabel : Bool
     , disabled : Bool
     , focused : Bool
+    , iconCss : Array Style
     , iconHtml : Array (Html msg)
     , id : String
     , inputCss : Array Style
@@ -57,6 +58,7 @@ empty { description, id, type_ } =
     , descriptionHtml = Array.empty
     , disabled = False
     , focused = False
+    , iconCss = Array.empty
     , iconHtml = Array.empty
     , id = id
     , inputCss = Array.empty
@@ -138,7 +140,7 @@ setCss element css ctx =
             { ctx | descriptionCss = Array.push css ctx.descriptionCss }
 
         Elements.Icon ->
-            ctx
+            { ctx | iconCss = Array.push css ctx.iconCss }
 
         Elements.Input ->
             { ctx | inputCss = Array.push css ctx.inputCss }

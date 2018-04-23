@@ -213,21 +213,25 @@ labelContentView ctx =
 
 
 iconView : Context msg -> KeywordList (Html msg)
-iconView { iconHtml } =
+iconView { iconCss, iconHtml } =
     if Array.isEmpty iconHtml then
         K.zero
     else
         K.one <|
             H.div
                 [ Aria.hidden True
-                , H.css
-                    [ C.position C.absolute
-                    , C.height iconSide
-                    , C.noPointerEvents
-                    , C.paddingLeft iconPaddingHorizontal
-                    , C.paddingTop iconPaddingVertical
-                    , C.width iconSide
-                    ]
+                , H.css <|
+                    K.fromMany
+                        [ K.many
+                            [ C.position C.absolute
+                            , C.height iconSide
+                            , C.noPointerEvents
+                            , C.paddingLeft iconPaddingHorizontal
+                            , C.paddingTop iconPaddingVertical
+                            , C.width iconSide
+                            ]
+                        , K.many <| Array.toList iconCss
+                        ]
                 ]
                 (Array.toList iconHtml)
 
