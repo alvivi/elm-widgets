@@ -150,13 +150,20 @@ view model =
                         { id = "input-icon"
                         , description = "A basic input"
                         }
-                        []
+                        [ focused "input-icon" model
+                        , Form.onBlur <| OnBlur "input-icon"
+                        , Form.onFocus <| OnFocus "input-icon"
+                        ]
                         [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
                   , Form.email
                         { id = "themed-input-disabled"
                         , description = "A basic input"
                         }
-                        [ Theme.input ]
+                        [ Theme.input
+                        , focused "input-icon-disabled" model
+                        , Form.onBlur <| OnBlur "input-icon-disabled"
+                        , Form.onFocus <| OnFocus "input-icon-disabled"
+                        ]
                         [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
                   )
                 , ( "Semantic - Current Password"
