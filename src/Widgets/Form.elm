@@ -217,18 +217,22 @@ iconView { iconCss, iconHtml } =
     if Array.isEmpty iconHtml then
         K.zero
     else
+        let
+            hasStyle =
+                Array.isEmpty iconCss
+        in
         K.one <|
             H.div
                 [ Aria.hidden True
                 , H.css <|
                     K.fromMany
-                        [ K.many
+                        [ K.ifTrue hasStyle <| C.height iconSide
+                        , K.ifTrue hasStyle <| C.paddingLeft iconPaddingHorizontal
+                        , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
+                        , K.ifTrue hasStyle <| C.width iconSide
+                        , K.many
                             [ C.position C.absolute
-                            , C.height iconSide
                             , C.noPointerEvents
-                            , C.paddingLeft iconPaddingHorizontal
-                            , C.paddingTop iconPaddingVertical
-                            , C.width iconSide
                             ]
                         , K.many <| Array.toList iconCss
                         ]
@@ -284,8 +288,8 @@ iconPaddingHorizontal =
 
 
 inputPaddingLeft : Context msg -> Maybe C.Px
-inputPaddingLeft { iconHtml } =
-    if Array.isEmpty iconHtml then
+inputPaddingLeft { iconCss, iconHtml } =
+    if Array.isEmpty iconHtml || not (Array.isEmpty iconCss) then
         Nothing
     else
         Just <|
