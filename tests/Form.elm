@@ -61,6 +61,15 @@ form =
                                 , Q.index 1 >> Q.contains [ Html.text "two" ]
                                 ]
                         ]
+        , T.test "Applies `whenHasIcon` attributes when control has an icon" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.whenHasIcon [ Form.placeholder "foobar" ]
+                    ]
+                    [ ( Form.Icon, H.text "icon" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         , T.test "Applies `whenFocused` attributes when focused" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
