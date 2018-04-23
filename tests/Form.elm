@@ -104,6 +104,20 @@ label =
         ]
 
 
+icon : Test
+icon =
+    T.describe "Icon Element"
+        [ T.test "Has custom icon html" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Form.Icon, H.text "foobar" )
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.contains [ Html.text "foobar" ]
+        ]
+
+
 input : Test
 input =
     T.describe "Input Element"
