@@ -2,6 +2,7 @@ module Widgets.Form.Elements
     exposing
         ( Element
             ( Description
+            , Icon
             , Input
             , Label
             )
@@ -19,5 +20,6 @@ part of the form controls.
 -}
 type Element
     = Description
+    | Icon
     | Input
     | Label
