@@ -69,7 +69,7 @@ input =
             , C.border3 (C.px 1) C.solid hintColor
             , C.borderRadius <| C.px 3
             , C.margin <| C.px 1
-            , C.padding4 (C.px 10) (C.px 8) (C.px 10) (C.px 42)
+            , C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 10)
             , C.focus
                 [ C.border3 (C.px 2) C.solid primaryColor
                 , C.margin <| C.zero
@@ -89,6 +89,11 @@ input =
             , C.color hintColor
             , C.paddingTop <| C.px 10
             , C.paddingLeft <| C.px 12
+            ]
+        , Form.whenHasIcon
+            [ Form.css Form.Input
+                [ C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 42)
+                ]
             ]
         , Form.whenFocused
             [ Form.css Form.Description
