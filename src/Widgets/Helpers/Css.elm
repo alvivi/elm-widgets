@@ -1,4 +1,4 @@
-module Helpers.Css exposing (noPointerEvents)
+module Widgets.Helpers.Css exposing (noPointerEvents)
 
 import Css as C exposing (Style)
 
