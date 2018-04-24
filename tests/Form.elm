@@ -11,7 +11,7 @@ import Test.Html.Query as Q
 import Test.Html.Selector as S
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
-import Widgets.Form.Elements as Form
+import Widgets.Form.Elements as Elements
 
 
 {--
@@ -42,10 +42,10 @@ form =
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Form.Description, H.span [] [ H.text "one" ] )
-                    , ( Form.Description, H.span [] [ H.text "two" ] )
-                    , ( Form.Input, H.span [] [ H.text "one" ] )
-                    , ( Form.Input, H.span [] [ H.text "two" ] )
+                    [ ( Elements.description, H.span [] [ H.text "one" ] )
+                    , ( Elements.description, H.span [] [ H.text "two" ] )
+                    , ( Elements.input, H.span [] [ H.text "one" ] )
+                    , ( Elements.input, H.span [] [ H.text "two" ] )
                     ]
                     |> Helpers.fromStyledHtml
                     |> Expect.all
@@ -64,9 +64,8 @@ form =
         , T.test "Applies `whenHasIcon` attributes when control has an icon" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
-                    [ Form.whenHasIcon [ Form.placeholder "foobar" ]
-                    ]
-                    [ ( Form.Icon, H.text "icon" ) ]
+                    [ Form.whenHasIcon [ Form.placeholder "foobar" ] ]
+                    [ ( Elements.icon, H.text "icon" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
@@ -107,7 +106,7 @@ label =
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Form.Description, H.text "foobar" ) ]
+                    [ ( Elements.description, H.text "foobar" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.contains [ Html.text "foobar" ]
         ]
@@ -120,7 +119,7 @@ icon =
             \() ->
                 Form.text { id = "id", description = "desc" }
                     []
-                    [ ( Form.Icon, H.text "foobar" )
+                    [ ( Elements.icon, H.text "foobar" )
                     ]
                     |> Helpers.fromStyledHtml
                     |> Q.contains [ Html.text "foobar" ]
@@ -160,7 +159,7 @@ input =
             \() ->
                 Form.input { id = "id", description = "foobar", type_ = "text" }
                     []
-                    [ ( Form.Description, H.text "desc" ) ]
+                    [ ( Elements.description, H.text "desc" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
@@ -168,7 +167,7 @@ input =
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Form.Input, H.text "foobar" ) ]
+                    [ ( Elements.input, H.text "foobar" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.contains [ Html.text "foobar" ]
