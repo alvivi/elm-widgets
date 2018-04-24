@@ -1,4 +1,4 @@
-module Widgets.Form.Elements
+module Widgets.Form.Internal.Elements
     exposing
         ( Element
             ( Description
