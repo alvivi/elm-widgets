@@ -63,7 +63,7 @@ attribute in any of widgets of Widgets.Form.
 input : Attribute msg
 input =
     Form.batch
-        [ Form.css Form.Input
+        [ Form.css Form.input
             [ text
             , C.backgroundColor backgroundColor
             , C.border3 (C.px 1) C.solid hintColor
@@ -79,11 +79,11 @@ input =
                 , C.cursor C.notAllowed
                 ]
             ]
-        , Form.css Form.Description
+        , Form.css Form.description
             [ text
             , C.padding <| C.px 4
             ]
-        , Form.css Form.Icon
+        , Form.css Form.icon
             [ C.width <| C.px 32
             , C.height <| C.px 32
             , C.color hintColor
@@ -91,15 +91,15 @@ input =
             , C.paddingLeft <| C.px 12
             ]
         , Form.whenHasIcon
-            [ Form.css Form.Input
+            [ Form.css Form.input
                 [ C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 42)
                 ]
             ]
         , Form.whenFocused
-            [ Form.css Form.Description
+            [ Form.css Form.description
                 [ C.color primaryColor
                 ]
-            , Form.css Form.Icon
+            , Form.css Form.icon
                 [ C.color primaryColor
                 ]
             ]
