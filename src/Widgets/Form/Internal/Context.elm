@@ -9,8 +9,8 @@ module Widgets.Form.Internal.Context
 import Array exposing (Array)
 import Css exposing (Style)
 import Html.Styled as H exposing (Html)
-import Widgets.Form.Elements as Elements exposing (Element)
 import Widgets.Form.Internal.Attributes as Attributes exposing (Attribute)
+import Widgets.Form.Internal.Elements as Elements exposing (Element)
 
 
 type alias Context msg =

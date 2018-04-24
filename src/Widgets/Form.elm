@@ -33,8 +33,8 @@ import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Events as H
 import KeywordList as K exposing (KeywordList)
 import Widgets.Form.Attributes as Form exposing (Attribute)
-import Widgets.Form.Elements as Element exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
+import Widgets.Form.Internal.Elements as Element exposing (Element)
 import Widgets.Helpers.Array as Array
 import Widgets.Helpers.Css as C
 
