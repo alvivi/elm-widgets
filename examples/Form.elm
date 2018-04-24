@@ -8,7 +8,7 @@ import Html.Styled as H exposing (Html, fromUnstyled)
 import Html.Styled.Attributes as H
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
-import Widgets.Form.Elements as Form
+import Widgets.Form.Elements as Elements
 import Widgets.Normalize as Normalize
 import Widgets.Themes.Mint as Theme
 
@@ -99,7 +99,7 @@ view model =
                         , Form.onBlur <| OnBlur "input-labeled-custom"
                         , Form.onFocus <| OnFocus "input-labeled-custom"
                         ]
-                        [ ( Form.Description
+                        [ ( Elements.description
                           , H.span []
                                 [ H.text "A "
                                 , H.strong [ H.css [ C.color <| C.hex "#0000CC" ] ] [ H.text "not " ]
@@ -118,7 +118,7 @@ view model =
                         , Form.onBlur <| OnBlur "themed-input-labeled-custom"
                         , Form.onFocus <| OnFocus "themed-input-labeled-custom"
                         ]
-                        [ ( Form.Description
+                        [ ( Elements.description
                           , H.span [ H.css [ Theme.text ] ]
                                 [ H.text "A "
                                 , H.strong [ H.css [ C.color <| C.hex "#0000CC" ] ] [ H.text "not " ]
@@ -154,7 +154,7 @@ view model =
                         , Form.onBlur <| OnBlur "input-icon"
                         , Form.onFocus <| OnFocus "input-icon"
                         ]
-                        [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.envelope ) ]
                   , Form.email
                         { id = "themed-input-disabled"
                         , description = "A basic input"
@@ -164,7 +164,7 @@ view model =
                         , Form.onBlur <| OnBlur "input-icon-disabled"
                         , Form.onFocus <| OnFocus "input-icon-disabled"
                         ]
-                        [ ( Form.Icon, fromUnstyled <| FontAwesome.envelope ) ]
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.envelope ) ]
                   )
                 , ( "Semantic - Current Password"
                   , Form.currentPassword
