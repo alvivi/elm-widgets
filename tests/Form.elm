@@ -123,6 +123,15 @@ icon =
                     ]
                     |> Helpers.fromStyledHtml
                     |> Q.contains [ Html.text "foobar" ]
+        , T.test "Icon view is always after input (regression)" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.icon, H.text "foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.children []
+                    |> Q.index -1
+                    |> Q.contains [ Html.text "foobar" ]
         ]
 
 
