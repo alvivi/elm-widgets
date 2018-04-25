@@ -169,7 +169,7 @@ input config attrs elements =
                 |> Context.insertElements elements
                 |> Context.insertAttributes attrs
     in
-    labelView ctx <| K.group [ iconView ctx, inputView ctx ]
+        labelView ctx <| K.group [ inputView ctx, iconView ctx ]
 
 
 
@@ -222,23 +222,24 @@ iconView { iconCss, iconHtml } =
             hasStyle =
                 Array.isEmpty iconCss
         in
-        K.one <|
-            H.div
-                [ Aria.hidden True
-                , H.css <|
-                    K.fromMany
-                        [ K.ifTrue hasStyle <| C.height iconSide
-                        , K.ifTrue hasStyle <| C.paddingLeft iconPaddingHorizontal
-                        , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
-                        , K.ifTrue hasStyle <| C.width iconSide
-                        , K.many
-                            [ C.position C.absolute
-                            , C.noPointerEvents
+            K.one <|
+                H.div
+                    [ Aria.hidden True
+                    , H.css <|
+                        K.fromMany
+                            [ K.ifTrue hasStyle <| C.height iconSide
+                            , K.ifTrue hasStyle <| C.paddingLeft iconPaddingHorizontal
+                            , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
+                            , K.ifTrue hasStyle <| C.width iconSide
+                            , K.many
+                                [ C.noPointerEvents
+                                , C.position C.absolute
+                                , C.top C.zero
+                                ]
+                            , K.many <| Array.toList iconCss
                             ]
-                        , K.many <| Array.toList iconCss
-                        ]
-                ]
-                (Array.toList iconHtml)
+                    ]
+                    (Array.toList iconHtml)
 
 
 inputView : Context msg -> KeywordList (Html msg)
