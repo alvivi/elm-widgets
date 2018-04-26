@@ -308,6 +308,9 @@ elementId base subElement =
         Element.Description ->
             base ++ "__description"
 
+        Element.Error ->
+            base ++ "__error"
+
         Element.Icon ->
             base ++ "__icon"
 

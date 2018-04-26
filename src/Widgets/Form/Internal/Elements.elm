@@ -2,6 +2,7 @@ module Widgets.Form.Internal.Elements
     exposing
         ( Element
             ( Description
+            , Error
             , Icon
             , Input
             , Label
@@ -20,6 +21,7 @@ part of the form controls.
 -}
 type Element
     = Description
+    | Error
     | Icon
     | Input
     | Label

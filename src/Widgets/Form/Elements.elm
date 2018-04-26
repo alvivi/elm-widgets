@@ -2,6 +2,7 @@ module Widgets.Form.Elements
     exposing
         ( Element
         , description
+        , error
         , icon
         , input
         , label
@@ -34,7 +35,7 @@ of a control:
           )
         ]
 
-@docs Element, description, icon, input, label
+@docs Element, description, error, icon, input, label
 
 -}
 
@@ -60,6 +61,21 @@ description node is provided.
 description : Element
 description =
     Internal.Description
+
+
+{-| An error linked to a control.
+
+When using an error node it will appear below the control, in a div wrapper.
+Adding an error node will mark the control as invalid. `error` attributes will
+be ignored when an error node is provided.
+
+When adding style to a control with `error` it will add the style the wrapper
+of the error element.
+
+-}
+error : Element
+error =
+    Internal.Error
 
 
 {-| The icon of a control.
