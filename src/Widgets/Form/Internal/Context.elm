@@ -20,6 +20,7 @@ type alias Context msg =
     , descriptionHtml : Array (Html msg)
     , descriptionLabel : Bool
     , disabled : Bool
+    , error : Maybe String
     , focused : Bool
     , iconCss : Array Style
     , iconHtml : Array (Html msg)
@@ -57,6 +58,7 @@ empty { description, id, type_ } =
     , descriptionCss = Array.empty
     , descriptionHtml = Array.empty
     , disabled = False
+    , error = Nothing
     , focused = False
     , iconCss = Array.empty
     , iconHtml = Array.empty
@@ -91,6 +93,9 @@ setAttribute attr ctx =
 
         Attributes.Disabled ->
             { ctx | disabled = True }
+
+        Attributes.Error error ->
+            { ctx | error = Just error }
 
         Attributes.Focused ->
             { ctx | focused = True }

@@ -6,6 +6,7 @@ module Widgets.Form.Attributes
         , css
         , descriptionLabel
         , disabled
+        , error
         , focused
         , onBlur
         , onFocus
@@ -24,7 +25,7 @@ module Widgets.Form.Attributes
 
 # Properties
 
-@docs autocomplete, descriptionLabel, disabled, placeholder, required, value
+@docs autocomplete, descriptionLabel, disabled, error, placeholder, required, value
 
 
 # Events
@@ -91,6 +92,13 @@ descriptionLabel =
 disabled : Attribute msg
 disabled =
     A.Disabled
+
+
+{-| Sets an error message for the control. Usually used when validating fields.
+-}
+error : String -> Attribute msg
+error =
+    A.Error
 
 
 {-| Sets the control as focused

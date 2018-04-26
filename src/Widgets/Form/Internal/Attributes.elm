@@ -6,6 +6,7 @@ module Widgets.Form.Internal.Attributes
             , Css
             , DescriptionLabel
             , Disabled
+            , Error
             , Focused
             , OnBlur
             , OnFocus
@@ -28,6 +29,7 @@ type Attribute msg
     | Css Element Style
     | DescriptionLabel
     | Disabled
+    | Error String
     | Focused
     | OnBlur msg
     | OnFocus msg
@@ -35,5 +37,5 @@ type Attribute msg
     | Placeholder String
     | Required
     | Value String
-    | WhenHasIcon (List (Attribute msg))
     | WhenFocused (List (Attribute msg))
+    | WhenHasIcon (List (Attribute msg))
