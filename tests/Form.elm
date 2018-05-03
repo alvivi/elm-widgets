@@ -135,6 +135,63 @@ icon =
         ]
 
 
+error : Test
+error =
+    T.describe "Error Element"
+        [ T.test "Alert element is present even when not requested" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Q.has [ S.attribute <| Html.attribute "role" "alert" ]
+        , T.test "Alert element has always inner text to keep spacing" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text ".keep" ]
+                        , Q.has [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Error attribute sets the inner text and makes the element visible" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    [ Form.error "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text "foobar" ]
+                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Custom error element overrides the default error" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    [ Form.error "foobar" ]
+                    [ ( Elements.error, H.text "custom foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text "custom foobar" ]
+                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Custom error element, alone, also enables visibility (regression)" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.error, H.text "custom foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        ]
+
+
 input : Test
 input =
     T.describe "Input Element"
