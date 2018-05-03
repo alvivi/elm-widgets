@@ -26,7 +26,7 @@ module Widgets.Form.Attributes
 
 # Properties
 
-@docs autocomplete, descriptionLabel, disabled, error, placeholder, required, value
+@docs autocomplete, batch, css, descriptionLabel, disabled, error, focused, placeholder, required, value
 
 
 # Events
@@ -36,12 +36,7 @@ module Widgets.Form.Attributes
 
 # Attribute Modifiers
 
-@docs focused, whenErred, whenFocused, whenHasIcon
-
-
-# Helpers
-
-@docs batch, css
+@docs whenErred, whenFocused, whenHasIcon
 
 -}
 
