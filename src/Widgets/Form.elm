@@ -30,6 +30,8 @@ import Css as C
 import Html.Styled as H exposing (Html)
 import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
+import Html.Styled.Attributes.Aria.Invalid as Aria
+import Html.Styled.Attributes.Aria.Role as Aria
 import Html.Styled.Events as H
 import KeywordList as K exposing (KeywordList)
 import Widgets.Form.Attributes as Form exposing (Attribute)
@@ -169,7 +171,7 @@ input config attrs elements =
                 |> Context.insertElements elements
                 |> Context.insertAttributes attrs
     in
-        labelView ctx <| K.group [ inputView ctx, iconView ctx ]
+        labelView ctx <| K.group [ inputView ctx, errorView ctx, iconView ctx ]
 
 
 
@@ -213,6 +215,31 @@ labelContentView ctx =
         ctx.descriptionHtml
 
 
+errorView : Context msg -> KeywordList (Html msg)
+errorView ctx =
+    K.one <|
+        H.em
+            [ Aria.role Aria.Alert
+            , H.id <| elementId ctx.id Element.Error
+            , H.css <| Array.toList ctx.errorCss
+            ]
+            (if Array.isEmpty ctx.errorHtml then
+                case ctx.error of
+                    Just error ->
+                        [ H.text error ]
+
+                    Nothing ->
+                        [ H.span
+                            [ Aria.hidden True
+                            , H.css [ C.visibility C.hidden ]
+                            ]
+                            [ H.text ".keep" ]
+                        ]
+             else
+                Array.toList ctx.errorHtml
+            )
+
+
 iconView : Context msg -> KeywordList (Html msg)
 iconView { iconCss, iconHtml } =
     if Array.isEmpty iconHtml then
@@ -249,6 +276,8 @@ inputView ctx =
             (K.fromMany
                 [ K.one <| H.id <| elementId ctx.id Element.Input
                 , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
+                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
                 , K.ifTrue ctx.disabled <| H.disabled True
                 , K.ifTrue ctx.required <| H.required True
                 , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
