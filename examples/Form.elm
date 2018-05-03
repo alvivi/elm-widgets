@@ -166,6 +166,23 @@ view model =
                         ]
                         [ ( Elements.icon, fromUnstyled <| FontAwesome.envelope ) ]
                   )
+                , ( "With an Error"
+                  , Form.email
+                        { id = "input-error"
+                        , description = "A basic input"
+                        }
+                        [ Form.error "An error"
+                        ]
+                        []
+                  , Form.email
+                        { id = "themed-error"
+                        , description = "A basic input"
+                        }
+                        [ Theme.input
+                        , Form.error "An error"
+                        ]
+                        []
+                  )
                 , ( "Semantic - Current Password"
                   , Form.currentPassword
                         { id = "input-current-password"
@@ -332,19 +349,19 @@ table list =
                 ]
                 [ content ]
     in
-    H.div
-        [ H.css
-            [ C.width <| C.pct 100
-            , C.displayFlex
-            , C.flexWrap C.wrap
+        H.div
+            [ H.css
+                [ C.width <| C.pct 100
+                , C.displayFlex
+                , C.flexWrap C.wrap
+                ]
             ]
-        ]
-    <|
-        List.concatMap
-            (\( title, lhs, rhs ) ->
-                [ cell 20 (H.text title), cell 40 lhs, cell 40 rhs ]
-            )
-            list
+        <|
+            List.concatMap
+                (\( title, lhs, rhs ) ->
+                    [ cell 20 (H.text title), cell 40 lhs, cell 40 rhs ]
+                )
+                list
 
 
 
