@@ -28,7 +28,7 @@ This theme requires a css normalization base. See global for more information.
 import Css as C exposing (Style)
 import Html.Styled as H exposing (Html)
 import Widgets.Form.Attributes as Form exposing (Attribute)
-import Widgets.Form.Elements as Form
+import Widgets.Form.Elements as FormElements
 
 
 {-| Common styles needed by other parts of this theme. Use this to initialize
@@ -63,7 +63,7 @@ attribute in any of widgets of Widgets.Form.
 input : Attribute msg
 input =
     Form.batch
-        [ Form.css Form.input
+        [ Form.css FormElements.input
             [ text
             , C.backgroundColor backgroundColor
             , C.border3 (C.px 1) C.solid hintColor
@@ -79,28 +79,40 @@ input =
                 , C.cursor C.notAllowed
                 ]
             ]
-        , Form.css Form.description
+        , Form.css FormElements.description
             [ text
             , C.padding <| C.px 4
             ]
-        , Form.css Form.icon
+        , Form.css FormElements.icon
             [ C.width <| C.px 32
             , C.height <| C.px 32
             , C.color hintColor
             , C.paddingTop <| C.px 10
             , C.paddingLeft <| C.px 12
             ]
-        , Form.whenHasIcon
-            [ Form.css Form.input
-                [ C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 42)
+        , Form.css FormElements.error
+            [ text
+            , C.color errorColor
+            , C.fontStyle C.normal
+            , C.paddingLeft <| C.px 2
+            , C.paddingTop <| C.px 2
+            ]
+        , Form.whenErred
+            [ Form.css FormElements.input
+                [ C.border3 (C.px 1) C.solid errorColor
                 ]
             ]
         , Form.whenFocused
-            [ Form.css Form.description
+            [ Form.css FormElements.description
                 [ C.color primaryColor
                 ]
-            , Form.css Form.icon
+            , Form.css FormElements.icon
                 [ C.color primaryColor
+                ]
+            ]
+        , Form.whenHasIcon
+            [ Form.css FormElements.input
+                [ C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 42)
                 ]
             ]
         ]
@@ -131,6 +143,11 @@ backgroundColor =
 disabledBackgroundColor : C.Color
 disabledBackgroundColor =
     C.hex "#FAFAFF"
+
+
+errorColor : C.Color
+errorColor =
+    C.hex "#FC006E"
 
 
 hintColor : C.Color
