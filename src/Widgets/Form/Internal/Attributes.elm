@@ -14,6 +14,7 @@ module Widgets.Form.Internal.Attributes
             , Placeholder
             , Required
             , Value
+            , WhenErred
             , WhenFocused
             , WhenHasIcon
             )
@@ -37,5 +38,6 @@ type Attribute msg
     | Placeholder String
     | Required
     | Value String
+    | WhenErred (List (Attribute msg))
     | WhenFocused (List (Attribute msg))
     | WhenHasIcon (List (Attribute msg))

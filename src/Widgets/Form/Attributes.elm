@@ -14,6 +14,7 @@ module Widgets.Form.Attributes
         , placeholder
         , required
         , value
+        , whenErred
         , whenFocused
         , whenHasIcon
         )
@@ -35,7 +36,7 @@ module Widgets.Form.Attributes
 
 # Attribute Modifiers
 
-@docs focused, whenHasIcon, whenFocused
+@docs focused, whenErred, whenFocused, whenHasIcon
 
 
 # Helpers
@@ -150,17 +151,26 @@ value =
     A.Value
 
 
+{-| Applies attributes only when the control has an error. You can combine
+this attribute with css to add style to some elements when the control has some
+error.
+-}
+whenErred : List (Attribute msg) -> Attribute msg
+whenErred =
+    A.WhenErred
+
+
+{-| Applies attributes only when the control is focused. You can combine this
+attribute with css to add style to some elements when the control is focused.
+-}
+whenFocused : List (Attribute msg) -> Attribute msg
+whenFocused =
+    A.WhenFocused
+
+
 {-| Applies attributes only when the control has an icon. Useful for building
 themes.
 -}
 whenHasIcon : List (Attribute msg) -> Attribute msg
 whenHasIcon =
     A.WhenHasIcon
-
-
-{-| Applies attributes only when the control is focused. You can combine this
-with css to add style to some elements only when the control is focused.
--}
-whenFocused : List (Attribute msg) -> Attribute msg
-whenFocused =
-    A.WhenFocused

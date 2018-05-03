@@ -2,6 +2,7 @@ module Widgets.Form.Internal.Context
     exposing
         ( Context
         , empty
+        , hasError
         , insertAttributes
         , insertElements
         )
@@ -40,18 +41,6 @@ type alias Context msg =
     }
 
 
-insertAttributes : List (Attribute msg) -> Context msg -> Context msg
-insertAttributes attrs ctx =
-    attrs
-        |> List.foldl setAttribute ctx
-        |> (\ctx_ -> List.foldl setAttributeModifiers ctx_ attrs)
-
-
-insertElements : List ( Element, Html msg ) -> Context msg -> Context msg
-insertElements elements ctx =
-    List.foldl setElement ctx elements
-
-
 empty : { description : String, id : String, type_ : String } -> Context msg
 empty { description, id, type_ } =
     { autocomplete = Nothing
@@ -78,6 +67,23 @@ empty { description, id, type_ } =
     , type_ = type_
     , value = Nothing
     }
+
+
+hasError : Context msg -> Bool
+hasError { error, errorHtml } =
+    error /= Nothing || not (Array.isEmpty errorHtml)
+
+
+insertAttributes : List (Attribute msg) -> Context msg -> Context msg
+insertAttributes attrs ctx =
+    attrs
+        |> List.foldl setAttribute ctx
+        |> (\ctx_ -> List.foldl setAttributeModifiers ctx_ attrs)
+
+
+insertElements : List ( Element, Html msg ) -> Context msg -> Context msg
+insertElements elements ctx =
+    List.foldl setElement ctx elements
 
 
 setAttribute : Attribute msg -> Context msg -> Context msg
@@ -122,10 +128,13 @@ setAttribute attr ctx =
         Attributes.Value value ->
             { ctx | value = Just value }
 
-        Attributes.WhenHasIcon _ ->
+        Attributes.WhenErred _ ->
             ctx
 
         Attributes.WhenFocused _ ->
+            ctx
+
+        Attributes.WhenHasIcon _ ->
             ctx
 
 
@@ -135,17 +144,23 @@ setAttributeModifiers attr ctx =
         Attributes.Batch moreAttrs ->
             List.foldl setAttributeModifiers ctx moreAttrs
 
-        Attributes.WhenHasIcon iconAttrs ->
-            if Array.isEmpty ctx.iconHtml then
-                ctx
+        Attributes.WhenErred erredAttrs ->
+            if hasError ctx then
+                insertAttributes erredAttrs ctx
             else
-                insertAttributes iconAttrs ctx
+                ctx
 
         Attributes.WhenFocused focusedAttrs ->
             if ctx.focused then
                 insertAttributes focusedAttrs ctx
             else
                 ctx
+
+        Attributes.WhenHasIcon iconAttrs ->
+            if Array.isEmpty ctx.iconHtml then
+                ctx
+            else
+                insertAttributes iconAttrs ctx
 
         _ ->
             ctx
