@@ -5,6 +5,7 @@ import Helpers
 import Html
 import Html.Attributes as Html
 import Html.Styled as H
+import Html.Styled.Attributes as H
 import Test as T exposing (Test)
 import Test.Html.Event as E
 import Test.Html.Query as Q
@@ -296,6 +297,14 @@ input =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.value "foobar" ]
+        , T.test "custom html attributes are set" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.html Elements.control [ H.attribute "foo" "bar" ] ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
         ]
 
 
