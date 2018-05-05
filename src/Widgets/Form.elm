@@ -273,7 +273,7 @@ inputView ctx =
     K.one <|
         H.input
             (K.fromMany
-                [ K.one <| H.id <| elementId ctx.id Element.Input
+                [ K.one <| H.id <| elementId ctx.id Element.Control
                 , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
                 , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
                 , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
@@ -289,13 +289,13 @@ inputView ctx =
                 , K.one <|
                     H.css <|
                         K.fromMany
-                            [ K.many <| Array.toList ctx.inputCss
+                            [ K.many <| Array.toList ctx.controlCss
                             , K.one <| C.width <| C.pct 100
                             , K.maybeMap C.paddingLeft <| inputPaddingLeft ctx
                             ]
                 ]
             )
-            (Array.toList ctx.inputHtml)
+            (Array.toList ctx.controlHtml)
 
 
 
@@ -333,6 +333,9 @@ inputPaddingLeft { iconCss, iconHtml } =
 elementId : String -> Element -> String
 elementId base subElement =
     case subElement of
+        Element.Control ->
+            base
+
         Element.Description ->
             base ++ "__description"
 
@@ -341,9 +344,6 @@ elementId base subElement =
 
         Element.Icon ->
             base ++ "__icon"
-
-        Element.Input ->
-            base
 
         Element.Label ->
             base ++ "__label"

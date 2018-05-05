@@ -1,10 +1,10 @@
 module Widgets.Form.Internal.Elements
     exposing
         ( Element
-            ( Description
+            ( Control
+            , Description
             , Error
             , Icon
-            , Input
             , Label
             )
         )
@@ -20,8 +20,8 @@ part of the form controls.
 {-| Identifies each sub element of a Form control.
 -}
 type Element
-    = Description
+    = Control
+    | Description
     | Error
     | Icon
-    | Input
     | Label

@@ -16,6 +16,8 @@ import Widgets.Form.Internal.Elements as Elements exposing (Element)
 
 type alias Context msg =
     { autocomplete : Maybe String
+    , controlCss : Array Style
+    , controlHtml : Array (Html msg)
     , description : String
     , descriptionCss : Array Style
     , descriptionHtml : Array (Html msg)
@@ -28,8 +30,6 @@ type alias Context msg =
     , iconCss : Array Style
     , iconHtml : Array (Html msg)
     , id : String
-    , inputCss : Array Style
-    , inputHtml : Array (Html msg)
     , labelCss : Array Style
     , onBlur : Maybe msg
     , onFocus : Maybe msg
@@ -44,6 +44,8 @@ type alias Context msg =
 empty : { description : String, id : String, type_ : String } -> Context msg
 empty { description, id, type_ } =
     { autocomplete = Nothing
+    , controlCss = Array.empty
+    , controlHtml = Array.empty
     , description = description
     , descriptionLabel = False
     , descriptionCss = Array.empty
@@ -56,8 +58,6 @@ empty { description, id, type_ } =
     , iconCss = Array.empty
     , iconHtml = Array.empty
     , id = id
-    , inputCss = Array.empty
-    , inputHtml = Array.empty
     , labelCss = Array.empty
     , onBlur = Nothing
     , onFocus = Nothing
@@ -169,6 +169,9 @@ setAttributeModifiers attr ctx =
 setCss : Element -> Style -> Context msg -> Context msg
 setCss element css ctx =
     case element of
+        Elements.Control ->
+            { ctx | controlCss = Array.push css ctx.controlCss }
+
         Elements.Description ->
             { ctx | descriptionCss = Array.push css ctx.descriptionCss }
 
@@ -178,9 +181,6 @@ setCss element css ctx =
         Elements.Icon ->
             { ctx | iconCss = Array.push css ctx.iconCss }
 
-        Elements.Input ->
-            { ctx | inputCss = Array.push css ctx.inputCss }
-
         Elements.Label ->
             { ctx | labelCss = Array.push css ctx.labelCss }
 
@@ -188,6 +188,9 @@ setCss element css ctx =
 setElement : ( Element, Html msg ) -> Context msg -> Context msg
 setElement ( element, html ) ctx =
     case element of
+        Elements.Control ->
+            { ctx | controlHtml = Array.push html ctx.controlHtml }
+
         Elements.Description ->
             { ctx | descriptionHtml = Array.push html ctx.descriptionHtml }
 
@@ -196,9 +199,6 @@ setElement ( element, html ) ctx =
 
         Elements.Icon ->
             { ctx | iconHtml = Array.push html ctx.iconHtml }
-
-        Elements.Input ->
-            { ctx | inputHtml = Array.push html ctx.inputHtml }
 
         Elements.Label ->
             Debug.log "Custom label element is not supported" ctx

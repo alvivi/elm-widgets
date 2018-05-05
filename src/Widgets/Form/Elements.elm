@@ -1,10 +1,10 @@
 module Widgets.Form.Elements
     exposing
         ( Element
+        , control
         , description
         , error
         , icon
-        , input
         , label
         )
 
@@ -35,7 +35,7 @@ of a control:
           )
         ]
 
-@docs Element, description, error, icon, input, label
+@docs Element, control, description, error, icon, label
 
 -}
 
@@ -46,6 +46,20 @@ import Widgets.Form.Internal.Elements as Internal
 -}
 type alias Element =
     Internal.Element
+
+
+{-| The control itself. The `input` element for an email control or the
+`button` element for a button control.
+
+When inserting a node tagged as control it will be added as child of the input
+node of the control (usually `input`, `textarea`, `select`, etc).
+
+When adding style to a control it will be added to the main control element.
+
+-}
+control : Element
+control =
+    Internal.Control
 
 
 {-| The description of a control.
@@ -92,20 +106,6 @@ we can override this setting.
 icon : Element
 icon =
     Internal.Icon
-
-
-{-| The input itself of a control.
-
-When inserting a node tagged as input it will be added as child of the input
-node of the control (usually `input`, `textarea`, `select`, etc).
-
-When adding style to a control with `input` it will add the style the
-input node of the control.
-
--}
-input : Element
-input =
-    Internal.Input
 
 
 {-| The label (or wrapper) of a control.

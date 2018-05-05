@@ -44,8 +44,8 @@ form =
                     []
                     [ ( Elements.description, H.span [] [ H.text "one" ] )
                     , ( Elements.description, H.span [] [ H.text "two" ] )
-                    , ( Elements.input, H.span [] [ H.text "one" ] )
-                    , ( Elements.input, H.span [] [ H.text "two" ] )
+                    , ( Elements.control, H.span [] [ H.text "one" ] )
+                    , ( Elements.control, H.span [] [ H.text "two" ] )
                     ]
                     |> Helpers.fromStyledHtml
                     |> Expect.all
@@ -233,7 +233,7 @@ input =
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
                     []
-                    [ ( Elements.input, H.text "foobar" ) ]
+                    [ ( Elements.control, H.text "foobar" ) ]
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.contains [ Html.text "foobar" ]
