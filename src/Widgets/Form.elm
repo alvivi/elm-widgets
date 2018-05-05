@@ -6,6 +6,7 @@ module Widgets.Form
         , firstName
         , input
         , lastName
+        , link
         , newPassword
         , nickname
         , organization
@@ -18,7 +19,7 @@ module Widgets.Form
 
 # Controls
 
-@docs button, email, input, text
+@docs button, email, input, link, text
 
 
 ## Semantic Wrappers
@@ -47,14 +48,46 @@ import Widgets.Helpers.Array as Array
 events attributes are supported by buttons.
 -}
 button : List (Attribute msg) -> List (Html msg) -> Html msg
-button attrs content =
+button attrs =
+    Context.empty
+        |> Context.insertAttributes attrs
+        |> buttonView
+
+
+{-| A link is a button, but a `<a>` node is used instead of a `<button>`.
+-}
+link : List (Attribute msg) -> List (Html msg) -> Html msg
+link attrs =
+    Context.empty
+        |> Context.insertAttributes attrs
+        |> Context.setType "link"
+        |> buttonView
+
+
+{-| A semantic button for submitting forms. Same as button but with `type`
+attribute set to `"submit"`.
+-}
+submit : List (Attribute msg) -> List (Html msg) -> Html msg
+submit attrs =
+    Context.empty
+        |> Context.insertAttributes attrs
+        |> Context.setType "submit"
+        |> buttonView
+
+
+buttonView : Context msg -> List (Html msg) -> Html msg
+buttonView ctx content =
     let
-        ctx =
-            Context.insertAttributes attrs Context.empty
+        element =
+            if ctx.type_ == "link" then
+                H.a
+            else
+                H.button
     in
-        H.button
+        element
             (K.fromMany
                 [ K.ifTrue ctx.disabled <| H.disabled True
+                , K.ifTrue (ctx.type_ == "submit") (H.type_ "submit")
                 , K.maybeMap H.onBlur ctx.onBlur
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.many (Array.toList ctx.controlAttrs)
@@ -68,14 +101,6 @@ button attrs content =
                 ]
             )
             content
-
-
-{-| A semantic button for submitting forms. Same as button but with `type`
-attribute set to `"submit"`.
--}
-submit : List (Attribute msg) -> List (Html msg) -> Html msg
-submit attrs content =
-    button ((Form.html Elements.control [ H.type_ "submit" ]) :: attrs) content
 
 
 {-| A semantic password input with a current password value. Useful for log in
