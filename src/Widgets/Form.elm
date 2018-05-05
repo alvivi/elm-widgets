@@ -1,6 +1,7 @@
 module Widgets.Form
     exposing
-        ( currentPassword
+        ( button
+        , currentPassword
         , email
         , firstName
         , input
@@ -16,7 +17,7 @@ module Widgets.Form
 
 # Controls
 
-@docs email, input, text
+@docs button, email, input, text
 
 
 ## Semantic Wrappers
@@ -39,6 +40,32 @@ import Widgets.Form.Elements exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
+
+
+{-| A straightforward button. Only `css`, `disabled`, `html`, blur and focus
+events attributes are supported by buttons.
+-}
+button : List (Attribute msg) -> List (Html msg) -> Html msg
+button attrs content =
+    let
+        ctx =
+            Context.insertAttributes attrs Context.empty
+    in
+        H.button
+            (K.fromMany
+                [ K.ifTrue ctx.disabled <| H.disabled True
+                , K.maybeMap H.onBlur ctx.onBlur
+                , K.maybeMap H.onFocus ctx.onFocus
+                , K.many (Array.toList ctx.controlAttrs)
+                , K.one <|
+                    H.css <|
+                        K.fromMany
+                            [ K.many <| Array.toList ctx.controlCss
+                            , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                            ]
+                ]
+            )
+            content
 
 
 {-| A semantic password input with a current password value. Useful for log in
