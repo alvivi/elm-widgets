@@ -1,4 +1,4 @@
-module Widgets.Themes.Mint exposing (global, input, text)
+module Widgets.Themes.Mint exposing (button, global, input, text)
 
 {-| A basic theme for the whole Widgets library. The purpose of this theme
 is to be an example on how to build themes, but it can also be use for
@@ -16,7 +16,7 @@ This theme requires a css normalization base. See global for more information.
 
 # Theming Widgets
 
-@docs input
+@docs button, input
 
 
 # Theming Html Nodes
@@ -53,8 +53,32 @@ global =
         ]
 
 
-{-| Apply this theme to Widgets.Form widgets. You only need to include this
-attribute in any of widgets of Widgets.Form.
+{-| Apply Mint theme to Widgets.Form button.
+
+    Form.button [ Widgets.Themes.Mint.button ] [ Html.text "Title" ]
+
+-}
+button : Attribute msg
+button =
+    Form.batch
+        [ Form.css FormElements.control
+            [ text
+            , C.backgroundColor primaryColor
+            , C.border C.zero
+            , C.borderRadius <| C.px 3
+            , C.color backgroundColor
+            , C.padding2 (C.px 8) (C.px 12)
+            , C.hover
+                [ C.backgroundColor highlightColor
+                ]
+            , C.disabled
+                [ C.backgroundColor hintColor
+                ]
+            ]
+        ]
+
+
+{-| Apply Mint theme to Widgets.Form input controls.
 
     Form.input { id = "id" , description = "desc" , type_ = "text" }
       [ Widgets.Themes.Mint.input ] []
@@ -147,6 +171,11 @@ disabledBackgroundColor =
 errorColor : C.Color
 errorColor =
     C.hex "#FC006E"
+
+
+highlightColor : C.Color
+highlightColor =
+    C.hex "#0084FF"
 
 
 hintColor : C.Color
