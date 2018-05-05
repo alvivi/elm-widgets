@@ -66,6 +66,11 @@ button =
                 Form.submit [] []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.attribute <| Html.type_ "submit" ]
+        , T.test "link button is an <a>" <|
+            \() ->
+                Form.link [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.tag "a" ]
         ]
 
 
