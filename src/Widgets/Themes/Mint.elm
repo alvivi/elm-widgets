@@ -67,7 +67,7 @@ button =
             , C.border C.zero
             , C.borderRadius <| C.px 3
             , C.color backgroundColor
-            , C.padding2 (C.px 8) (C.px 12)
+            , C.padding2 (C.px 11) (C.px 16)
             , C.hover
                 [ C.backgroundColor highlightColor
                 ]
