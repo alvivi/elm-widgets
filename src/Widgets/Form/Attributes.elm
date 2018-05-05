@@ -97,7 +97,7 @@ error =
     A.Error
 
 
-{-| Sets the control as focused
+{-| Sets the control as focused.
 -}
 focused : Attribute msg
 focused =
@@ -111,35 +111,35 @@ onBlur =
     A.OnBlur
 
 
-{-| Notifies when the control is focused
+{-| Notifies when the control is focused.
 -}
 onFocus : msg -> Attribute msg
 onFocus =
     A.OnFocus
 
 
-{-| Notifies when the control has a new value
+{-| Notifies when the control has a new value.
 -}
 onInput : (String -> msg) -> Attribute msg
 onInput =
     A.OnInput
 
 
-{-| Sets the placeholder of the control
+{-| Sets the placeholder of the control.
 -}
 placeholder : String -> Attribute msg
 placeholder =
     A.Placeholder
 
 
-{-| Sets the control as required
+{-| Sets the control as required.
 -}
 required : Attribute msg
 required =
     A.Required
 
 
-{-| Sets the value of the control
+{-| Sets the value of the control.
 -}
 value : String -> Attribute msg
 value =
