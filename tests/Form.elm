@@ -27,6 +27,7 @@ Test that cannot be done with the current elm-html-test feature set:
 
 type Msg
     = OnBlur
+    | OnClick
     | OnFocus
     | OnInput String
 
@@ -50,6 +51,12 @@ button =
                     |> Helpers.fromStyledHtml
                     |> E.simulate E.blur
                     |> E.expect OnBlur
+        , T.test "onClick attribute sets a blur event handler" <|
+            \() ->
+                Form.button [ Form.onClick OnClick ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.click
+                    |> E.expect OnClick
         , T.test "onFocus attribute sets a focus event handler" <|
             \() ->
                 Form.button [ Form.onFocus OnFocus ] []
@@ -290,6 +297,15 @@ input =
                     |> Q.find [ S.tag "input" ]
                     |> E.simulate E.blur
                     |> E.expect OnBlur
+        , T.test "onClick attribute sets a click event handler" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.onClick OnClick ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> E.simulate E.click
+                    |> E.expect OnClick
         , T.test "onFocus attribute sets a focus event handler" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
