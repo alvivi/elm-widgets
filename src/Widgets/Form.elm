@@ -44,6 +44,9 @@ import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
 
 
+-- Buttons --
+
+
 {-| A straightforward button. Only `css`, `disabled`, `html`, blur and focus
 events attributes are supported by buttons.
 -}
@@ -101,6 +104,10 @@ buttonView ctx content =
                 ]
             )
             content
+
+
+
+-- Inputs --
 
 
 {-| A semantic password input with a current password value. Useful for log in
