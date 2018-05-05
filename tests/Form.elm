@@ -61,6 +61,11 @@ button =
                 Form.button [ Form.html Elements.control [ H.attribute "foo" "bar" ] ] []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        , T.test "submit button has its type set to submit" <|
+            \() ->
+                Form.submit [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.type_ "submit" ]
         ]
 
 
