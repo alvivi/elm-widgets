@@ -292,6 +292,7 @@ inputView ctx =
                     H.css <|
                         K.fromMany
                             [ K.many <| Array.toList ctx.controlCss
+                            , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.one <| C.width <| C.pct 100
                             , K.maybeMap C.paddingLeft <| inputPaddingLeft ctx
                             ]

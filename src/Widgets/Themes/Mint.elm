@@ -76,7 +76,6 @@ input =
                 ]
             , C.disabled
                 [ C.backgroundColor disabledBackgroundColor
-                , C.cursor C.notAllowed
                 ]
             ]
         , Form.css FormElements.description
