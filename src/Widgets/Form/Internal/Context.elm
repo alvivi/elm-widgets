@@ -5,6 +5,9 @@ module Widgets.Form.Internal.Context
         , hasError
         , insertAttributes
         , insertElements
+        , setDescription
+        , setId
+        , setType
         )
 
 import Array exposing (Array)
@@ -42,13 +45,13 @@ type alias Context msg =
     }
 
 
-empty : { description : String, id : String, type_ : String } -> Context msg
-empty { description, id, type_ } =
+empty : Context msg
+empty =
     { autocomplete = Nothing
     , controlAttrs = Array.empty
     , controlCss = Array.empty
     , controlHtml = Array.empty
-    , description = description
+    , description = ""
     , descriptionLabel = False
     , descriptionCss = Array.empty
     , descriptionHtml = Array.empty
@@ -59,16 +62,31 @@ empty { description, id, type_ } =
     , focused = False
     , iconCss = Array.empty
     , iconHtml = Array.empty
-    , id = id
+    , id = ""
     , labelCss = Array.empty
     , onBlur = Nothing
     , onFocus = Nothing
     , onInput = Nothing
     , placeholder = Nothing
     , required = False
-    , type_ = type_
+    , type_ = ""
     , value = Nothing
     }
+
+
+setDescription : String -> Context msg -> Context msg
+setDescription description context =
+    { context | description = description }
+
+
+setId : String -> Context msg -> Context msg
+setId id context =
+    { context | id = id }
+
+
+setType : String -> Context msg -> Context msg
+setType type_ context =
+    { context | type_ = type_ }
 
 
 hasError : Context msg -> Bool

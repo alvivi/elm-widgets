@@ -162,11 +162,13 @@ input :
     -> List (Attribute msg)
     -> List ( Element, Html msg )
     -> Html msg
-input config attrs elements =
+input { id, description, type_ } attrs elements =
     let
         ctx =
-            config
-                |> Context.empty
+            Context.empty
+                |> Context.setDescription description
+                |> Context.setId id
+                |> Context.setType type_
                 |> Context.insertElements elements
                 |> Context.insertAttributes attrs
     in
