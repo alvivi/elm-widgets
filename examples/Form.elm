@@ -211,75 +211,13 @@ view model =
                         [ Theme.input ]
                         []
                   )
-                , ( "Semantic - First Name"
-                  , Form.firstName
-                        { id = "input-first-name"
-                        , description = "first name"
-                        }
-                        []
-                        []
-                  , Form.firstName
-                        { id = "themed-input-first-name"
-                        , description = "first name"
-                        }
-                        [ Theme.input ]
-                        []
+                , ( "A Button"
+                  , Form.button [] [ H.text "Button" ]
+                  , Form.button [ Theme.button ] [ H.text "Button" ]
                   )
-                , ( "Semantic - Last Name"
-                  , Form.lastName
-                        { id = "input-last-name"
-                        , description = "last name"
-                        }
-                        []
-                        []
-                  , Form.lastName
-                        { id = "themed-input-last-name"
-                        , description = "last name"
-                        }
-                        [ Theme.input ]
-                        []
-                  )
-                , ( "Semantic - New Password"
-                  , Form.newPassword
-                        { id = "input-new-password"
-                        , description = "new password"
-                        }
-                        []
-                        []
-                  , Form.newPassword
-                        { id = "themed-input-new-password"
-                        , description = "new password"
-                        }
-                        [ Theme.input ]
-                        []
-                  )
-                , ( "Semantic - Nickname"
-                  , Form.nickname
-                        { id = "input-nickname"
-                        , description = "nickname"
-                        }
-                        []
-                        []
-                  , Form.nickname
-                        { id = "themed-input-nickname"
-                        , description = "nickname"
-                        }
-                        [ Theme.input ]
-                        []
-                  )
-                , ( "Semantic - Organization"
-                  , Form.organization
-                        { id = "input-organization"
-                        , description = "organization"
-                        }
-                        []
-                        []
-                  , Form.organization
-                        { id = "themed-input-organization"
-                        , description = "organization"
-                        }
-                        [ Theme.input ]
-                        []
+                , ( "Disabled Button"
+                  , Form.button [ Form.disabled ] [ H.text "Button" ]
+                  , Form.button [ Form.disabled, Theme.button ] [ H.text "Button" ]
                   )
                 ]
             ]
