@@ -219,6 +219,10 @@ view model =
                   , Form.button [ Form.disabled ] [ H.text "Button" ]
                   , Form.button [ Form.disabled, Theme.button ] [ H.text "Button" ]
                   )
+                , ( "A Link"
+                  , Form.link [] [ H.text "A Link" ]
+                  , Form.link [ Theme.button ] [ H.text "A Link" ]
+                  )
                 ]
             ]
         ]
