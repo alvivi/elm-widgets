@@ -39,7 +39,6 @@ import Widgets.Form.Elements exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
-import Widgets.Helpers.Css as C
 
 
 {-| A semantic password input with a current password value. Useful for log in
@@ -259,7 +258,7 @@ iconView { iconCss, iconHtml } =
                             , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
                             , K.ifTrue hasStyle <| C.width iconSide
                             , K.many
-                                [ C.noPointerEvents
+                                [ C.pointerEvents C.none
                                 , C.position C.absolute
                                 , C.top C.zero
                                 ]
