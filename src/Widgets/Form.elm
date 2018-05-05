@@ -60,7 +60,8 @@ button attrs content =
                 , K.one <|
                     H.css <|
                         K.fromMany
-                            [ K.many <| Array.toList ctx.controlCss
+                            [ K.one <| C.display C.inlineBlock
+                            , K.many <| Array.toList ctx.controlCss
                             , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             ]
                 ]
