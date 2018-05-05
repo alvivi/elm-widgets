@@ -10,6 +10,7 @@ module Widgets.Form.Internal.Attributes
             , Focused
             , Html
             , OnBlur
+            , OnClick
             , OnFocus
             , OnInput
             , Placeholder
@@ -36,6 +37,7 @@ type Attribute msg
     | Focused
     | Html Element (List (H.Attribute msg))
     | OnBlur msg
+    | OnClick msg
     | OnFocus msg
     | OnInput (String -> msg)
     | Placeholder String

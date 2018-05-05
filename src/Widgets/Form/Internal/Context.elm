@@ -36,6 +36,7 @@ type alias Context msg =
     , id : String
     , labelCss : Array Style
     , onBlur : Maybe msg
+    , onClick : Maybe msg
     , onFocus : Maybe msg
     , onInput : Maybe (String -> msg)
     , placeholder : Maybe String
@@ -65,6 +66,7 @@ empty =
     , id = ""
     , labelCss = Array.empty
     , onBlur = Nothing
+    , onClick = Nothing
     , onFocus = Nothing
     , onInput = Nothing
     , placeholder = Nothing
@@ -135,6 +137,9 @@ setAttribute attr ctx =
 
         Attributes.OnBlur msg ->
             { ctx | onBlur = Just msg }
+
+        Attributes.OnClick msg ->
+            { ctx | onClick = Just msg }
 
         Attributes.OnFocus msg ->
             { ctx | onFocus = Just msg }

@@ -47,8 +47,8 @@ import Widgets.Helpers.Array as Array
 -- Buttons --
 
 
-{-| A straightforward button. Only `css`, `disabled`, `html`, blur and focus
-events attributes are supported by buttons.
+{-| A straightforward button. Only `css`, `disabled`, `html` and events
+attributes are supported by buttons.
 -}
 button : List (Attribute msg) -> List (Html msg) -> Html msg
 button attrs =
@@ -92,6 +92,7 @@ buttonView ctx content =
                 [ K.ifTrue ctx.disabled <| H.disabled True
                 , K.ifTrue (ctx.type_ == "submit") (H.type_ "submit")
                 , K.maybeMap H.onBlur ctx.onBlur
+                , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.many (Array.toList ctx.controlAttrs)
                 , K.one <|
@@ -352,6 +353,7 @@ inputView ctx =
                 , K.ifTrue ctx.required <| H.required True
                 , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
                 , K.maybeMap H.onBlur ctx.onBlur
+                , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.maybeMap H.onInput ctx.onInput
                 , K.maybeMap H.placeholder ctx.placeholder

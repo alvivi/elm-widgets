@@ -10,6 +10,7 @@ module Widgets.Form.Attributes
         , focused
         , html
         , onBlur
+        , onClick
         , onFocus
         , onInput
         , placeholder
@@ -32,7 +33,7 @@ module Widgets.Form.Attributes
 
 # Events
 
-@docs onBlur, onFocus, onInput
+@docs onBlur, onClick, onFocus, onInput
 
 
 # Attribute Modifiers
@@ -118,6 +119,13 @@ html =
 onBlur : msg -> Attribute msg
 onBlur =
     A.OnBlur
+
+
+{-| Notifies when the control is clicked.
+-}
+onClick : msg -> Attribute msg
+onClick =
+    A.OnClick
 
 
 {-| Notifies when the control is focused.
