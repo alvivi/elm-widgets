@@ -8,6 +8,7 @@ module Widgets.Form.Attributes
         , disabled
         , error
         , focused
+        , html
         , onBlur
         , onFocus
         , onInput
@@ -26,7 +27,7 @@ module Widgets.Form.Attributes
 
 # Properties
 
-@docs autocomplete, batch, css, descriptionLabel, disabled, error, focused, placeholder, required, value
+@docs autocomplete, batch, css, descriptionLabel, disabled, error, focused, html, placeholder, required, value
 
 
 # Events
@@ -41,6 +42,7 @@ module Widgets.Form.Attributes
 -}
 
 import Css exposing (Style)
+import Html.Styled as H
 import Widgets.Form.Elements exposing (Element)
 import Widgets.Form.Internal.Attributes as A
 
@@ -104,7 +106,14 @@ focused =
     A.Focused
 
 
-{-| Notifies when the control loose the focus
+{-| Sets the control as focused
+-}
+html : Element -> List (H.Attribute msg) -> Attribute msg
+html =
+    A.Html
+
+
+{-| Notifies when the control loose the focus.
 -}
 onBlur : msg -> Attribute msg
 onBlur =

@@ -8,6 +8,7 @@ module Widgets.Form.Internal.Attributes
             , Disabled
             , Error
             , Focused
+            , Html
             , OnBlur
             , OnFocus
             , OnInput
@@ -21,6 +22,7 @@ module Widgets.Form.Internal.Attributes
         )
 
 import Css exposing (Style)
+import Html.Styled as H
 import Widgets.Form.Elements exposing (Element)
 
 
@@ -32,6 +34,7 @@ type Attribute msg
     | Disabled
     | Error String
     | Focused
+    | Html Element (List (H.Attribute msg))
     | OnBlur msg
     | OnFocus msg
     | OnInput (String -> msg)

@@ -16,6 +16,7 @@ import Widgets.Form.Internal.Elements as Elements exposing (Element)
 
 type alias Context msg =
     { autocomplete : Maybe String
+    , controlAttrs : Array (H.Attribute msg)
     , controlCss : Array Style
     , controlHtml : Array (Html msg)
     , description : String
@@ -44,6 +45,7 @@ type alias Context msg =
 empty : { description : String, id : String, type_ : String } -> Context msg
 empty { description, id, type_ } =
     { autocomplete = Nothing
+    , controlAttrs = Array.empty
     , controlCss = Array.empty
     , controlHtml = Array.empty
     , description = description
@@ -109,6 +111,9 @@ setAttribute attr ctx =
 
         Attributes.Focused ->
             { ctx | focused = True }
+
+        Attributes.Html element css ->
+            setHtmlAttributes element css ctx
 
         Attributes.OnBlur msg ->
             { ctx | onBlur = Just msg }
@@ -201,4 +206,22 @@ setElement ( element, html ) ctx =
             { ctx | iconHtml = Array.push html ctx.iconHtml }
 
         Elements.Label ->
-            Debug.log "Custom label element is not supported" ctx
+            let
+                _ =
+                    Debug.log "Warning" "Custom label element is not supported"
+            in
+                ctx
+
+
+setHtmlAttributes : Element -> List (H.Attribute msg) -> Context msg -> Context msg
+setHtmlAttributes element attrs ctx =
+    case element of
+        Elements.Control ->
+            { ctx | controlAttrs = Array.append (Array.fromList attrs) ctx.controlAttrs }
+
+        _ ->
+            let
+                _ =
+                    Debug.log "Warning" "Custom html attributes are only supported in control element"
+            in
+                ctx
