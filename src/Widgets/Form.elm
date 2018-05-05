@@ -9,6 +9,7 @@ module Widgets.Form
         , newPassword
         , nickname
         , organization
+        , submit
         , text
         )
 
@@ -22,7 +23,7 @@ module Widgets.Form
 
 ## Semantic Wrappers
 
-@docs currentPassword, firstName, lastName, newPassword, nickname, organization
+@docs currentPassword, firstName, lastName, newPassword, nickname, organization, submit
 
 -}
 
@@ -36,7 +37,7 @@ import Html.Styled.Attributes.Aria.Role as Aria
 import Html.Styled.Events as H
 import KeywordList as K exposing (KeywordList)
 import Widgets.Form.Attributes as Form exposing (Attribute)
-import Widgets.Form.Elements exposing (Element)
+import Widgets.Form.Elements as Elements exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
@@ -67,6 +68,14 @@ button attrs content =
                 ]
             )
             content
+
+
+{-| A semantic button for submitting forms. Same as button but with `type`
+attribute set to `"submit"`.
+-}
+submit : List (Attribute msg) -> List (Html msg) -> Html msg
+submit attrs content =
+    button ((Form.html Elements.control [ H.type_ "submit" ]) :: attrs) content
 
 
 {-| A semantic password input with a current password value. Useful for log in
