@@ -31,6 +31,39 @@ type Msg
     | OnInput String
 
 
+button : Test
+button =
+    T.describe "Buttons"
+        [ T.test "A button is a button" <|
+            \() ->
+                Form.button [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.tag "button" ]
+        , T.test "disabled sets html disabled attribute" <|
+            \() ->
+                Form.button [ Form.disabled ] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.disabled True ]
+        , T.test "onBlur attribute sets a blur event handler" <|
+            \() ->
+                Form.button [ Form.onBlur OnBlur ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.blur
+                    |> E.expect OnBlur
+        , T.test "onFocus attribute sets a focus event handler" <|
+            \() ->
+                Form.button [ Form.onFocus OnFocus ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.focus
+                    |> E.expect OnFocus
+        , T.test "custom html attributes are set" <|
+            \() ->
+                Form.button [ Form.html Elements.control [ H.attribute "foo" "bar" ] ] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        ]
+
+
 form : Test
 form =
     T.describe "Form Controls"
