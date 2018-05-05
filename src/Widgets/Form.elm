@@ -293,6 +293,7 @@ inputView ctx =
                             , K.one <| C.width <| C.pct 100
                             , K.maybeMap C.paddingLeft <| inputPaddingLeft ctx
                             ]
+                , K.many <| Array.toList ctx.controlAttrs
                 ]
             )
             (Array.toList ctx.controlHtml)
