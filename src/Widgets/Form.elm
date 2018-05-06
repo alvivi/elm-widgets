@@ -101,6 +101,7 @@ buttonView ctx content =
                             [ K.one <| C.display C.inlineBlock
                             , K.many <| Array.toList ctx.controlCss
                             , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                            , K.ifTrue (ctx.type_ == "link" && not ctx.disabled) (C.cursor C.default)
                             ]
                 ]
             )
