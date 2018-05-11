@@ -19,6 +19,7 @@ module Widgets.Form.Internal.Attributes
             , WhenErred
             , WhenFocused
             , WhenHasIcon
+            , WhenHasType
             )
         )
 
@@ -46,3 +47,4 @@ type Attribute msg
     | WhenErred (List (Attribute msg))
     | WhenFocused (List (Attribute msg))
     | WhenHasIcon (List (Attribute msg))
+    | WhenHasType String (List (Attribute msg))

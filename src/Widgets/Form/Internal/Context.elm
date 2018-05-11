@@ -165,6 +165,9 @@ setAttribute attr ctx =
         Attributes.WhenHasIcon _ ->
             ctx
 
+        Attributes.WhenHasType _ _ ->
+            ctx
+
 
 setAttributeModifiers : Attribute msg -> Context msg -> Context msg
 setAttributeModifiers attr ctx =
@@ -189,6 +192,12 @@ setAttributeModifiers attr ctx =
                 ctx
             else
                 insertAttributes iconAttrs ctx
+
+        Attributes.WhenHasType type_ typeAttrs ->
+            if ctx.type_ == type_ then
+                insertAttributes typeAttrs ctx
+            else
+                ctx
 
         _ ->
             ctx

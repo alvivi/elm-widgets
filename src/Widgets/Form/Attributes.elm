@@ -19,6 +19,7 @@ module Widgets.Form.Attributes
         , whenErred
         , whenFocused
         , whenHasIcon
+        , whenHasType
         )
 
 {-| Attributes for Form controls.
@@ -38,7 +39,7 @@ module Widgets.Form.Attributes
 
 # Attribute Modifiers
 
-@docs whenErred, whenFocused, whenHasIcon
+@docs whenErred, whenFocused, whenHasIcon, whenHasType
 
 -}
 
@@ -186,3 +187,18 @@ themes.
 whenHasIcon : List (Attribute msg) -> Attribute msg
 whenHasIcon =
     A.WhenHasIcon
+
+
+{-| Applies attributes only when the control type is equal to the provided
+type. For example, the following code applies the style only when control is
+an email input:
+
+    whenHasType "email" [ Html.css [ Css.backgroundColor Color.green  ] ]
+
+All controls have a type, even when the internal tag has not tag. That means
+that we can use `"select"` for select controls, `"textarea"` for textareas, etc.
+
+-}
+whenHasType : String -> List (Attribute msg) -> Attribute msg
+whenHasType =
+    A.WhenHasType
