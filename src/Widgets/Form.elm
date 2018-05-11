@@ -10,6 +10,7 @@ module Widgets.Form
         , newPassword
         , nickname
         , organization
+        , select
         , submit
         , text
         )
@@ -19,7 +20,7 @@ module Widgets.Form
 
 # Controls
 
-@docs button, email, input, link, text
+@docs button, email, input, link, text, select
 
 
 ## Semantic Wrappers
@@ -42,6 +43,7 @@ import Widgets.Form.Elements as Elements exposing (Element)
 import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
+import Widgets.Helpers.Css as C
 
 
 -- Buttons --
@@ -246,6 +248,34 @@ input { id, description, type_ } attrs elements =
         labelView ctx <| K.group [ inputView ctx, errorView ctx, iconView ctx ]
 
 
+{-| A select control. An `id` and a `description` is always required. You can
+add options using the `control` element.
+
+    Form.select { id = "select", description = "A description" } []
+        [ ( Elements.control, H.option [] [ H.text "one" ] )
+        , ( Elements.control, H.option [] [ H.text "two" ] )
+        , ( Elements.control, H.option [] [ H.text "three" ] )
+        ]
+
+-}
+select :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+select { id, description } attrs elements =
+    let
+        ctx =
+            Context.empty
+                |> Context.setDescription description
+                |> Context.setId id
+                |> Context.setType "select"
+                |> Context.insertElements elements
+                |> Context.insertAttributes attrs
+    in
+        labelView ctx <| K.group [ selectView ctx, errorView ctx, iconView ctx ]
+
+
 
 -- Elements Rendering --
 
@@ -313,23 +343,28 @@ errorView ctx =
 
 
 iconView : Context msg -> KeywordList (Html msg)
-iconView { iconCss, iconHtml } =
+iconView { iconCss, iconHtml, type_ } =
     if Array.isEmpty iconHtml then
         K.zero
     else
         let
             hasStyle =
                 Array.isEmpty iconCss
+
+            isSelect =
+                type_ == "select"
         in
             K.one <|
                 H.div
                     [ Aria.hidden True
                     , H.css <|
                         K.fromMany
-                            [ K.ifTrue hasStyle <| C.height iconSide
-                            , K.ifTrue hasStyle <| C.paddingLeft iconPaddingHorizontal
+                            [ K.ifTrue (hasStyle && isSelect) <| C.paddingRight iconPaddingHorizontal
+                            , K.ifTrue (hasStyle && not isSelect) <| C.paddingLeft iconPaddingHorizontal
+                            , K.ifTrue hasStyle <| C.height iconSide
                             , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
                             , K.ifTrue hasStyle <| C.width iconSide
+                            , K.ifTrue isSelect <| C.right C.zero
                             , K.many
                                 [ C.pointerEvents C.none
                                 , C.position C.absolute
@@ -366,12 +401,46 @@ inputView ctx =
                             [ K.many <| Array.toList ctx.controlCss
                             , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.one <| C.width <| C.pct 100
-                            , K.maybeMap C.paddingLeft <| inputPaddingLeft ctx
+                            , K.maybeMap C.paddingLeft <| iconPadding ctx
                             ]
                 , K.many <| Array.toList ctx.controlAttrs
                 ]
             )
             (Array.toList ctx.controlHtml)
+
+
+selectView : Context msg -> KeywordList (Html msg)
+selectView ctx =
+    let
+        isAppearanceAffected =
+            (not <| Array.isEmpty ctx.controlCss) || (not <| Array.isEmpty ctx.iconHtml)
+    in
+        K.one <|
+            H.select
+                (K.fromMany
+                    [ K.one <| H.id <| elementId ctx.id Element.Control
+                    , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
+                    , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                    , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
+                    , K.ifTrue ctx.disabled <| H.disabled True
+                    , K.ifTrue ctx.required <| H.required True
+                    , K.maybeMap H.onBlur ctx.onBlur
+                    , K.maybeMap H.onClick ctx.onClick
+                    , K.maybeMap H.onFocus ctx.onFocus
+                    , K.maybeMap H.onInput ctx.onInput
+                    , K.one <|
+                        H.css <|
+                            K.fromMany
+                                [ K.many <| Array.toList ctx.controlCss
+                                , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                                , K.ifTrue isAppearanceAffected (C.appearance "none")
+                                , K.one <| C.minHeight iconSide
+                                , K.one <| C.width <| C.pct 100
+                                ]
+                    , K.many <| Array.toList ctx.controlAttrs
+                    ]
+                )
+                (Array.toList ctx.controlHtml)
 
 
 
@@ -393,8 +462,8 @@ iconPaddingHorizontal =
     C.px 4
 
 
-inputPaddingLeft : Context msg -> Maybe C.Px
-inputPaddingLeft { iconCss, iconHtml } =
+iconPadding : Context msg -> Maybe C.Px
+iconPadding { iconCss, iconHtml } =
     if Array.isEmpty iconHtml || not (Array.isEmpty iconCss) then
         Nothing
     else

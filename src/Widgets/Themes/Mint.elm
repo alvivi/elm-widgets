@@ -1,4 +1,4 @@
-module Widgets.Themes.Mint exposing (button, global, input, text)
+module Widgets.Themes.Mint exposing (button, global, input, text, select)
 
 {-| A basic theme for the whole Widgets library. The purpose of this theme
 is to be an example on how to build themes, but it can also be use for
@@ -16,7 +16,7 @@ This theme requires a css normalization base. See global for more information.
 
 # Theming Widgets
 
-@docs button, input
+@docs button, input, select
 
 
 # Theming Html Nodes
@@ -29,6 +29,7 @@ import Css as C exposing (Style)
 import Html.Styled as H exposing (Html)
 import Widgets.Form.Attributes as Form exposing (Attribute)
 import Widgets.Form.Elements as FormElements
+import Widgets.Helpers.Css as C
 
 
 {-| Common styles needed by other parts of this theme. Use this to initialize
@@ -93,7 +94,7 @@ input =
             , C.border3 (C.px 1) C.solid hintColor
             , C.borderRadius <| C.px 3
             , C.margin <| C.px 1
-            , C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 10)
+            , C.padding (C.px 10)
             , C.focus
                 [ C.border3 (C.px 2) C.solid primaryColor
                 , C.margin <| C.zero
@@ -137,6 +138,36 @@ input =
             [ Form.css FormElements.control
                 [ C.padding4 (C.px 10) (C.px 10) (C.px 10) (C.px 42)
                 ]
+            , Form.whenHasType "select"
+                [ Form.css FormElements.icon
+                    [ C.paddingLeft C.zero
+                    , C.paddingRight <| C.px 8
+                    ]
+                ]
+            ]
+        ]
+
+
+{-| Apply Mint theme to Widgets.Form select control.
+
+    Form.select { id = "id" , description = "desc" }
+      [ Widgets.Themes.Mint.input ] []
+
+-}
+select : Attribute msg
+select =
+    -- We have to set height to avoid:
+    -- https://bugzilla.mozilla.org/show_bug.cgi?id=454625
+    Form.batch
+        [ input
+        , Form.css FormElements.control
+            [ C.padding2 (C.px 0) (C.px 10)
+            , C.height <| C.px <| fontSize.numericValue + 24
+            ]
+        , Form.whenHasIcon
+            [ Form.css FormElements.control
+                [ C.padding4 (C.px 0) (C.px 42) (C.px 0) (C.px 10)
+                ]
             ]
         ]
 
@@ -151,7 +182,17 @@ text =
     C.batch
         [ C.color textColor
         , C.fontFamilies [ "Open Sans", "sans-serif" ]
+        , C.fontSize fontSize
         ]
+
+
+
+-- Scale
+
+
+fontSize : C.Px
+fontSize =
+    C.px 16
 
 
 
