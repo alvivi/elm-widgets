@@ -32,53 +32,8 @@ type Msg
     | OnInput String
 
 
-button : Test
-button =
-    T.describe "Buttons"
-        [ T.test "A button is a button" <|
-            \() ->
-                Form.button [] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.tag "button" ]
-        , T.test "disabled sets html disabled attribute" <|
-            \() ->
-                Form.button [ Form.disabled ] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.attribute <| Html.disabled True ]
-        , T.test "onBlur attribute sets a blur event handler" <|
-            \() ->
-                Form.button [ Form.onBlur OnBlur ] []
-                    |> Helpers.fromStyledHtml
-                    |> E.simulate E.blur
-                    |> E.expect OnBlur
-        , T.test "onClick attribute sets a blur event handler" <|
-            \() ->
-                Form.button [ Form.onClick OnClick ] []
-                    |> Helpers.fromStyledHtml
-                    |> E.simulate E.click
-                    |> E.expect OnClick
-        , T.test "onFocus attribute sets a focus event handler" <|
-            \() ->
-                Form.button [ Form.onFocus OnFocus ] []
-                    |> Helpers.fromStyledHtml
-                    |> E.simulate E.focus
-                    |> E.expect OnFocus
-        , T.test "custom html attributes are set" <|
-            \() ->
-                Form.button [ Form.html Elements.control [ H.attribute "foo" "bar" ] ] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
-        , T.test "submit button has its type set to submit" <|
-            \() ->
-                Form.submit [] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.attribute <| Html.type_ "submit" ]
-        , T.test "link button is an <a>" <|
-            \() ->
-                Form.link [] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.tag "a" ]
-        ]
+
+-- Controls --
 
 
 form : Test
@@ -112,14 +67,6 @@ form =
                                 , Q.index 1 >> Q.contains [ Html.text "two" ]
                                 ]
                         ]
-        , T.test "Applies `whenHasIcon` attributes when control has an icon" <|
-            \() ->
-                Form.input { id = "id", description = "desc", type_ = "text" }
-                    [ Form.whenHasIcon [ Form.placeholder "foobar" ] ]
-                    [ ( Elements.icon, H.text "icon" ) ]
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.tag "input" ]
-                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         , T.test "Applies `whenFocused` attributes when focused" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
@@ -142,104 +89,22 @@ form =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
-        ]
-
-
-label : Test
-label =
-    T.describe "Label Element"
-        [ T.test "Has its own id" <|
-            \() ->
-                Form.input { id = "id", description = "desc", type_ = "text" } [] []
-                    |> Helpers.fromStyledHtml
-                    |> Q.has [ S.id "id__label" ]
-        , T.test "Has custom description html" <|
+        , T.test "Applies `whenHasIcon` attributes when control has an icon" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
-                    []
-                    [ ( Elements.description, H.text "foobar" ) ]
+                    [ Form.whenHasIcon [ Form.placeholder "foobar" ] ]
+                    [ ( Elements.icon, H.text "icon" ) ]
                     |> Helpers.fromStyledHtml
-                    |> Q.contains [ Html.text "foobar" ]
-        ]
-
-
-icon : Test
-icon =
-    T.describe "Icon Element"
-        [ T.test "Has custom icon html" <|
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
+        , T.test "Applies `whenHasType` attributes when control has the chosen type" <|
             \() ->
-                Form.text { id = "id", description = "desc" }
-                    []
-                    [ ( Elements.icon, H.text "foobar" )
-                    ]
+                Form.input { id = "id", description = "desc", type_ = "foo" }
+                    [ Form.whenHasType "foo" [ Form.placeholder "foobar" ] ]
+                    [ ( Elements.icon, H.text "icon" ) ]
                     |> Helpers.fromStyledHtml
-                    |> Q.contains [ Html.text "foobar" ]
-        , T.test "Icon view is always after input (regression)" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    []
-                    [ ( Elements.icon, H.text "foobar" ) ]
-                    |> Helpers.fromStyledHtml
-                    |> Q.children []
-                    |> Q.index -1
-                    |> Q.contains [ Html.text "foobar" ]
-        ]
-
-
-error : Test
-error =
-    T.describe "Error Element"
-        [ T.test "Alert element is present even when not requested" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    []
-                    []
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.id "id__error" ]
-                    |> Q.has [ S.attribute <| Html.attribute "role" "alert" ]
-        , T.test "Alert element has always inner text to keep spacing" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    []
-                    []
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.id "id__error" ]
-                    |> Expect.all
-                        [ Q.contains [ Html.text ".keep" ]
-                        , Q.has [ S.attribute <| Html.attribute "aria-hidden" "true" ]
-                        ]
-        , T.test "Error attribute sets the inner text and makes the element visible" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    [ Form.error "foobar" ]
-                    []
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.id "id__error" ]
-                    |> Expect.all
-                        [ Q.contains [ Html.text "foobar" ]
-                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
-                        ]
-        , T.test "Custom error element overrides the default error" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    [ Form.error "foobar" ]
-                    [ ( Elements.error, H.text "custom foobar" ) ]
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.id "id__error" ]
-                    |> Expect.all
-                        [ Q.contains [ Html.text "custom foobar" ]
-                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
-                        ]
-        , T.test "Custom error element, alone, also enables visibility (regression)" <|
-            \() ->
-                Form.text { id = "id", description = "desc" }
-                    []
-                    [ ( Elements.error, H.text "custom foobar" ) ]
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.id "id__error" ]
-                    |> Expect.all
-                        [ Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
-                        ]
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         ]
 
 
@@ -460,4 +325,265 @@ semanticInput =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.type_ "text" ]
+        ]
+
+
+button : Test
+button =
+    T.describe "Buttons"
+        [ T.test "A button is a button" <|
+            \() ->
+                Form.button [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.tag "button" ]
+        , T.test "disabled sets html disabled attribute" <|
+            \() ->
+                Form.button [ Form.disabled ] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.disabled True ]
+        , T.test "onBlur attribute sets a blur event handler" <|
+            \() ->
+                Form.button [ Form.onBlur OnBlur ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.blur
+                    |> E.expect OnBlur
+        , T.test "onClick attribute sets a blur event handler" <|
+            \() ->
+                Form.button [ Form.onClick OnClick ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.click
+                    |> E.expect OnClick
+        , T.test "onFocus attribute sets a focus event handler" <|
+            \() ->
+                Form.button [ Form.onFocus OnFocus ] []
+                    |> Helpers.fromStyledHtml
+                    |> E.simulate E.focus
+                    |> E.expect OnFocus
+        , T.test "custom html attributes are set" <|
+            \() ->
+                Form.button [ Form.html Elements.control [ H.attribute "foo" "bar" ] ] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        , T.test "submit button has its type set to submit" <|
+            \() ->
+                Form.submit [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.type_ "submit" ]
+        , T.test "link button is an <a>" <|
+            \() ->
+                Form.link [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.tag "a" ]
+        ]
+
+
+select : Test
+select =
+    T.describe "Select Control"
+        [ T.test "Has the provided id" <|
+            \() ->
+                Form.select { id = "foo", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.id "foo" ]
+        , T.test "Contains the description in ARIA label attribute" <|
+            \() ->
+                Form.select { id = "id", description = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "descriptionLabel attribute disables ARIA label attribute" <|
+            \() ->
+                Form.select { id = "id", description = "foobar" }
+                    [ Form.descriptionLabel ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "Custom description html disables ARIA label attribute" <|
+            \() ->
+                Form.select { id = "id", description = "foobar" }
+                    []
+                    [ ( Elements.description, H.text "desc" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "Has custom control html" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.control, H.text "foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.contains [ Html.text "foobar" ]
+        , T.test "onBlur attribute sets a blur event handler" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.onBlur OnBlur ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> E.simulate E.blur
+                    |> E.expect OnBlur
+        , T.test "onClick attribute sets a click event handler" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.onClick OnClick ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> E.simulate E.click
+                    |> E.expect OnClick
+        , T.test "onFocus attribute sets a focus event handler" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.onFocus OnFocus ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> E.simulate E.focus
+                    |> E.expect OnFocus
+        , T.test "onInput attribute sets an input event handler" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.onInput OnInput ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> E.simulate (E.input "foobar")
+                    |> E.expect (OnInput "foobar")
+        , T.test "disabled sets html disabled attribute" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.disabled ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.attribute <| Html.disabled True ]
+        , T.test "required attribute sets html required attribute" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.required ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        , T.test "custom html attributes are set" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.html Elements.control [ H.attribute "foo" "bar" ] ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        , T.test "Applies `whenHasType \"select\" attributes" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.whenHasType "select" [ Form.required ] ]
+                    [ ( Elements.icon, H.text "icon" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        ]
+
+
+
+-- Elements --
+
+
+label : Test
+label =
+    T.describe "Label Element"
+        [ T.test "Has its own id" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.id "id__label" ]
+        , T.test "Has custom description html" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    []
+                    [ ( Elements.description, H.text "foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.contains [ Html.text "foobar" ]
+        ]
+
+
+icon : Test
+icon =
+    T.describe "Icon Element"
+        [ T.test "Has custom icon html" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.icon, H.text "foobar" )
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.contains [ Html.text "foobar" ]
+        , T.test "Icon view is always after input (regression)" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.icon, H.text "foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.children []
+                    |> Q.index -1
+                    |> Q.contains [ Html.text "foobar" ]
+        ]
+
+
+error : Test
+error =
+    T.describe "Error Element"
+        [ T.test "Alert element is present even when not requested" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Q.has [ S.attribute <| Html.attribute "role" "alert" ]
+        , T.test "Alert element has always inner text to keep spacing" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text ".keep" ]
+                        , Q.has [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Error attribute sets the inner text and makes the element visible" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    [ Form.error "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text "foobar" ]
+                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Custom error element overrides the default error" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    [ Form.error "foobar" ]
+                    [ ( Elements.error, H.text "custom foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.contains [ Html.text "custom foobar" ]
+                        , Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
+        , T.test "Custom error element, alone, also enables visibility (regression)" <|
+            \() ->
+                Form.text { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.error, H.text "custom foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id "id__error" ]
+                    |> Expect.all
+                        [ Q.hasNot [ S.attribute <| Html.attribute "aria-hidden" "true" ]
+                        ]
         ]
