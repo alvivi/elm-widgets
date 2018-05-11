@@ -223,6 +223,44 @@ view model =
                   , Form.link [] [ H.text "A Link" ]
                   , Form.link [ Theme.button ] [ H.text "A Link" ]
                   )
+                , ( "Select"
+                  , Form.select
+                        { id = "select"
+                        , description = "select"
+                        }
+                        []
+                        [ ( Elements.control, H.option [] [ H.text "one" ] )
+                        , ( Elements.control, H.option [] [ H.text "two" ] )
+                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        ]
+                  , H.text "N/A"
+                  )
+                , ( "Select with icon"
+                  , Form.select
+                        { id = "select"
+                        , description = "select"
+                        }
+                        []
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                        , ( Elements.control, H.option [] [ H.text "one" ] )
+                        , ( Elements.control, H.option [] [ H.text "two" ] )
+                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        ]
+                  , Form.select
+                        { id = "themed-select"
+                        , description = "select"
+                        }
+                        [ Theme.select
+                        , focused "themed-select" model
+                        , Form.onBlur <| OnBlur "themed-select"
+                        , Form.onFocus <| OnFocus "themed-select"
+                        ]
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                        , ( Elements.control, H.option [] [ H.text "one" ] )
+                        , ( Elements.control, H.option [] [ H.text "two" ] )
+                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        ]
+                  )
                 ]
             ]
         ]
