@@ -6,6 +6,7 @@ module Widgets.Form.Elements
         , error
         , icon
         , label
+        , option
         )
 
 {-| This module expose functions to create references to the elements of the
@@ -25,7 +26,7 @@ attribute `css`:
 To insert custom html elements into a control we add them to the last parameter
 of a control:
 
-    Form.email { id = "my-email-input", description = "" }
+    Form.email { id = "my-email-input", description = "A description" }
         []
         [ ( Elements.description
           , Html.text "My custom description"
@@ -39,6 +40,8 @@ of a control:
 
 -}
 
+import Html.Styled as H exposing (Html)
+import Html.Styled.Attributes as H
 import Widgets.Form.Internal.Elements as Internal
 
 
@@ -120,3 +123,21 @@ whole control.
 label : Element
 label =
     Internal.Label
+
+
+{-| A helper useful for creating simple options for select controls.
+
+    Form.select { id = "my-select", description = "A description" }
+        []
+        [ Elements.option { selected = True, text = "One", value = "1" }
+        , Elements.option { selected = True, text = "Two", value = "2" }
+        , Elements.option { selected = True, text = "Three", value = "1" }
+        , Elements.option { selected = True, text = "Over 9000", value = "9001" }
+        ]
+
+-}
+option : { selected : Bool, text : String, value : String } -> ( Element, Html msg )
+option { selected, text, value } =
+    ( Internal.Control
+    , H.option [ H.selected selected, H.value value ] [ H.text text ]
+    )
