@@ -484,6 +484,20 @@ select =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "select" ]
                     |> Q.has [ S.attribute <| Html.required True ]
+        , T.test "placeholder adds a selected and disabled option" <|
+            \() ->
+                Form.select { id = "id", description = "desc" }
+                    [ Form.placeholder "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "select" ]
+                    |> Q.children [ S.tag "option" ]
+                    |> Q.first
+                    |> Q.has
+                        [ S.text "foobar"
+                        , S.attribute <| Html.selected True
+                        , S.attribute <| Html.disabled True
+                        ]
         ]
 
 
