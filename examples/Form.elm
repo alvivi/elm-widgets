@@ -261,6 +261,33 @@ view model =
                         , ( Elements.control, H.option [] [ H.text "three" ] )
                         ]
                   )
+                , ( "Select with placeholder"
+                  , Form.select
+                        { id = "select-placeholder"
+                        , description = "select"
+                        }
+                        [ Form.placeholder "placeholder" ]
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                        , ( Elements.control, H.option [] [ H.text "one" ] )
+                        , ( Elements.control, H.option [] [ H.text "two" ] )
+                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        ]
+                  , Form.select
+                        { id = "themed-select-placeholder"
+                        , description = "select"
+                        }
+                        [ Theme.select
+                        , Form.placeholder "placeholder"
+                        , focused "themed-select-placeholder" model
+                        , Form.onBlur <| OnBlur "themed-select-placeholder"
+                        , Form.onFocus <| OnFocus "themed-select-placeholder"
+                        ]
+                        [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                        , ( Elements.control, H.option [] [ H.text "one" ] )
+                        , ( Elements.control, H.option [] [ H.text "two" ] )
+                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        ]
+                  )
                 ]
             ]
         ]
