@@ -267,10 +267,10 @@ view model =
                         , description = "select"
                         }
                         [ Form.placeholder "placeholder" ]
-                        [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
-                        , ( Elements.control, H.option [] [ H.text "one" ] )
-                        , ( Elements.control, H.option [] [ H.text "two" ] )
-                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        [ Elements.option { selected = False, text = "One", value = "1" }
+                        , Elements.option { selected = False, text = "Two", value = "2" }
+                        , Elements.option { selected = False, text = "Three", value = "3" }
+                        , Elements.option { selected = False, text = "Over 900", value = "9001" }
                         ]
                   , Form.select
                         { id = "themed-select-placeholder"
@@ -283,9 +283,10 @@ view model =
                         , Form.onFocus <| OnFocus "themed-select-placeholder"
                         ]
                         [ ( Elements.icon, fromUnstyled <| FontAwesome.caret_square_down )
-                        , ( Elements.control, H.option [] [ H.text "one" ] )
-                        , ( Elements.control, H.option [] [ H.text "two" ] )
-                        , ( Elements.control, H.option [] [ H.text "three" ] )
+                        , Elements.option { selected = False, text = "One", value = "1" }
+                        , Elements.option { selected = False, text = "Two", value = "2" }
+                        , Elements.option { selected = False, text = "Three", value = "3" }
+                        , Elements.option { selected = False, text = "Over 900", value = "9001" }
                         ]
                   )
                 ]
