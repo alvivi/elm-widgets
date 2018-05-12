@@ -277,7 +277,7 @@ select { id, description } attrs elements =
 
 
 
--- Elements Rendering --
+-- Common Elements --
 
 
 labelView : Context msg -> KeywordList (Html msg) -> Html msg
@@ -376,6 +376,10 @@ iconView { iconCss, iconHtml, type_ } =
                     (Array.toList iconHtml)
 
 
+
+-- Inputs Control --
+
+
 inputView : Context msg -> KeywordList (Html msg)
 inputView ctx =
     K.one <|
@@ -409,6 +413,10 @@ inputView ctx =
             (Array.toList ctx.controlHtml)
 
 
+
+-- Select Control --
+
+
 selectView : Context msg -> KeywordList (Html msg)
 selectView ctx =
     let
@@ -440,7 +448,26 @@ selectView ctx =
                     , K.many <| Array.toList ctx.controlAttrs
                     ]
                 )
-                (Array.toList ctx.controlHtml)
+                (K.fromMany
+                    [ selectPlaceholderView ctx
+                    , K.many <| Array.toList ctx.controlHtml
+                    ]
+                )
+
+
+selectPlaceholderView : Context msg -> KeywordList (Html msg)
+selectPlaceholderView ctx =
+    case ctx.placeholder of
+        Nothing ->
+            K.zero
+
+        Just title ->
+            K.one <|
+                H.option
+                    [ H.disabled True
+                    , H.selected True
+                    ]
+                    [ H.text title ]
 
 
 
