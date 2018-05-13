@@ -270,7 +270,7 @@ view model =
                         [ Elements.option { selected = False, text = "One", value = "1" }
                         , Elements.option { selected = False, text = "Two", value = "2" }
                         , Elements.option { selected = False, text = "Three", value = "3" }
-                        , Elements.option { selected = False, text = "Over 900", value = "9001" }
+                        , Elements.option { selected = False, text = "Over 9000", value = "9001" }
                         ]
                   , Form.select
                         { id = "themed-select-placeholder"
@@ -286,8 +286,22 @@ view model =
                         , Elements.option { selected = False, text = "One", value = "1" }
                         , Elements.option { selected = False, text = "Two", value = "2" }
                         , Elements.option { selected = False, text = "Three", value = "3" }
-                        , Elements.option { selected = False, text = "Over 900", value = "9001" }
+                        , Elements.option { selected = False, text = "Over 9000", value = "9001" }
                         ]
+                  )
+                , ( "Textarea"
+                  , Form.textarea
+                        { id = "textarea"
+                        , description = "current password"
+                        }
+                        []
+                        []
+                  , Form.textarea
+                        { id = "themed-textarea"
+                        , description = "current password"
+                        }
+                        [ Theme.input ]
+                        []
                   )
                 ]
             ]
