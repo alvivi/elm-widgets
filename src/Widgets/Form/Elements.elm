@@ -36,7 +36,7 @@ of a control:
           )
         ]
 
-@docs Element, control, description, error, icon, label
+@docs Element, control, description, error, icon, label, option
 
 -}
 
