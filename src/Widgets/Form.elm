@@ -13,6 +13,7 @@ module Widgets.Form
         , select
         , submit
         , text
+        , textarea
         )
 
 {-| Form controls following ARIA recommendations.
@@ -20,7 +21,7 @@ module Widgets.Form
 
 # Controls
 
-@docs button, email, input, link, text, select
+@docs button, email, input, link, text, select, textarea
 
 
 ## Semantic Wrappers
@@ -276,6 +277,26 @@ select { id, description } attrs elements =
         labelView ctx <| K.group [ selectView ctx, errorView ctx, iconView ctx ]
 
 
+{-| A textarea control. An `id` and a `description` is always required.
+-}
+textarea :
+    { id : String, description : String }
+    -> List (Attribute msg)
+    -> List ( Element, Html msg )
+    -> Html msg
+textarea { id, description } attrs elements =
+    let
+        ctx =
+            Context.empty
+                |> Context.setDescription description
+                |> Context.setId id
+                |> Context.setType "textarea"
+                |> Context.insertElements elements
+                |> Context.insertAttributes attrs
+    in
+        labelView ctx <| K.group [ textareaView ctx, errorView ctx, iconView ctx ]
+
+
 
 -- Common Elements --
 
@@ -468,6 +489,43 @@ selectPlaceholderView ctx =
                     , H.selected True
                     ]
                     [ H.text title ]
+
+
+
+-- Textarea Control --
+
+
+textareaView : Context msg -> KeywordList (Html msg)
+textareaView ctx =
+    -- NOTE: Maybe refactor textareaView and inputView together?
+    K.one <|
+        H.textarea
+            (K.fromMany
+                [ K.one <| H.id <| elementId ctx.id Element.Control
+                , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
+                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
+                , K.ifTrue ctx.disabled <| H.disabled True
+                , K.ifTrue ctx.required <| H.required True
+                , K.maybeMap (H.attribute "autocomplete") ctx.autocomplete
+                , K.maybeMap H.onBlur ctx.onBlur
+                , K.maybeMap H.onClick ctx.onClick
+                , K.maybeMap H.onFocus ctx.onFocus
+                , K.maybeMap H.onInput ctx.onInput
+                , K.maybeMap H.placeholder ctx.placeholder
+                , K.maybeMap H.value ctx.value
+                , K.one <|
+                    H.css <|
+                        K.fromMany
+                            [ K.many <| Array.toList ctx.controlCss
+                            , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                            , K.one <| C.width <| C.pct 100
+                            , K.maybeMap C.paddingLeft <| iconPadding ctx
+                            ]
+                , K.many <| Array.toList ctx.controlAttrs
+                ]
+            )
+            (Array.toList ctx.controlHtml)
 
 
 
