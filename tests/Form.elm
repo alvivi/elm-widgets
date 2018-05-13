@@ -501,6 +501,132 @@ select =
         ]
 
 
+textarea : Test
+textarea =
+    T.describe "Textarea Element"
+        [ T.test "Has the provided id" <|
+            \() ->
+                Form.textarea { id = "foo", description = "desc" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.id "foo" ]
+        , T.test "Contains the description in ARIA label attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "descriptionLabel attribute disables ARIA label attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "foobar" }
+                    [ Form.descriptionLabel ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "Custom description html disables ARIA label attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "foobar" }
+                    []
+                    [ ( Elements.description, H.text "desc" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.hasNot [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "Has custom textarea html" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    []
+                    [ ( Elements.control, H.text "foobar" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.contains [ Html.text "foobar" ]
+        , T.test "onBlur attribute sets a blur event handler" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.onBlur OnBlur ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> E.simulate E.blur
+                    |> E.expect OnBlur
+        , T.test "onClick attribute sets a click event handler" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.onClick OnClick ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> E.simulate E.click
+                    |> E.expect OnClick
+        , T.test "onFocus attribute sets a focus event handler" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.onFocus OnFocus ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> E.simulate E.focus
+                    |> E.expect OnFocus
+        , T.test "onInput attribute sets an input event handler" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.onInput OnInput ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> E.simulate (E.input "foobar")
+                    |> E.expect (OnInput "foobar")
+        , T.test "disabled sets html disabled attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.disabled ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.disabled True ]
+        , T.test "placeholder attribute sets html placeholder attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.placeholder "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
+        , T.test "required attribute sets html required attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.required ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        , T.test "value attribute sets html value attribute" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.value "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.value "foobar" ]
+        , T.test "custom html attributes are set" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.html Elements.control [ H.attribute "foo" "bar" ] ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        , T.test "Applies `whenHasType \"textarea\" attributes" <|
+            \() ->
+                Form.textarea { id = "id", description = "desc" }
+                    [ Form.whenHasType "textarea" [ Form.required ] ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "textarea" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        ]
+
+
 
 -- Elements --
 
