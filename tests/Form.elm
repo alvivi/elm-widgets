@@ -89,6 +89,24 @@ form =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
+        , T.test "Applies `whenHasDescriptionLabel` attributes when descriptionLabel attribute is present" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "foo" }
+                    [ Form.whenHasDescriptionLabel [ Form.placeholder "foobar" ]
+                    , Form.descriptionLabel
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
+        , T.test "Applies `whenHasDescriptionLabel` attributes when a custom label is provided" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "foo" }
+                    [ Form.whenHasDescriptionLabel [ Form.placeholder "foobar" ] ]
+                    [ ( Elements.description, H.text "to the moon" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.placeholder "foobar" ]
         , T.test "Applies `whenHasIcon` attributes when control has an icon" <|
             \() ->
                 Form.input { id = "id", description = "desc", type_ = "text" }
