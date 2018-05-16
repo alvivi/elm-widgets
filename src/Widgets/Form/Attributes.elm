@@ -18,6 +18,7 @@ module Widgets.Form.Attributes
         , value
         , whenErred
         , whenFocused
+        , whenHasDescriptionLabel
         , whenHasIcon
         , whenHasType
         )
@@ -39,7 +40,7 @@ module Widgets.Form.Attributes
 
 # Attribute Modifiers
 
-@docs whenErred, whenFocused, whenHasIcon, whenHasType
+@docs whenErred, whenFocused, whenHasDescriptionLabel, whenHasIcon, whenHasType
 
 -}
 
@@ -179,6 +180,15 @@ attribute with css to add style to some elements when the control is focused.
 whenFocused : List (Attribute msg) -> Attribute msg
 whenFocused =
     A.WhenFocused
+
+
+{-| Applies attributes when the control has a description label. This can be
+applied when you provide the `descriptionLabel` to a control, or adding a
+custom label element.
+-}
+whenHasDescriptionLabel : List (Attribute msg) -> Attribute msg
+whenHasDescriptionLabel =
+    A.WhenHasDescriptionLabel
 
 
 {-| Applies attributes only when the control has an icon. Useful for building

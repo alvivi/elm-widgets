@@ -162,6 +162,9 @@ setAttribute attr ctx =
         Attributes.WhenFocused _ ->
             ctx
 
+        Attributes.WhenHasDescriptionLabel _ ->
+            ctx
+
         Attributes.WhenHasIcon _ ->
             ctx
 
@@ -186,6 +189,12 @@ setAttributeModifiers attr ctx =
                 insertAttributes focusedAttrs ctx
             else
                 ctx
+
+        Attributes.WhenHasDescriptionLabel descAttrs ->
+            if Array.isEmpty ctx.descriptionHtml && not ctx.descriptionLabel then
+                ctx
+            else
+                insertAttributes descAttrs ctx
 
         Attributes.WhenHasIcon iconAttrs ->
             if Array.isEmpty ctx.iconHtml then
