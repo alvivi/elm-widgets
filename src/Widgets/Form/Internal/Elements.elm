@@ -10,16 +10,7 @@ module Widgets.Form.Internal.Elements
         , id
         )
 
-{-| This module provides a type for referencing each of the element which are
-part of the form controls.
 
-@docs Element
-
--}
-
-
-{-| Identifies each sub element of a Form control.
--}
 type Element
     = Control
     | Description
@@ -28,8 +19,6 @@ type Element
     | Label
 
 
-{-| Returns an identifier as a string.
--}
 id : String -> Element -> String
 id base subElement =
     case subElement of
