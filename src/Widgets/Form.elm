@@ -304,7 +304,7 @@ textarea { id, description } attrs elements =
 labelView : Context msg -> KeywordList (Html msg) -> Html msg
 labelView ctx content =
     H.label
-        [ H.id <| elementId ctx.id Element.Label
+        [ H.id <| Element.id ctx.id Element.Label
         , H.css <|
             K.fromMany
                 [ K.one <| C.position C.relative
@@ -343,7 +343,7 @@ errorView ctx =
     K.one <|
         H.em
             [ Aria.role Aria.Alert
-            , H.id <| elementId ctx.id Element.Error
+            , H.id <| Element.id ctx.id Element.Error
             , H.css <| Array.toList ctx.errorCss
             ]
             (if Array.isEmpty ctx.errorHtml then
@@ -406,9 +406,9 @@ inputView ctx =
     K.one <|
         H.input
             (K.fromMany
-                [ K.one <| H.id <| elementId ctx.id Element.Control
+                [ K.one <| H.id <| Element.id ctx.id Element.Control
                 , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
-                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ Element.id ctx.id Element.Error ]
                 , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
                 , K.ifTrue ctx.disabled <| H.disabled True
                 , K.ifTrue ctx.required <| H.required True
@@ -447,9 +447,9 @@ selectView ctx =
         K.one <|
             H.select
                 (K.fromMany
-                    [ K.one <| H.id <| elementId ctx.id Element.Control
+                    [ K.one <| H.id <| Element.id ctx.id Element.Control
                     , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
-                    , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                    , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ Element.id ctx.id Element.Error ]
                     , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
                     , K.ifTrue ctx.disabled <| H.disabled True
                     , K.ifTrue ctx.required <| H.required True
@@ -501,9 +501,9 @@ textareaView ctx =
     K.one <|
         H.textarea
             (K.fromMany
-                [ K.one <| H.id <| elementId ctx.id Element.Control
+                [ K.one <| H.id <| Element.id ctx.id Element.Control
                 , K.ifTrue (Array.isEmpty <| labelContentView ctx) (Aria.label ctx.description)
-                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ elementId ctx.id Element.Error ]
+                , K.ifTrue (Context.hasError ctx) <| Aria.describedBy [ Element.id ctx.id Element.Error ]
                 , K.ifTrue (Context.hasError ctx) <| Aria.invalid Aria.Invalid
                 , K.ifTrue ctx.disabled <| H.disabled True
                 , K.ifTrue ctx.required <| H.required True
@@ -554,26 +554,3 @@ iconPadding { iconCss, iconHtml } =
     else
         Just <|
             C.px (iconSide.numericValue + iconPaddingHorizontal.numericValue)
-
-
-
--- Helpers --
-
-
-elementId : String -> Element -> String
-elementId base subElement =
-    case subElement of
-        Element.Control ->
-            base
-
-        Element.Description ->
-            base ++ "__description"
-
-        Element.Error ->
-            base ++ "__error"
-
-        Element.Icon ->
-            base ++ "__icon"
-
-        Element.Label ->
-            base ++ "__label"

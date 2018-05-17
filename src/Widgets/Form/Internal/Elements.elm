@@ -7,6 +7,7 @@ module Widgets.Form.Internal.Elements
             , Icon
             , Label
             )
+        , id
         )
 
 {-| This module provides a type for referencing each of the element which are
@@ -25,3 +26,24 @@ type Element
     | Error
     | Icon
     | Label
+
+
+{-| Returns an identifier as a string.
+-}
+id : String -> Element -> String
+id base subElement =
+    case subElement of
+        Control ->
+            base
+
+        Description ->
+            base ++ "__description"
+
+        Error ->
+            base ++ "__error"
+
+        Icon ->
+            base ++ "__icon"
+
+        Label ->
+            base ++ "__label"
