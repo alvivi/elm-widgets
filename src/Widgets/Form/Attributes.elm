@@ -109,7 +109,7 @@ focused =
     A.Focused
 
 
-{-| Sets the control as focused
+{-| Sets a custom set of HTML attributes to an Element of the controls.
 -}
 html : Element -> List (H.Attribute msg) -> Attribute msg
 html =
