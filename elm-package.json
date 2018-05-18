@@ -10,6 +10,9 @@
         "Widgets.Form",
         "Widgets.Form.Attributes",
         "Widgets.Form.Elements",
+        "Widgets.ListBox",
+        "Widgets.ListBox.Attributes",
+        "Widgets.ListBox.Elements",
         "Widgets.Normalize",
         "Widgets.Themes.Mint"
     ],
