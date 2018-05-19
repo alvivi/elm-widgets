@@ -51,7 +51,8 @@ listBox { id } attrs elements =
     in
         H.div
             (K.fromMany
-                [ K.one <| H.css <| Array.toList ctx.wrapperCss
+                [ K.one <| H.id <| Elements.id id Elements.Wrapper
+                , K.one <| H.css <| Array.toList ctx.wrapperCss
                 , K.many <| Array.toList ctx.wrapperAttrs
                 ]
             )
