@@ -3,6 +3,7 @@ module Widgets.ListBox.Internal.Attributes
         ( Attribute
             ( Css
             , DescriptionLabel
+            , Expanded
             , Html
             , Placeholder
             )
@@ -16,5 +17,6 @@ import Html.Styled as H
 type Attribute msg
     = Css Element Style
     | DescriptionLabel
+    | Expanded
     | Html Element (List (H.Attribute msg))
     | Placeholder String

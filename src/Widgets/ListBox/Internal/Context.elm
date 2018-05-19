@@ -26,6 +26,7 @@ type alias Context msg =
     , descriptionCss : Array Style
     , descriptionHtml : Array (Html msg)
     , descriptionLabel : Bool
+    , expanded : Bool
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
@@ -46,6 +47,7 @@ empty =
     , descriptionCss = Array.empty
     , descriptionHtml = Array.empty
     , descriptionLabel = False
+    , expanded = False
     , id = ""
     , listAttrs = Array.empty
     , listCss = Array.empty
@@ -99,6 +101,9 @@ setAttribute attr ctx =
 
         Attributes.DescriptionLabel ->
             { ctx | descriptionLabel = True }
+
+        Attributes.Expanded ->
+            { ctx | expanded = True }
 
         Attributes.Html element css ->
             setHtmlAttributes element css ctx

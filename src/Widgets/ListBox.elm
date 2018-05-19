@@ -74,6 +74,7 @@ buttonView ctx =
                     [ Aria.hasPopup Popup.Dialog
                     , H.id <| Elements.id ctx.id Elements.Button
                     ]
+                , K.ifTrue ctx.expanded (Aria.expanded True)
                 , K.many <| Array.toList ctx.buttonAttrs
                 , labelAttributes ctx
                 ]

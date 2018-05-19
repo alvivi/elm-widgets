@@ -3,6 +3,7 @@ module Widgets.ListBox.Attributes
         ( Attribute
         , css
         , descriptionLabel
+        , expanded
         , html
         , placeholder
         )
@@ -14,7 +15,7 @@ module Widgets.ListBox.Attributes
 
 # Properties
 
-@docs css, descriptionLabel, html, placeholder
+@docs css, descriptionLabel, expanded, html, placeholder
 
 -}
 
@@ -43,6 +44,14 @@ own custom description element.
 descriptionLabel : Attribute msg
 descriptionLabel =
     A.DescriptionLabel
+
+
+{-| Set the ListBox as expanded, showing its options and allowing the user to
+choose one or several of them.
+-}
+expanded : Attribute msg
+expanded =
+    A.Expanded
 
 
 {-| Sets a custom set of HTML attributes to an Element of the ListBox widget.
