@@ -10,7 +10,8 @@ import Widgets.ListBox.Elements as ListBox
 
 view : Model -> Html msg
 view model =
-    Widgets.listBox { id = "listbox" }
+    Widgets.listBox { id = "listbox", description = "A listbox example" }
+        []
         [ ListBox.textOption "one"
         , ListBox.textOption "two"
         , ListBox.textOption "three"
