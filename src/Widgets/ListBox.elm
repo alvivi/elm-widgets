@@ -80,7 +80,11 @@ buttonView ctx =
             )
         , Form.css Form.control (Array.toList ctx.buttonCss)
         ]
-        (Array.toList ctx.buttonHtml)
+        (if Array.isEmpty ctx.buttonHtml then
+            [ H.text ctx.description ]
+         else
+            Array.toList ctx.buttonHtml
+        )
 
 
 descriptionView : Context msg -> KeywordList (Html msg)
