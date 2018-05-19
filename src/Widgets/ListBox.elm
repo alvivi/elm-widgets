@@ -18,7 +18,7 @@ import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Attributes.Aria.Popup as Popup
 import Html.Styled.Attributes.Aria.Role as Role
-import KeywordList as K
+import KeywordList as K exposing (KeywordList)
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
 import Widgets.Form.Elements as Form
@@ -40,12 +40,13 @@ further personalization.
         ]
 
 -}
-listBox : { id : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg
-listBox { id } attrs elements =
+listBox : { id : String, description : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg
+listBox { id, description } attrs elements =
     let
         ctx =
             Context.empty
                 |> Context.setId id
+                |> Context.setDescription description
                 |> Context.insertElements elements
                 |> Context.insertAttributes attrs
     in
@@ -56,9 +57,12 @@ listBox { id } attrs elements =
                 , K.many <| Array.toList ctx.wrapperAttrs
                 ]
             )
-            [ buttonView ctx
-            , listView ctx
-            ]
+            (K.fromMany
+                [ descriptionView ctx
+                , K.one <| buttonView ctx
+                , K.one <| listView ctx
+                ]
+            )
 
 
 buttonView : Context msg -> Html msg
@@ -68,10 +72,10 @@ buttonView ctx =
             (K.fromMany
                 [ K.many
                     [ Aria.hasPopup Popup.Dialog
-                    , Aria.labeledBy [ ctx.id ]
                     , H.id <| Elements.id ctx.id Elements.Button
                     ]
                 , K.many <| Array.toList ctx.buttonAttrs
+                , labelAttributes ctx
                 ]
             )
         , Form.css Form.control (Array.toList ctx.buttonCss)
@@ -79,13 +83,32 @@ buttonView ctx =
         (Array.toList ctx.buttonHtml)
 
 
+descriptionView : Context msg -> KeywordList (Html msg)
+descriptionView ctx =
+    if Context.hasDescriptionVisible ctx then
+        K.one <|
+            H.span
+                (K.fromMany
+                    [ K.one <| H.id <| Elements.id ctx.id Elements.Description
+                    , K.ifFalse (Array.isEmpty ctx.descriptionCss) (H.css <| Array.toList ctx.descriptionCss)
+                    , K.many <| Array.toList ctx.descriptionAttrs
+                    ]
+                )
+                (if Array.isEmpty ctx.descriptionHtml then
+                    [ H.text ctx.description ]
+                 else
+                    Array.toList ctx.descriptionHtml
+                )
+    else
+        K.zero
+
+
 listView : Context msg -> Html msg
 listView ctx =
     H.ul
         (K.fromMany
             [ K.many
-                [ Aria.labeledBy [ ctx.id ]
-                , Aria.role Role.Listbox
+                [ Aria.role Role.Listbox
                 , H.id <| Elements.id ctx.id Elements.List
                 , H.tabindex -1
                 , H.css
@@ -96,20 +119,25 @@ listView ctx =
                     )
                 ]
             , K.many <| Array.toList ctx.listAttrs
+            , labelAttributes ctx
             ]
         )
         (Array.foldr
             (\option list ->
-                (H.li
-                    [ H.css
-                        [ C.listStyleType C.none
-                        ]
-                    ]
-                    [ option
-                    ]
-                )
-                    :: list
+                (H.li [ H.css [ C.listStyleType C.none ] ] [ option ]) :: list
             )
             []
             ctx.optionsHtml
         )
+
+
+labelAttributes : Context msg -> KeywordList (H.Attribute msg)
+labelAttributes ctx =
+    K.group
+        [ K.ifTrue (Context.hasDescriptionVisible ctx)
+            (Aria.labeledBy
+                [ Elements.id ctx.id Elements.Description
+                ]
+            )
+        , K.ifFalse (Context.hasDescriptionVisible ctx) (Aria.label ctx.description)
+        ]

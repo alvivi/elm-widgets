@@ -2,8 +2,10 @@ module Widgets.ListBox.Internal.Context
     exposing
         ( Context
         , empty
+        , hasDescriptionVisible
         , insertAttributes
         , insertElements
+        , setDescription
         , setId
         )
 
@@ -18,6 +20,11 @@ type alias Context msg =
     { buttonAttrs : Array (H.Attribute msg)
     , buttonCss : Array Style
     , buttonHtml : Array (Html msg)
+    , description : String
+    , descriptionAttrs : Array (H.Attribute msg)
+    , descriptionCss : Array Style
+    , descriptionHtml : Array (Html msg)
+    , descriptionLabel : Bool
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
@@ -32,6 +39,11 @@ empty =
     { buttonAttrs = Array.empty
     , buttonCss = Array.empty
     , buttonHtml = Array.empty
+    , description = ""
+    , descriptionAttrs = Array.empty
+    , descriptionCss = Array.empty
+    , descriptionHtml = Array.empty
+    , descriptionLabel = False
     , id = ""
     , listAttrs = Array.empty
     , listCss = Array.empty
@@ -41,9 +53,19 @@ empty =
     }
 
 
+setDescription : String -> Context msg -> Context msg
+setDescription description context =
+    { context | description = description }
+
+
 setId : String -> Context msg -> Context msg
 setId id context =
     { context | id = id }
+
+
+hasDescriptionVisible : Context msg -> Bool
+hasDescriptionVisible { descriptionLabel, descriptionHtml } =
+    descriptionLabel || not (Array.isEmpty descriptionHtml)
 
 
 insertAttributes : List (Attribute msg) -> Context msg -> Context msg
@@ -64,6 +86,9 @@ setAttribute attr ctx =
         Attributes.Css element css ->
             setCss element css ctx
 
+        Attributes.DescriptionLabel ->
+            { ctx | descriptionLabel = True }
+
         Attributes.Html element css ->
             setHtmlAttributes element css ctx
 
@@ -73,6 +98,9 @@ setCss element css ctx =
     case element of
         Elements.Button ->
             { ctx | buttonCss = Array.push css ctx.buttonCss }
+
+        Elements.Description ->
+            { ctx | descriptionCss = Array.push css ctx.descriptionCss }
 
         Elements.List ->
             { ctx | listCss = Array.push css ctx.listCss }
@@ -93,6 +121,9 @@ setElement ( element, html ) ctx =
     case element of
         Elements.Button ->
             { ctx | buttonHtml = Array.push html ctx.buttonHtml }
+
+        Elements.Description ->
+            { ctx | descriptionHtml = Array.push html ctx.descriptionHtml }
 
         Elements.List ->
             let
@@ -117,6 +148,9 @@ setHtmlAttributes element attrs ctx =
     case element of
         Elements.Button ->
             { ctx | buttonAttrs = Array.append (Array.fromList attrs) ctx.buttonAttrs }
+
+        Elements.Description ->
+            { ctx | descriptionAttrs = Array.append (Array.fromList attrs) ctx.descriptionAttrs }
 
         Elements.List ->
             { ctx | listAttrs = Array.append (Array.fromList attrs) ctx.listAttrs }

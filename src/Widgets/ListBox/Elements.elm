@@ -2,6 +2,7 @@ module Widgets.ListBox.Elements
     exposing
         ( Element
         , button
+        , description
         , option
         , textButton
         , textOption
@@ -18,7 +19,7 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, option, textOption
+@docs Element, button, textButton, description, option, textOption
 
 -}
 
@@ -43,6 +44,16 @@ When adding style to a button element it will be added to the button itself.
 button : Element
 button =
     Internal.Button
+
+
+{-| The description of the ListBox. By default the description is set as an ARIA
+attribute unless the `descriptionLabel` is set. When the description is shown,
+we can use `css` and `html` attributes with this elements to customize this
+element. Also, we can add custom description node.
+-}
+description : Element
+description =
+    Internal.Description
 
 
 {-| An option of the ListBox.

@@ -2,6 +2,7 @@ module Widgets.ListBox.Attributes
     exposing
         ( Attribute
         , css
+        , descriptionLabel
         , html
         )
 
@@ -12,7 +13,7 @@ module Widgets.ListBox.Attributes
 
 # Properties
 
-@docs css, html
+@docs css, descriptionLabel, html
 
 -}
 
@@ -33,6 +34,14 @@ type alias Attribute msg =
 css : Element -> List Style -> Attribute msg
 css element style =
     A.Css element <| Css.batch style
+
+
+{-| Show the description as text. Note that this overridden if you provide your
+own custom description element.
+-}
+descriptionLabel : Attribute msg
+descriptionLabel =
+    A.DescriptionLabel
 
 
 {-| Sets a custom set of HTML attributes to an Element of the ListBox widget.

@@ -2,6 +2,7 @@ module Widgets.ListBox.Internal.Attributes
     exposing
         ( Attribute
             ( Css
+            , DescriptionLabel
             , Html
             )
         )
@@ -13,4 +14,5 @@ import Html.Styled as H
 
 type Attribute msg
     = Css Element Style
+    | DescriptionLabel
     | Html Element (List (H.Attribute msg))
