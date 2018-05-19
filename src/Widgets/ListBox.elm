@@ -81,10 +81,26 @@ buttonView ctx =
         , Form.css Form.control (Array.toList ctx.buttonCss)
         ]
         (if Array.isEmpty ctx.buttonHtml then
-            [ H.text ctx.description ]
+            [ H.text <| buttonText ctx ]
          else
             Array.toList ctx.buttonHtml
         )
+
+
+buttonText : Context msg -> String
+buttonText ctx =
+    ctx
+        |> Context.selected
+        |> Maybe.map .text
+        |> Maybe.withDefault
+            (ctx.placeholder
+                |> Maybe.withDefault
+                    (ctx.options
+                        |> Array.get 0
+                        |> Maybe.map (Tuple.first >> .text)
+                        |> Maybe.withDefault ctx.description
+                    )
+            )
 
 
 descriptionView : Context msg -> KeywordList (Html msg)

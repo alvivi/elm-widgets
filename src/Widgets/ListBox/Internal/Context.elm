@@ -30,6 +30,7 @@ type alias Context msg =
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
     , options : Array ( OptionData, Html msg )
+    , placeholder : Maybe String
     , wrapperAttrs : Array (H.Attribute msg)
     , wrapperCss : Array Style
     }
@@ -49,6 +50,7 @@ empty =
     , listAttrs = Array.empty
     , listCss = Array.empty
     , options = Array.empty
+    , placeholder = Nothing
     , wrapperAttrs = Array.empty
     , wrapperCss = Array.empty
     }
@@ -100,6 +102,9 @@ setAttribute attr ctx =
 
         Attributes.Html element css ->
             setHtmlAttributes element css ctx
+
+        Attributes.Placeholder placeholder ->
+            { ctx | placeholder = Just placeholder }
 
 
 setCss : Element -> Style -> Context msg -> Context msg

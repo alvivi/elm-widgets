@@ -4,6 +4,7 @@ module Widgets.ListBox.Attributes
         , css
         , descriptionLabel
         , html
+        , placeholder
         )
 
 {-| Attributes for ListBox widgets.
@@ -13,7 +14,7 @@ module Widgets.ListBox.Attributes
 
 # Properties
 
-@docs css, descriptionLabel, html
+@docs css, descriptionLabel, html, placeholder
 
 -}
 
@@ -49,3 +50,11 @@ descriptionLabel =
 html : Element -> List (H.Attribute msg) -> Attribute msg
 html =
     A.Html
+
+
+{-| Sets a placeholder text that will be shown as the button text when no
+options is selected. Note that a custom button node overrides this attribute.
+-}
+placeholder : String -> Attribute msg
+placeholder =
+    A.Placeholder
