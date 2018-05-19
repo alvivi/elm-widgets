@@ -15,6 +15,34 @@ import Widgets.ListBox.Elements as ListBox
 
 elements : Test
 elements =
+    T.describe "ListBox Widget elements"
+        [ T.test "Wrapper element has the provided id" <|
+            \() ->
+                Widgets.listBox { id = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.id "foobar" ]
+        ]
+
+
+attributes : Test
+attributes =
+    T.describe "ListBox Widget attributes"
+        [ T.test "`html ListBox.button` adds custom attributes to the button" <|
+            \() ->
+                Widgets.listBox { id = "id" }
+                    [ ListBox.html ListBox.button
+                        [ H.required True
+                        ]
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        ]
+
+
+nodes : Test
+nodes =
     T.describe "ListBox Widget custom nodes"
         [ T.test "Adds button children nodes" <|
             \() ->
@@ -35,21 +63,4 @@ elements =
                         [ Q.first >> Q.contains [ Html.text "first" ]
                         , Q.index 1 >> Q.contains [ Html.text "second" ]
                         ]
-        ]
-
-
-attributes : Test
-attributes =
-    T.describe "ListBox Widgets attributes"
-        [ T.test "`html ListBox.button` adds custom attributes to the button" <|
-            \() ->
-                Widgets.listBox { id = "id" }
-                    [ ListBox.html ListBox.button
-                        [ H.required True
-                        ]
-                    ]
-                    []
-                    |> Helpers.fromStyledHtml
-                    |> Q.find [ S.tag "button" ]
-                    |> Q.has [ S.attribute <| Html.required True ]
         ]
