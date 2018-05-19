@@ -12,10 +12,10 @@ view : Model -> Html msg
 view model =
     Widgets.listBox { id = "listbox", description = "A listbox example" }
         []
-        [ ListBox.textOption "one"
-        , ListBox.textOption "two"
-        , ListBox.textOption "three"
-        , ListBox.textOption "over 9000"
+        [ ListBox.textOption { selected = False, text = "one", id = "1" }
+        , ListBox.textOption { selected = False, text = "two", id = "2" }
+        , ListBox.textOption { selected = False, text = "three", id = "3" }
+        , ListBox.textOption { selected = False, text = "over 9000", id = "9001" }
         ]
 
 

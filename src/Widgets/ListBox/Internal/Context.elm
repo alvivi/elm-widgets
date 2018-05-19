@@ -13,7 +13,7 @@ import Array exposing (Array)
 import Css exposing (Style)
 import Html.Styled as H exposing (Html)
 import Widgets.ListBox.Internal.Attributes as Attributes exposing (Attribute)
-import Widgets.ListBox.Internal.Elements as Elements exposing (Element)
+import Widgets.ListBox.Internal.Elements as Elements exposing (Element, OptionData)
 
 
 type alias Context msg =
@@ -28,7 +28,7 @@ type alias Context msg =
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
-    , optionsHtml : Array (Html msg)
+    , optionsHtml : Array ( OptionData, Html msg )
     , wrapperAttrs : Array (H.Attribute msg)
     , wrapperCss : Array Style
     }
@@ -105,7 +105,7 @@ setCss element css ctx =
         Elements.List ->
             { ctx | listCss = Array.push css ctx.listCss }
 
-        Elements.Option ->
+        Elements.Option _ ->
             let
                 _ =
                     Debug.log "Warning" "Custom options css is not supported"
@@ -132,8 +132,8 @@ setElement ( element, html ) ctx =
             in
                 ctx
 
-        Elements.Option ->
-            { ctx | optionsHtml = Array.push html ctx.optionsHtml }
+        Elements.Option data ->
+            { ctx | optionsHtml = Array.push ( data, html ) ctx.optionsHtml }
 
         Elements.Wrapper ->
             let
@@ -155,7 +155,7 @@ setHtmlAttributes element attrs ctx =
         Elements.List ->
             { ctx | listAttrs = Array.append (Array.fromList attrs) ctx.listAttrs }
 
-        Elements.Option ->
+        Elements.Option _ ->
             let
                 _ =
                     Debug.log "Warning" "Custom HTML attributes are not supported"

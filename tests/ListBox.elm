@@ -141,8 +141,8 @@ nodes =
             \() ->
                 Widgets.listBox { id = "id", description = "desc" }
                     []
-                    [ ListBox.textOption "first"
-                    , ListBox.textOption "second"
+                    [ ListBox.textOption { selected = False, text = "first", id = "1" }
+                    , ListBox.textOption { selected = False, text = "second", id = "2" }
                     ]
                     |> Helpers.fromStyledHtml
                     |> Q.findAll [ S.tag "li" ]

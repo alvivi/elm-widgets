@@ -118,6 +118,7 @@ listView ctx =
                 , H.css
                     (K.fromMany
                         [ K.one <| C.paddingLeft C.zero
+                        , K.one <| C.listStyleType C.none
                         , K.many <| Array.toList ctx.listCss
                         ]
                     )
@@ -127,8 +128,8 @@ listView ctx =
             ]
         )
         (Array.foldr
-            (\option list ->
-                (H.li [ H.css [ C.listStyleType C.none ] ] [ option ]) :: list
+            (\( { selected, id }, content ) list ->
+                (H.li [ H.id id ] [ content ]) :: list
             )
             []
             ctx.optionsHtml

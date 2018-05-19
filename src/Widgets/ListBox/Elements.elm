@@ -61,10 +61,8 @@ description =
 When inserting a node tagged as option it will be added as children in option
 list.
 
-Does not support styling, nor custom HTML attributes.
-
 -}
-option : Element
+option : { selected : Bool, text : String, id : String } -> Element
 option =
     Internal.Option
 
@@ -88,12 +86,12 @@ textButton text =
 
     Form.listBox { id = "my-listbox" } []
         [ (Elements.button, H.text "Button Title")
-        , Elements.textOption "Option One"
-        , Elements.textOption "Option Two"
-        , Elements.textOption "Option Three"
+        , Elements.textOption { selected = True, text = "Option one", id = "one" }
+        , Elements.textOption { selected = False, text = "Option two", id = "two" }
+        , Elements.textOption { selected = False, text = "Option three", id = "three" }
         ]
 
 -}
-textOption : String -> ( Element, Html msg )
-textOption text =
-    ( Internal.Option, H.text text )
+textOption : { selected : Bool, text : String, id : String } -> ( Element, Html msg )
+textOption data =
+    ( Internal.Option data, H.text data.text )
