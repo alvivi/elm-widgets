@@ -65,6 +65,17 @@ elements =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "ul" ]
                     |> Q.has [ S.attribute <| Html.attribute "role" "listbox" ]
+        , T.test "List sets aria active descendant to the selected option" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    []
+                    [ ListBox.textOption { selected = False, id = "foo", text = "foo" }
+                    , ListBox.textOption { selected = True, id = "bar", text = "bar" }
+                    , ListBox.textOption { selected = False, id = "qux", text = "qux" }
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "ul" ]
+                    |> Q.has [ S.attribute <| Html.attribute "aria-activedescendant" "bar" ]
         ]
 
 
