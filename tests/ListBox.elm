@@ -53,6 +53,34 @@ elements =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "button" ]
                     |> Q.contains [ Html.text "foobar" ]
+        , T.test "Button has placeholder as children text if no option is selected" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    [ ListBox.placeholder "foobar" ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
+        , T.test "Button has first text option if there is no option selected" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    []
+                    [ ListBox.textOption { selected = False, id = "1", text = "foobar" }
+                    , ListBox.textOption { selected = False, id = "2", text = "qux" }
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
+        , T.test "Button has selected option text as children text node" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    []
+                    [ ListBox.textOption { selected = False, id = "1", text = "qux" }
+                    , ListBox.textOption { selected = True, id = "2", text = "foobar" }
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
         , T.test "List sets aria label attribute" <|
             \() ->
                 Widgets.listBox { id = "id", description = "foobar" } [] []
