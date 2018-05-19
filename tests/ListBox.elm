@@ -150,4 +150,13 @@ nodes =
                         [ Q.first >> Q.contains [ Html.text "first" ]
                         , Q.index 1 >> Q.contains [ Html.text "second" ]
                         ]
+        , T.test "option nodes keep provided id" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    []
+                    [ ListBox.textOption { selected = False, text = "text", id = "foobar" }
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "li" ]
+                    |> Q.has [ S.attribute <| Html.id "foobar" ]
         ]
