@@ -47,6 +47,12 @@ elements =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "button" ]
                     |> Q.has [ S.attribute <| Html.attribute "aria-label" "foobar" ]
+        , T.test "Button has description as children text if no button content is provided" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
         , T.test "List sets aria label attribute" <|
             \() ->
                 Widgets.listBox { id = "id", description = "foobar" } [] []
