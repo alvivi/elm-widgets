@@ -5,6 +5,7 @@ module Widgets.ListBox.Internal.Context
         , hasDescriptionVisible
         , insertAttributes
         , insertElements
+        , selected
         , setDescription
         , setId
         )
@@ -28,7 +29,7 @@ type alias Context msg =
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
-    , optionsHtml : Array ( OptionData, Html msg )
+    , options : Array ( OptionData, Html msg )
     , wrapperAttrs : Array (H.Attribute msg)
     , wrapperCss : Array Style
     }
@@ -47,7 +48,7 @@ empty =
     , id = ""
     , listAttrs = Array.empty
     , listCss = Array.empty
-    , optionsHtml = Array.empty
+    , options = Array.empty
     , wrapperAttrs = Array.empty
     , wrapperCss = Array.empty
     }
@@ -61,6 +62,14 @@ setDescription description context =
 setId : String -> Context msg -> Context msg
 setId id context =
     { context | id = id }
+
+
+selected : Context msg -> Maybe OptionData
+selected { options } =
+    options
+        |> Array.filter (Tuple.first >> .selected)
+        |> Array.get 0
+        |> Maybe.map Tuple.first
 
 
 hasDescriptionVisible : Context msg -> Bool
@@ -133,7 +142,7 @@ setElement ( element, html ) ctx =
                 ctx
 
         Elements.Option data ->
-            { ctx | optionsHtml = Array.push ( data, html ) ctx.optionsHtml }
+            { ctx | options = Array.push ( data, html ) ctx.options }
 
         Elements.Wrapper ->
             let

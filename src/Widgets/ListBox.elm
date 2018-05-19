@@ -123,16 +123,25 @@ listView ctx =
                         ]
                     )
                 ]
+            , K.maybeMap (.id >> Aria.activeDescendant) (Context.selected ctx)
             , K.many <| Array.toList ctx.listAttrs
             , labelAttributes ctx
             ]
         )
         (Array.foldr
             (\( { selected, id }, content ) list ->
-                (H.li [ H.id id ] [ content ]) :: list
+                (H.li
+                    (K.fromMany
+                        [ K.one <| H.id id
+                        , K.ifTrue selected (Aria.selected True)
+                        ]
+                    )
+                    [ content ]
+                )
+                    :: list
             )
             []
-            ctx.optionsHtml
+            ctx.options
         )
 
 
