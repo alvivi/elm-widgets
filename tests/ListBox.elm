@@ -11,6 +11,7 @@ import Test.Html.Selector as S
 import Widgets.ListBox as Widgets
 import Widgets.ListBox.Attributes as ListBox
 import Widgets.ListBox.Elements as ListBox
+import Widgets.ListBox.Internal.Elements as ListBox
 
 
 elements : Test
@@ -21,6 +22,18 @@ elements =
                 Widgets.listBox { id = "foobar" } [] []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.id "foobar" ]
+        , T.test "Button element has the provided id" <|
+            \() ->
+                Widgets.listBox { id = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.has [ S.id <| ListBox.id "foobar" ListBox.Button ]
+        , T.test "List element has the provided id" <|
+            \() ->
+                Widgets.listBox { id = "foobar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "ul" ]
+                    |> Q.has [ S.id <| ListBox.id "foobar" ListBox.List ]
         ]
 
 
