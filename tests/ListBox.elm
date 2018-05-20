@@ -9,6 +9,8 @@ import Html.Styled.Attributes as H
 import Test as T exposing (Test)
 import Test.Html.Query as Q
 import Test.Html.Selector as S
+import Widgets.Form.Attributes as Form
+import Widgets.Form.Elements as Form
 import Widgets.ListBox as Widgets
 import Widgets.ListBox.Attributes as ListBox
 import Widgets.ListBox.Elements as ListBox
@@ -141,8 +143,8 @@ button =
         , T.test "Adds custom attributes to the button" <|
             \() ->
                 Widgets.listBox { id = "id", description = "desc" }
-                    [ ListBox.html ListBox.button
-                        [ H.required True
+                    [ ListBox.buttonAttributes
+                        [ Form.html Form.control [ H.required True ]
                         ]
                     ]
                     []
