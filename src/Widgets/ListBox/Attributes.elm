@@ -1,6 +1,7 @@
 module Widgets.ListBox.Attributes
     exposing
         ( Attribute
+        , buttonAttributes
         , css
         , descriptionLabel
         , expanded
@@ -15,7 +16,7 @@ module Widgets.ListBox.Attributes
 
 # Properties
 
-@docs css, descriptionLabel, expanded, html, placeholder
+@docs buttonAttributes, css, descriptionLabel, expanded, html, placeholder
 
 -}
 
@@ -23,12 +24,20 @@ import Css exposing (Style)
 import Html.Styled as H
 import Widgets.ListBox.Internal.Attributes as A
 import Widgets.ListBox.Internal.Elements exposing (Element)
+import Widgets.Form.Attributes as Form
 
 
 {-| A Form control attribute
 -}
 type alias Attribute msg =
     A.Attribute msg
+
+
+{-| Sets custom Form attributes to the button element.
+-}
+buttonAttributes : List (Form.Attribute msg) -> Attribute msg
+buttonAttributes =
+    Form.batch >> A.ButtonAttribute
 
 
 {-| Sets custom css for an Element of the ListBox widget.

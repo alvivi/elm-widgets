@@ -68,19 +68,22 @@ listBox { id, description } attrs elements =
 buttonView : Context msg -> Html msg
 buttonView ctx =
     Form.button
-        [ Form.html Form.control
-            (K.fromMany
-                [ K.many
-                    [ Aria.hasPopup Popup.Dialog
-                    , H.id <| Elements.id ctx.id Elements.Button
-                    ]
-                , K.ifTrue ctx.expanded (Aria.expanded True)
-                , K.many <| Array.toList ctx.buttonAttrs
-                , labelAttributes ctx
-                ]
-            )
-        , Form.css Form.control (Array.toList ctx.buttonCss)
-        ]
+        (K.fromMany
+            [ K.one <|
+                Form.html Form.control
+                    (K.fromMany
+                        [ K.many
+                            [ Aria.hasPopup Popup.Dialog
+                            , H.id <| Elements.id ctx.id Elements.Button
+                            ]
+                        , K.ifTrue ctx.expanded (Aria.expanded True)
+                        , labelAttributes ctx
+                        ]
+                    )
+            , K.one <| Form.css Form.control [ C.width <| C.pct 100 ]
+            , K.many <| Array.toList ctx.buttonAttrs
+            ]
+        )
         (if Array.isEmpty ctx.buttonHtml then
             [ H.text <| buttonText ctx ]
          else

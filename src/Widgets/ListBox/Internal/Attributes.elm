@@ -1,7 +1,8 @@
 module Widgets.ListBox.Internal.Attributes
     exposing
         ( Attribute
-            ( Css
+            ( ButtonAttribute
+            , Css
             , DescriptionLabel
             , Expanded
             , Html
@@ -12,10 +13,12 @@ module Widgets.ListBox.Internal.Attributes
 import Css exposing (Style)
 import Widgets.ListBox.Internal.Elements as Elements exposing (Element)
 import Html.Styled as H
+import Widgets.Form.Attributes as Form
 
 
 type Attribute msg
-    = Css Element Style
+    = ButtonAttribute (Form.Attribute msg)
+    | Css Element Style
     | DescriptionLabel
     | Expanded
     | Html Element (List (H.Attribute msg))

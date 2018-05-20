@@ -13,13 +13,13 @@ module Widgets.ListBox.Internal.Context
 import Array exposing (Array)
 import Css exposing (Style)
 import Html.Styled as H exposing (Html)
+import Widgets.Form.Attributes as Form
 import Widgets.ListBox.Internal.Attributes as Attributes exposing (Attribute)
 import Widgets.ListBox.Internal.Elements as Elements exposing (Element, OptionData)
 
 
 type alias Context msg =
-    { buttonAttrs : Array (H.Attribute msg)
-    , buttonCss : Array Style
+    { buttonAttrs : Array (Form.Attribute msg)
     , buttonHtml : Array (Html msg)
     , description : String
     , descriptionAttrs : Array (H.Attribute msg)
@@ -40,7 +40,6 @@ type alias Context msg =
 empty : Context msg
 empty =
     { buttonAttrs = Array.empty
-    , buttonCss = Array.empty
     , buttonHtml = Array.empty
     , description = ""
     , descriptionAttrs = Array.empty
@@ -96,6 +95,9 @@ insertElements elements ctx =
 setAttribute : Attribute msg -> Context msg -> Context msg
 setAttribute attr ctx =
     case attr of
+        Attributes.ButtonAttribute buttonAttr ->
+            { ctx | buttonAttrs = Array.push buttonAttr ctx.buttonAttrs }
+
         Attributes.Css element css ->
             setCss element css ctx
 
@@ -116,7 +118,11 @@ setCss : Element -> Style -> Context msg -> Context msg
 setCss element css ctx =
     case element of
         Elements.Button ->
-            { ctx | buttonCss = Array.push css ctx.buttonCss }
+            let
+                _ =
+                    Debug.log "Warning" "Custom button css is not supported, use buttonAttribute instead"
+            in
+                ctx
 
         Elements.Description ->
             { ctx | descriptionCss = Array.push css ctx.descriptionCss }
@@ -166,7 +172,11 @@ setHtmlAttributes : Element -> List (H.Attribute msg) -> Context msg -> Context 
 setHtmlAttributes element attrs ctx =
     case element of
         Elements.Button ->
-            { ctx | buttonAttrs = Array.append (Array.fromList attrs) ctx.buttonAttrs }
+            let
+                _ =
+                    Debug.log "Warning" "Custom html attributes are not supported, use buttonAttribute instead"
+            in
+                ctx
 
         Elements.Description ->
             { ctx | descriptionAttrs = Array.append (Array.fromList attrs) ctx.descriptionAttrs }
