@@ -81,6 +81,14 @@ elements =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "button" ]
                     |> Q.contains [ Html.text "foobar" ]
+        , T.test "Button sets aria-expanded if the ListBox is expanded" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    [ ListBox.expanded ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.has [ S.attribute <| Html.attribute "aria-expanded" "true" ]
         , T.test "List sets aria label attribute" <|
             \() ->
                 Widgets.listBox { id = "id", description = "foobar" } [] []
