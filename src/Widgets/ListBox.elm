@@ -13,6 +13,7 @@ widget allows custom styles. Also known as Dropdown or Select.
 
 import Array
 import Css as C
+import Css.Colors as Color
 import Html.Styled as H exposing (Html)
 import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
@@ -53,7 +54,12 @@ listBox { id, description } attrs elements =
         H.div
             (K.fromMany
                 [ K.one <| H.id <| Elements.id id Elements.Wrapper
-                , K.one <| H.css <| Array.toList ctx.wrapperCss
+                , K.one <|
+                    H.css <|
+                        K.fromMany
+                            [ K.one <| C.display C.inlineBlock
+                            , K.many <| Array.toList ctx.wrapperCss
+                            ]
                 , K.many <| Array.toList ctx.wrapperAttrs
                 ]
             )
@@ -137,8 +143,14 @@ listView ctx =
                 , H.tabindex -1
                 , H.css
                     (K.fromMany
-                        [ K.one <| C.paddingLeft C.zero
-                        , K.one <| C.listStyleType C.none
+                        [ K.many
+                            [ C.backgroundColor Color.white
+                            , C.border3 (C.px 1) C.solid Color.silver
+                            , C.listStyleType C.none
+                            , C.margin C.zero
+                            , C.paddingLeft C.zero
+                            ]
+                        , K.ifFalse ctx.expanded <| C.display C.none
                         , K.many <| Array.toList ctx.listCss
                         ]
                     )
