@@ -11,6 +11,7 @@
         "Widgets.Form.Attributes",
         "Widgets.Form.Elements",
         "Widgets.ListBox",
+        "Widgets.ListBox.State",
         "Widgets.ListBox.Attributes",
         "Widgets.ListBox.Elements",
         "Widgets.Normalize",
@@ -20,6 +21,7 @@
         "alvivi/elm-css-aria": "1.1.0 <= v < 2.0.0",
         "alvivi/elm-keyword-list": "1.0.1 <= v < 2.0.0",
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
+        "elm-lang/dom": "1.1.1 <= v < 2.0.0",
         "elm-lang/html": "2.0.0 <= v < 3.0.0",
         "rtfeldman/elm-css": "14.0.0 <= v < 15.0.0"
     },
