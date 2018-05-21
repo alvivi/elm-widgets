@@ -13,6 +13,7 @@ module Widgets.Form.Internal.Attributes
             , OnClick
             , OnFocus
             , OnInput
+            , OnKeyUp
             , Placeholder
             , Required
             , Value
@@ -27,6 +28,7 @@ module Widgets.Form.Internal.Attributes
 import Css exposing (Style)
 import Html.Styled as H
 import Widgets.Form.Elements exposing (Element)
+import Char exposing (KeyCode)
 
 
 type Attribute msg
@@ -42,6 +44,7 @@ type Attribute msg
     | OnClick msg
     | OnFocus msg
     | OnInput (String -> msg)
+    | OnKeyUp (KeyCode -> msg)
     | Placeholder String
     | Required
     | Value String

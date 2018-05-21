@@ -45,6 +45,7 @@ import Widgets.Form.Internal.Context as Context exposing (Context)
 import Widgets.Form.Internal.Elements as Element
 import Widgets.Helpers.Array as Array
 import Widgets.Helpers.Css as C
+import Widgets.Helpers.Html.Events as H
 
 
 -- Buttons --
@@ -97,6 +98,7 @@ buttonView ctx content =
                 , K.maybeMap H.onBlur ctx.onBlur
                 , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
+                , K.maybeMap H.onKeyUp ctx.onKeyUp
                 , K.many (Array.toList ctx.controlAttrs)
                 , K.one <|
                     H.css <|
@@ -417,6 +419,7 @@ inputView ctx =
                 , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.maybeMap H.onInput ctx.onInput
+                , K.maybeMap H.onKeyUp ctx.onKeyUp
                 , K.maybeMap H.placeholder ctx.placeholder
                 , K.maybeMap H.value ctx.value
                 , K.one <| H.type_ ctx.type_
@@ -457,6 +460,7 @@ selectView ctx =
                     , K.maybeMap H.onClick ctx.onClick
                     , K.maybeMap H.onFocus ctx.onFocus
                     , K.maybeMap H.onInput ctx.onInput
+                    , K.maybeMap H.onKeyUp ctx.onKeyUp
                     , K.one <|
                         H.css <|
                             K.fromMany
@@ -512,6 +516,7 @@ textareaView ctx =
                 , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.maybeMap H.onInput ctx.onInput
+                , K.maybeMap H.onKeyUp ctx.onKeyUp
                 , K.maybeMap H.placeholder ctx.placeholder
                 , K.maybeMap H.value ctx.value
                 , K.one <|

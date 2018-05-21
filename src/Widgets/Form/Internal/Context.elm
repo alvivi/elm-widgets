@@ -11,6 +11,7 @@ module Widgets.Form.Internal.Context
         )
 
 import Array exposing (Array)
+import Char exposing (KeyCode)
 import Css exposing (Style)
 import Html.Styled as H exposing (Html)
 import Widgets.Form.Internal.Attributes as Attributes exposing (Attribute)
@@ -39,6 +40,7 @@ type alias Context msg =
     , onClick : Maybe msg
     , onFocus : Maybe msg
     , onInput : Maybe (String -> msg)
+    , onKeyUp : Maybe (KeyCode -> msg)
     , placeholder : Maybe String
     , required : Bool
     , type_ : String
@@ -69,6 +71,7 @@ empty =
     , onClick = Nothing
     , onFocus = Nothing
     , onInput = Nothing
+    , onKeyUp = Nothing
     , placeholder = Nothing
     , required = False
     , type_ = ""
@@ -146,6 +149,9 @@ setAttribute attr ctx =
 
         Attributes.OnInput handler ->
             { ctx | onInput = Just handler }
+
+        Attributes.OnKeyUp handler ->
+            { ctx | onKeyUp = Just handler }
 
         Attributes.Placeholder placeholder ->
             { ctx | placeholder = Just placeholder }

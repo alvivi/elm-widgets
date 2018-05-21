@@ -13,6 +13,7 @@ module Widgets.Form.Attributes
         , onClick
         , onFocus
         , onInput
+        , onKeyUp
         , placeholder
         , required
         , value
@@ -35,7 +36,7 @@ module Widgets.Form.Attributes
 
 # Events
 
-@docs onBlur, onClick, onFocus, onInput
+@docs onBlur, onClick, onFocus, onInput, onKeyUp
 
 
 # Attribute Modifiers
@@ -44,6 +45,7 @@ module Widgets.Form.Attributes
 
 -}
 
+import Char exposing (KeyCode)
 import Css exposing (Style)
 import Html.Styled as H
 import Widgets.Form.Elements exposing (Element)
@@ -142,6 +144,14 @@ onFocus =
 onInput : (String -> msg) -> Attribute msg
 onInput =
     A.OnInput
+
+
+{-| Notifies when the user releases a key on the keyboard while the control has
+the focus.
+-}
+onKeyUp : (KeyCode -> msg) -> Attribute msg
+onKeyUp =
+    A.OnKeyUp
 
 
 {-| Sets the placeholder of the control.
