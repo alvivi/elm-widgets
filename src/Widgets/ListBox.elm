@@ -81,7 +81,7 @@ buttonView ctx =
                 Form.html Form.control
                     (K.fromMany
                         [ K.many
-                            [ Aria.hasPopup Popup.Dialog
+                            [ Aria.hasPopup Popup.Listbox
                             , H.id <| Elements.id ctx.id Elements.Button
                             ]
                         , K.ifTrue ctx.expanded (Aria.expanded True)

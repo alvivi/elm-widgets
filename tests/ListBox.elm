@@ -85,7 +85,7 @@ button =
                 Widgets.listBox { id = "foobar", description = "desc" } [] []
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "button" ]
-                    |> Q.has [ S.attribute <| Html.attribute "aria-haspopup" "dialog" ]
+                    |> Q.has [ S.attribute <| Html.attribute "aria-haspopup" "listbox" ]
         , T.test "Sets aria label attribute" <|
             \() ->
                 Widgets.listBox { id = "id", description = "foobar" } [] []
