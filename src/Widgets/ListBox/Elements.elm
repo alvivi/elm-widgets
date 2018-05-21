@@ -3,6 +3,8 @@ module Widgets.ListBox.Elements
         ( Element
         , button
         , description
+        , id
+        , list
         , option
         , textButton
         , textOption
@@ -19,7 +21,7 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, description, option, textOption
+@docs Element, button, textButton, description, id, list, option, textOption
 
 -}
 
@@ -54,6 +56,36 @@ element. Also, we can add custom description node.
 description : Element
 description =
     Internal.Description
+
+
+{-| Given a base id of a ListBox and an element, returns the id that identifies
+that element.
+-}
+id : String -> Element -> String
+id base subElement =
+    case subElement of
+        Internal.Button ->
+            base ++ "__button"
+
+        Internal.Description ->
+            base ++ "__desc"
+
+        Internal.List ->
+            base ++ "__list"
+
+        Internal.Option { id } ->
+            base ++ "__opt__" ++ id
+
+        Internal.Wrapper ->
+            base
+
+
+{-| The list that contains all options of the ListBox. Use `css` to add your own
+custom style or `html` to set custom html attributes.
+-}
+list : Element
+list =
+    Internal.List
 
 
 {-| An option of the ListBox.

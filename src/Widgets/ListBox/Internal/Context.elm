@@ -30,6 +30,7 @@ type alias Context msg =
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
+    , onOptionClick : Maybe (String -> msg)
     , options : Array ( OptionData, Html msg )
     , placeholder : Maybe String
     , wrapperAttrs : Array (H.Attribute msg)
@@ -50,6 +51,7 @@ empty =
     , id = ""
     , listAttrs = Array.empty
     , listCss = Array.empty
+    , onOptionClick = Nothing
     , options = Array.empty
     , placeholder = Nothing
     , wrapperAttrs = Array.empty
@@ -95,6 +97,9 @@ insertElements elements ctx =
 setAttribute : Attribute msg -> Context msg -> Context msg
 setAttribute attr ctx =
     case attr of
+        Attributes.Batch moreAttrs ->
+            List.foldl setAttribute ctx moreAttrs
+
         Attributes.ButtonAttribute buttonAttr ->
             { ctx | buttonAttrs = Array.push buttonAttr ctx.buttonAttrs }
 
@@ -109,6 +114,9 @@ setAttribute attr ctx =
 
         Attributes.Html element css ->
             setHtmlAttributes element css ctx
+
+        Attributes.OnOptionClick handler ->
+            { ctx | onOptionClick = Just handler }
 
         Attributes.Placeholder placeholder ->
             { ctx | placeholder = Just placeholder }

@@ -19,11 +19,13 @@ import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Attributes.Aria.Popup as Popup
 import Html.Styled.Attributes.Aria.Role as Role
+import Html.Styled.Events as H
 import KeywordList as K exposing (KeywordList)
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
 import Widgets.Form.Elements as Form
 import Widgets.ListBox.Attributes exposing (Attribute)
+import Widgets.ListBox.Elements as Elements
 import Widgets.ListBox.Internal.Context as Context exposing (Context)
 import Widgets.ListBox.Internal.Elements as Elements exposing (Element)
 
@@ -166,6 +168,7 @@ listView ctx =
                     (K.fromMany
                         [ K.one <| H.id id
                         , K.ifTrue selected (Aria.selected True)
+                        , K.maybeMap (\handler -> H.onClick <| handler id) ctx.onOptionClick
                         ]
                     )
                     [ content ]

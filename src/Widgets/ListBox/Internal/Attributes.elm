@@ -1,11 +1,13 @@
 module Widgets.ListBox.Internal.Attributes
     exposing
         ( Attribute
-            ( ButtonAttribute
+            ( Batch
+            , ButtonAttribute
             , Css
             , DescriptionLabel
             , Expanded
             , Html
+            , OnOptionClick
             , Placeholder
             )
         )
@@ -17,9 +19,11 @@ import Widgets.Form.Attributes as Form
 
 
 type Attribute msg
-    = ButtonAttribute (Form.Attribute msg)
+    = Batch (List (Attribute msg))
+    | ButtonAttribute (Form.Attribute msg)
     | Css Element Style
     | DescriptionLabel
     | Expanded
     | Html Element (List (H.Attribute msg))
+    | OnOptionClick (String -> msg)
     | Placeholder String

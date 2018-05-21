@@ -1,11 +1,13 @@
 module Widgets.ListBox.Attributes
     exposing
         ( Attribute
+        , batch
         , buttonAttributes
         , css
         , descriptionLabel
         , expanded
         , html
+        , onOptionClick
         , placeholder
         )
 
@@ -16,7 +18,7 @@ module Widgets.ListBox.Attributes
 
 # Properties
 
-@docs buttonAttributes, css, descriptionLabel, expanded, html, placeholder
+@docs batch, buttonAttributes, css, descriptionLabel, expanded, html, onOptionClick, placeholder
 
 -}
 
@@ -31,6 +33,13 @@ import Widgets.Form.Attributes as Form
 -}
 type alias Attribute msg =
     A.Attribute msg
+
+
+{-| Group a bunch of attributes in a single one attribute.
+-}
+batch : List (Attribute msg) -> Attribute msg
+batch =
+    A.Batch
 
 
 {-| Sets custom Form attributes to the button element.
@@ -68,6 +77,14 @@ expanded =
 html : Element -> List (H.Attribute msg) -> Attribute msg
 html =
     A.Html
+
+
+{-| Sets a event listener for click event on list options. The id of the
+options is passed to the handler.
+-}
+onOptionClick : (String -> msg) -> Attribute msg
+onOptionClick =
+    A.OnOptionClick
 
 
 {-| Sets a placeholder text that will be shown as the button text when no
