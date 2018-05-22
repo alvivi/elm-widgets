@@ -1,6 +1,7 @@
 module Widgets.ListBox.Elements
     exposing
         ( Element
+        , anyOption
         , button
         , description
         , id
@@ -21,7 +22,7 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, description, id, list, option, textOption
+@docs Element, button, textButton, description, id, list, option, anyOption, textOption
 
 -}
 
@@ -33,6 +34,15 @@ import Widgets.ListBox.Internal.Elements as Internal
 -}
 type alias Element =
     Internal.Element
+
+
+{-| An option of the ListBox. This element is an alias of `option` element and
+it is meant to be used by `css` and `html` attributes. For adding options to
+the ListBox use the `option` element instead of this one.
+-}
+anyOption : Element
+anyOption =
+    Internal.Option { selected = False, id = "", text = "" }
 
 
 {-| The button of the ListBox.
@@ -91,7 +101,7 @@ list =
 {-| An option of the ListBox.
 
 When inserting a node tagged as option it will be added as children in option
-list.
+list. For adding custom html attributes or css to options use `anyOption`.
 
 -}
 option : { selected : Bool, text : String, id : String } -> Element

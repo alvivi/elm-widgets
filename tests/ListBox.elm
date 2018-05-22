@@ -208,4 +208,13 @@ list =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "li" ]
                     |> Q.has [ S.attribute <| Html.id "foobar" ]
+        , T.test "Options set custom html attributes" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    [ ListBox.html ListBox.anyOption [ H.required True ] ]
+                    [ ListBox.textOption { selected = False, text = "text", id = "foobar" }
+                    ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "li" ]
+                    |> Q.has [ S.attribute <| Html.required True ]
         ]

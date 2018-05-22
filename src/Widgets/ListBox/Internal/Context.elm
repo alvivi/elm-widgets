@@ -14,6 +14,7 @@ import Array exposing (Array)
 import Css exposing (Style)
 import Html.Styled as H exposing (Html)
 import Widgets.Form.Attributes as Form
+import Widgets.Form.Elements as Form
 import Widgets.ListBox.Internal.Attributes as Attributes exposing (Attribute)
 import Widgets.ListBox.Internal.Elements as Elements exposing (Element, OptionData)
 
@@ -32,6 +33,8 @@ type alias Context msg =
     , listCss : Array Style
     , onOptionClick : Maybe (String -> msg)
     , options : Array ( OptionData, Html msg )
+    , optionsAttrs : Array (H.Attribute msg)
+    , optionsCss : Array Style
     , placeholder : Maybe String
     , wrapperAttrs : Array (H.Attribute msg)
     , wrapperCss : Array Style
@@ -53,6 +56,8 @@ empty =
     , listCss = Array.empty
     , onOptionClick = Nothing
     , options = Array.empty
+    , optionsAttrs = Array.empty
+    , optionsCss = Array.empty
     , placeholder = Nothing
     , wrapperAttrs = Array.empty
     , wrapperCss = Array.empty
@@ -126,11 +131,7 @@ setCss : Element -> Style -> Context msg -> Context msg
 setCss element css ctx =
     case element of
         Elements.Button ->
-            let
-                _ =
-                    Debug.log "Warning" "Custom button css is not supported, use buttonAttribute instead"
-            in
-                ctx
+            { ctx | buttonAttrs = Array.push (Form.css Form.control [ css ]) ctx.buttonAttrs }
 
         Elements.Description ->
             { ctx | descriptionCss = Array.push css ctx.descriptionCss }
@@ -139,11 +140,7 @@ setCss element css ctx =
             { ctx | listCss = Array.push css ctx.listCss }
 
         Elements.Option _ ->
-            let
-                _ =
-                    Debug.log "Warning" "Custom options css is not supported"
-            in
-                ctx
+            { ctx | optionsCss = Array.push css ctx.optionsCss }
 
         Elements.Wrapper ->
             { ctx | wrapperCss = Array.push css ctx.wrapperCss }
@@ -180,11 +177,7 @@ setHtmlAttributes : Element -> List (H.Attribute msg) -> Context msg -> Context 
 setHtmlAttributes element attrs ctx =
     case element of
         Elements.Button ->
-            let
-                _ =
-                    Debug.log "Warning" "Custom html attributes are not supported, use buttonAttribute instead"
-            in
-                ctx
+            { ctx | buttonAttrs = Array.push (Form.html Form.control attrs) ctx.buttonAttrs }
 
         Elements.Description ->
             { ctx | descriptionAttrs = Array.append (Array.fromList attrs) ctx.descriptionAttrs }
@@ -193,11 +186,7 @@ setHtmlAttributes element attrs ctx =
             { ctx | listAttrs = Array.append (Array.fromList attrs) ctx.listAttrs }
 
         Elements.Option _ ->
-            let
-                _ =
-                    Debug.log "Warning" "Custom HTML attributes are not supported"
-            in
-                ctx
+            { ctx | optionsAttrs = Array.append (Array.fromList attrs) ctx.optionsAttrs }
 
         Elements.Wrapper ->
             { ctx | wrapperAttrs = Array.append (Array.fromList attrs) ctx.wrapperAttrs }
