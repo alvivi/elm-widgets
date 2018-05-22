@@ -77,7 +77,8 @@ buttonView : Context msg -> Html msg
 buttonView ctx =
     Form.button
         (K.fromMany
-            [ K.one <|
+            [ K.many <| Array.toList ctx.buttonAttrs
+            , K.one <|
                 Form.html Form.control
                     (K.fromMany
                         [ K.many
@@ -89,7 +90,6 @@ buttonView ctx =
                         ]
                     )
             , K.one <| Form.css Form.control [ C.width <| C.pct 100 ]
-            , K.many <| Array.toList ctx.buttonAttrs
             ]
         )
         (if Array.isEmpty ctx.buttonHtml then
