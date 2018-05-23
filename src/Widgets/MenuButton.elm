@@ -6,6 +6,7 @@ ListBox widget and uses ListBox attributes and elements.
 @docs menuButton
 
 [wai-mb]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/#menubutton
+[wai-ex]: https://www.w3.org/TR/2017/NOTE-wai-aria-practices-1.1-20171214/examples/menu-button/menu-button-links.html
 
 -}
 
