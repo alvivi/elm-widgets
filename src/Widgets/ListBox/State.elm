@@ -10,7 +10,7 @@ module Widgets.ListBox.State
         , update
         )
 
-{-| A module to manage the stateof a ListBox. It implements the recommended ARIA
+{-| A module to manage the state of a ListBox. It implements the recommended ARIA
 behaviour of a ListBox widget.
 
 
