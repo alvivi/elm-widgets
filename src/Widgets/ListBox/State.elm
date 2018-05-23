@@ -52,6 +52,7 @@ type Model
     = Model
         { expanded : Bool
         , focused : Maybe Element
+        , id : String
         , options : Array { id : String, text : String }
         , placeholder : Maybe String
         , preventNextEnter : Bool
@@ -66,13 +67,14 @@ type Element
     | List
 
 
-{-| An empty ListBox model.
+{-| Creates a empty model give an element id.
 -}
-empty : Model
-empty =
+empty : String -> Model
+empty id =
     Model
         { expanded = False
         , focused = Nothing
+        , id = id
         , options = Array.empty
         , placeholder = Nothing
         , preventNextEnter = False
@@ -175,7 +177,7 @@ update msg (Model model) =
         OnButtonClick ->
             ( Model { model | expanded = True, preventNextEnter = True }
             , ListBox.list
-                |> ListBox.id "listbox"
+                |> ListBox.id model.id
                 |> Dom.focus
                 |> Task.attempt (always <| OnFocus List)
             )
@@ -184,7 +186,7 @@ update msg (Model model) =
             -- Down
             ( Model { model | expanded = True, selected = neighbourId 1 (Model model) }
             , ListBox.list
-                |> ListBox.id "listbox"
+                |> ListBox.id model.id
                 |> Dom.focus
                 |> Task.attempt (always <| OnFocus List)
             )
@@ -193,7 +195,7 @@ update msg (Model model) =
             -- Up
             ( Model { model | expanded = True, selected = neighbourId -1 (Model model) }
             , ListBox.list
-                |> ListBox.id "listbox"
+                |> ListBox.id model.id
                 |> Dom.focus
                 |> Task.attempt (always <| OnFocus List)
             )
@@ -281,7 +283,7 @@ open : Model -> ( Model, Cmd Msg )
 open (Model model) =
     ( Model { model | expanded = True }
     , ListBox.list
-        |> ListBox.id "listbox"
+        |> ListBox.id model.id
         |> Dom.focus
         |> Task.attempt (always <| OnFocus List)
     )
@@ -291,7 +293,7 @@ close : Model -> ( Model, Cmd Msg )
 close (Model model) =
     ( Model { model | expanded = False }
     , ListBox.button
-        |> ListBox.id "listbox"
+        |> ListBox.id model.id
         |> Dom.focus
         |> Task.attempt (always <| OnFocus Button)
     )

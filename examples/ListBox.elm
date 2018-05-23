@@ -56,7 +56,7 @@ type alias Model =
 empty : Model
 empty =
     { listBox =
-        List.foldl ListBox.insertOption ListBox.empty options
+        List.foldl ListBox.insertOption (ListBox.empty "listbox") options
     }
 
 
