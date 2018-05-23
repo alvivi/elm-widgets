@@ -9,6 +9,7 @@ module Widgets.ListBox.Elements
         , option
         , textButton
         , textOption
+        , wrapper
         )
 
 {-| This module contains functions to create references to the elements of the
@@ -22,7 +23,8 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, description, id, list, option, anyOption, textOption
+@docs Element, button, textButton, description, id, list, option, anyOption
+@docs textOption, wrapper
 
 -}
 
@@ -137,3 +139,12 @@ textButton text =
 textOption : { selected : Bool, text : String, id : String } -> ( Element, Html msg )
 textOption data =
     ( Internal.Option data, H.text data.text )
+
+
+{-| The wrapper or the parent node that contains all elements of ListBox
+widget. Use `css` to add your own custom style or `html` to set custom html
+attributes.
+-}
+wrapper : Element
+wrapper =
+    Internal.Wrapper
