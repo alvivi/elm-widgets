@@ -371,7 +371,7 @@ iconView { iconCss, iconHtml, type_ } =
         K.zero
     else
         let
-            hasStyle =
+            hasNoStyle =
                 Array.isEmpty iconCss
 
             isSelect =
@@ -382,11 +382,11 @@ iconView { iconCss, iconHtml, type_ } =
                     [ Aria.hidden True
                     , H.css <|
                         K.fromMany
-                            [ K.ifTrue (hasStyle && isSelect) <| C.paddingRight iconPaddingHorizontal
-                            , K.ifTrue (hasStyle && not isSelect) <| C.paddingLeft iconPaddingHorizontal
-                            , K.ifTrue hasStyle <| C.height iconSide
-                            , K.ifTrue hasStyle <| C.paddingTop iconPaddingVertical
-                            , K.ifTrue hasStyle <| C.width iconSide
+                            [ K.ifTrue (hasNoStyle && isSelect) <| C.paddingRight iconPaddingHorizontal
+                            , K.ifTrue (hasNoStyle && not isSelect) <| C.paddingLeft iconPaddingHorizontal
+                            , K.ifTrue hasNoStyle <| C.height iconSide
+                            , K.ifTrue hasNoStyle <| C.paddingTop iconPaddingVertical
+                            , K.ifTrue hasNoStyle <| C.width iconSide
                             , K.ifTrue isSelect <| C.right C.zero
                             , K.many
                                 [ C.pointerEvents C.none
