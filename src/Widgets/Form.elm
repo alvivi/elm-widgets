@@ -378,7 +378,7 @@ iconView { iconCss, iconHtml, type_ } =
                 type_ == "select"
         in
             K.one <|
-                H.div
+                H.span
                     [ Aria.hidden True
                     , H.css <|
                         K.fromMany
@@ -388,6 +388,7 @@ iconView { iconCss, iconHtml, type_ } =
                             , K.ifTrue hasNoStyle <| C.paddingTop iconPaddingVertical
                             , K.ifTrue hasNoStyle <| C.width iconSide
                             , K.ifTrue isSelect <| C.right C.zero
+                            , K.ifFalse isSelect <| C.left C.zero
                             , K.many
                                 [ C.pointerEvents C.none
                                 , C.position C.absolute
