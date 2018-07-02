@@ -100,10 +100,10 @@ error =
 When inserting a node tagged as icon it will be added over the control, using
 an `div` container with an `absolute` position.
 
-When adding style to a control with `icon` it will add the style the
-the container of the icon. Note that this style does not have any effect if
-we do not provide any icon node. `position` is set to `absolute` by default but
-we can override this setting.
+When adding style to a control with `icon` it will add the style to the
+container of the icon. Note that this style does not have any effect if we do
+not provide any icon node. `position` is set to `absolute` by default but we
+can override this setting.
 
 -}
 icon : Element
