@@ -6,6 +6,7 @@ import FontAwesome.Regular as FontAwesome
 import Html
 import Html.Styled as H exposing (Html, fromUnstyled)
 import Html.Styled.Attributes as H
+import Html.Styled.Attributes.Aria as Aria
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
 import Widgets.Form.Elements as Elements
@@ -214,6 +215,58 @@ view model =
                 , ( "A Button"
                   , Form.button [] [ H.text "Button" ]
                   , Form.button [ Theme.button ] [ H.text "Button" ]
+                  )
+                , ( "A Button with Icon"
+                  , Form.button []
+                        [ H.span
+                            [ Aria.hidden True
+                            , H.css
+                                [ C.display C.inlineBlock
+                                , C.height <| C.px 16
+                                , C.marginRight <| C.px 2
+                                , C.position C.relative
+                                , C.width <| C.px 16
+                                ]
+                            ]
+                            [ H.span
+                                [ H.css
+                                    [ C.position C.absolute
+                                    , C.top <| C.px 2
+                                    , C.width <| C.px 16
+                                    , C.height <| C.px 16
+                                    , C.left C.zero
+                                    ]
+                                ]
+                                [ fromUnstyled <| FontAwesome.envelope
+                                ]
+                            ]
+                        , H.text "Button"
+                        ]
+                  , Form.button [ Theme.button ]
+                        [ H.span
+                            [ Aria.hidden True
+                            , H.css
+                                [ C.display C.inlineBlock
+                                , C.height <| C.px 16
+                                , C.marginRight <| C.px 8
+                                , C.position C.relative
+                                , C.width <| C.px 16
+                                ]
+                            ]
+                            [ H.span
+                                [ H.css
+                                    [ C.height <| C.px 16
+                                    , C.left C.zero
+                                    , C.position C.absolute
+                                    , C.top <| C.px 2
+                                    , C.width <| C.px 16
+                                    ]
+                                ]
+                                [ fromUnstyled <| FontAwesome.envelope
+                                ]
+                            ]
+                        , H.text "Button"
+                        ]
                   )
                 , ( "Disabled Button"
                   , Form.button [ Form.disabled ] [ H.text "Button" ]
