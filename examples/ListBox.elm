@@ -2,12 +2,14 @@ module ListBox exposing (main)
 
 import Css as C
 import Css.Colors as Color
-import Html.Styled as H exposing (Html)
+import FontAwesome.Regular as FontAwesome
+import Html.Styled as H exposing (Html, fromUnstyled)
 import Html.Styled.Attributes as H
 import KeywordList as K
 import Widgets.ListBox as Widgets
 import Widgets.ListBox.Elements as ListBox
 import Widgets.ListBox.State as ListBox
+import Widgets.Themes.Mint as Theme
 
 
 -- View --
@@ -15,34 +17,68 @@ import Widgets.ListBox.State as ListBox
 
 view : Model -> Html Msg
 view model =
-    Widgets.listBox { id = "listbox", description = "A listbox example" }
-        [ ListBox.attributes ListBoxMsg model.listBox ]
-        (List.map
-            (\{ id, text } ->
-                let
-                    isSelected =
-                        ListBox.selected model.listBox == Just id
-                in
-                    ( ListBox.option
-                        { selected = isSelected
-                        , text = text
-                        , id = id
-                        }
-                    , H.span
-                        [ H.css <|
-                            K.fromMany
-                                [ K.many
-                                    [ C.display C.inlineBlock
-                                    , C.width <| C.pct 100
-                                    ]
-                                , K.ifTrue isSelected <| C.backgroundColor Color.blue
+    H.div []
+        [ Widgets.listBox { id = "unstyled", description = "A unstyled listbox example" }
+            [ ListBox.attributes UnstyledListBoxMsg model.unstyled ]
+            (( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                :: List.map
+                    (\{ id, text } ->
+                        let
+                            isSelected =
+                                ListBox.selected model.unstyled == Just id
+                        in
+                            ( ListBox.option
+                                { selected = isSelected
+                                , text = text
+                                , id = id
+                                }
+                            , H.span
+                                [ H.css <|
+                                    K.fromMany
+                                        [ K.many
+                                            [ C.display C.inlineBlock
+                                            , C.width <| C.pct 100
+                                            ]
+                                        , K.ifTrue isSelected <| C.backgroundColor Color.blue
+                                        ]
                                 ]
-                        ]
-                        [ H.text text ]
+                                [ H.text text ]
+                            )
                     )
+                    unstyledOptions
             )
-            options
-        )
+        , Widgets.listBox { id = "styled", description = "A styled listbox example" }
+            [ ListBox.attributes StyledListBoxMsg model.styled
+            , Theme.listBox
+            ]
+            (( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_down )
+                :: List.map
+                    (\{ id, text } ->
+                        let
+                            isSelected =
+                                ListBox.selected model.styled == Just id
+                        in
+                            ( ListBox.option
+                                { selected = isSelected
+                                , text = text
+                                , id = id
+                                }
+                            , H.span
+                                [ H.css <|
+                                    K.fromMany
+                                        [ K.many
+                                            [ C.display C.inlineBlock
+                                            , C.width <| C.pct 100
+                                            ]
+                                        , K.ifTrue isSelected <| C.backgroundColor Color.blue
+                                        ]
+                                ]
+                                [ H.text text ]
+                            )
+                    )
+                    styledOptions
+            )
+        ]
 
 
 
@@ -50,13 +86,17 @@ view model =
 
 
 type alias Model =
-    { listBox : ListBox.Model }
+    { unstyled : ListBox.Model
+    , styled : ListBox.Model
+    }
 
 
 empty : Model
 empty =
-    { listBox =
-        List.foldl ListBox.insertOption (ListBox.empty "listbox") options
+    { unstyled =
+        List.foldl ListBox.insertOption (ListBox.empty "unstyled") unstyledOptions
+    , styled =
+        List.foldl ListBox.insertOption (ListBox.empty "styled") styledOptions
     }
 
 
@@ -65,30 +105,47 @@ empty =
 
 
 type Msg
-    = ListBoxMsg ListBox.Msg
+    = StyledListBoxMsg ListBox.Msg
+    | UnstyledListBoxMsg ListBox.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        ListBoxMsg subMsg ->
+        StyledListBoxMsg subMsg ->
             let
-                ( listBox, cmd ) =
-                    ListBox.update subMsg model.listBox
+                ( styled, cmd ) =
+                    ListBox.update subMsg model.styled
             in
-                ( { model | listBox = listBox }, Cmd.map ListBoxMsg cmd )
+                ( { model | styled = styled }, Cmd.map StyledListBoxMsg cmd )
+
+        UnstyledListBoxMsg subMsg ->
+            let
+                ( unstyled, cmd ) =
+                    ListBox.update subMsg model.unstyled
+            in
+                ( { model | unstyled = unstyled }, Cmd.map UnstyledListBoxMsg cmd )
 
 
 
 -- Initialization --
 
 
-options : List { id : String, text : String }
-options =
-    [ { text = "one", id = "1" }
-    , { text = "two", id = "2" }
-    , { text = "three", id = "3" }
-    , { text = "over 9000", id = "9001" }
+unstyledOptions : List { id : String, text : String }
+unstyledOptions =
+    [ { text = "One", id = "1" }
+    , { text = "Two", id = "2" }
+    , { text = "Three", id = "3" }
+    , { text = "Over 9000", id = "9001" }
+    ]
+
+
+styledOptions : List { id : String, text : String }
+styledOptions =
+    [ { text = "Wow", id = "wow" }
+    , { text = "Many options", id = "edits" }
+    , { text = "Very readable", id = "readable" }
+    , { text = "To the moon", id = "moon" }
     ]
 
 
