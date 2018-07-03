@@ -95,9 +95,9 @@ hasDescriptionVisible { descriptionLabel, descriptionHtml } =
 
 insertAttributes : List (Attribute msg) -> Context msg -> Context msg
 insertAttributes attrs ctx =
-    --|> (\ctx_ -> List.foldl setAttributeModifiers ctx_ attrs)
     attrs
         |> List.foldl setAttribute ctx
+        |> (\ctx_ -> List.foldl setAttributeModifiers ctx_ attrs)
 
 
 insertElements : List ( Element, Html msg ) -> Context msg -> Context msg
@@ -131,6 +131,22 @@ setAttribute attr ctx =
 
         Attributes.Placeholder placeholder ->
             { ctx | placeholder = Just placeholder }
+
+        Attributes.WhenHasIcon _ ->
+            ctx
+
+
+setAttributeModifiers : Attribute msg -> Context msg -> Context msg
+setAttributeModifiers attr ctx =
+    case attr of
+        Attributes.WhenHasIcon iconAttrs ->
+            if Array.isEmpty ctx.iconHtml then
+                ctx
+            else
+                insertAttributes iconAttrs ctx
+
+        _ ->
+            ctx
 
 
 setCss : Element -> Style -> Context msg -> Context msg

@@ -9,6 +9,7 @@ module Widgets.ListBox.Attributes
         , html
         , onOptionClick
         , placeholder
+        , whenHasIcon
         )
 
 {-| Attributes for ListBox widgets.
@@ -19,6 +20,11 @@ module Widgets.ListBox.Attributes
 # Properties
 
 @docs batch, buttonAttributes, css, descriptionLabel, expanded, html, onOptionClick, placeholder
+
+
+# Attribute Modifiers
+
+@docs whenHasIcon
 
 -}
 
@@ -93,3 +99,11 @@ options is selected. Note that a custom button node overrides this attribute.
 placeholder : String -> Attribute msg
 placeholder =
     A.Placeholder
+
+
+{-| Applies attributes only when the ListBox has an icon. Useful for building
+themes.
+-}
+whenHasIcon : List (Attribute msg) -> Attribute msg
+whenHasIcon =
+    A.WhenHasIcon
