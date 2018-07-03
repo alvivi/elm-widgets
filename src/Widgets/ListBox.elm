@@ -90,13 +90,21 @@ buttonView ctx =
                         , labelAttributes ctx
                         ]
                     )
-            , K.one <| Form.css Form.control [ C.width <| C.pct 100 ]
+            , K.one <|
+                Form.css Form.control <|
+                    K.fromMany
+                        [ K.one <| C.width <| C.pct 100
+                        , K.maybeMap C.paddingRight <| iconPadding ctx
+                        ]
             ]
         )
-        (if Array.isEmpty ctx.buttonHtml then
-            [ H.text <| buttonText ctx ]
-         else
-            Array.toList ctx.buttonHtml
+        (K.fromMany
+            [ iconView ctx
+            , if Array.isEmpty ctx.buttonHtml then
+                K.one <| H.text <| buttonText ctx
+              else
+                K.many <| Array.toList ctx.buttonHtml
+            ]
         )
 
 
@@ -134,6 +142,42 @@ descriptionView ctx =
                 )
     else
         K.zero
+
+
+iconView : Context msg -> KeywordList (Html msg)
+iconView { iconCss, iconHtml } =
+    if Array.isEmpty iconHtml then
+        K.zero
+    else
+        let
+            hasNoStyle =
+                Array.isEmpty iconCss
+        in
+            K.one <|
+                H.span
+                    [ H.css
+                        [ C.display C.inlineBlock
+                        , C.height <| C.pct 100
+                        , C.position C.relative
+                        ]
+                    ]
+                    [ H.span
+                        [ Aria.hidden True
+                        , H.css <|
+                            K.fromMany
+                                [ K.many
+                                    [ C.height iconSide
+                                    , C.width iconSide
+                                    , C.display C.inlineBlock
+                                    , C.position C.relative
+                                    , C.marginRight iconPaddingHorizontal
+                                    , C.top iconPaddingVertical
+                                    ]
+                                , K.many <| Array.toList iconCss
+                                ]
+                        ]
+                        (Array.toList iconHtml)
+                    ]
 
 
 listView : Context msg -> Html msg
@@ -196,3 +240,31 @@ labelAttributes ctx =
             )
         , K.ifFalse (Context.hasDescriptionVisible ctx) (Aria.label ctx.description)
         ]
+
+
+
+-- Values --
+
+
+iconSide : C.Px
+iconSide =
+    C.px 16
+
+
+iconPaddingVertical : C.Px
+iconPaddingVertical =
+    C.px 2
+
+
+iconPaddingHorizontal : C.Px
+iconPaddingHorizontal =
+    C.px 4
+
+
+iconPadding : Context msg -> Maybe C.Px
+iconPadding { iconCss, iconHtml } =
+    if Array.isEmpty iconHtml || not (Array.isEmpty iconCss) then
+        Nothing
+    else
+        Just <|
+            C.px (iconSide.numericValue + iconPaddingHorizontal.numericValue)
