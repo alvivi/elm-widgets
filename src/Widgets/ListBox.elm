@@ -60,6 +60,7 @@ listBox { id, description } attrs elements =
                     H.css <|
                         K.fromMany
                             [ K.one <| C.display C.inlineBlock
+                            , K.one <| C.position C.relative
                             , K.many <| Array.toList ctx.wrapperCss
                             ]
                 , K.many <| Array.toList ctx.wrapperAttrs
@@ -151,6 +152,7 @@ listView ctx =
                             , C.listStyleType C.none
                             , C.margin C.zero
                             , C.paddingLeft C.zero
+                            , C.position C.absolute
                             ]
                         , K.ifFalse ctx.expanded <| C.display C.none
                         , K.many <| Array.toList ctx.listCss
