@@ -28,6 +28,9 @@ type alias Context msg =
     , descriptionHtml : Array (Html msg)
     , descriptionLabel : Bool
     , expanded : Bool
+    , iconAttrs : Array (H.Attribute msg)
+    , iconCss : Array Style
+    , iconHtml : Array (Html msg)
     , id : String
     , listAttrs : Array (H.Attribute msg)
     , listCss : Array Style
@@ -51,6 +54,9 @@ empty =
     , descriptionHtml = Array.empty
     , descriptionLabel = False
     , expanded = False
+    , iconAttrs = Array.empty
+    , iconCss = Array.empty
+    , iconHtml = Array.empty
     , id = ""
     , listAttrs = Array.empty
     , listCss = Array.empty
@@ -136,6 +142,9 @@ setCss element css ctx =
         Elements.Description ->
             { ctx | descriptionCss = Array.push css ctx.descriptionCss }
 
+        Elements.Icon ->
+            { ctx | iconCss = Array.push css ctx.iconCss }
+
         Elements.List ->
             { ctx | listCss = Array.push css ctx.listCss }
 
@@ -162,6 +171,9 @@ setElement ( element, html ) ctx =
             in
                 ctx
 
+        Elements.Icon ->
+            { ctx | iconHtml = Array.push html ctx.iconHtml }
+
         Elements.Option data ->
             { ctx | options = Array.push ( data, html ) ctx.options }
 
@@ -181,6 +193,9 @@ setHtmlAttributes element attrs ctx =
 
         Elements.Description ->
             { ctx | descriptionAttrs = Array.append (Array.fromList attrs) ctx.descriptionAttrs }
+
+        Elements.Icon ->
+            { ctx | iconAttrs = Array.append (Array.fromList attrs) ctx.iconAttrs }
 
         Elements.List ->
             { ctx | listAttrs = Array.append (Array.fromList attrs) ctx.listAttrs }

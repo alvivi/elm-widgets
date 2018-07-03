@@ -1,6 +1,6 @@
 module Widgets.ListBox.Internal.Elements
     exposing
-        ( Element(Button, Description, List, Option, Wrapper)
+        ( Element(Button, Description, Icon, List, Option, Wrapper)
         , OptionData
         )
 
@@ -8,6 +8,7 @@ module Widgets.ListBox.Internal.Elements
 type Element
     = Button
     | Description
+    | Icon
     | List
     | Option OptionData
     | Wrapper

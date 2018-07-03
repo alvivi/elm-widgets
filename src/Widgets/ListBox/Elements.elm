@@ -4,6 +4,7 @@ module Widgets.ListBox.Elements
         , anyOption
         , button
         , description
+        , icon
         , id
         , list
         , option
@@ -23,7 +24,7 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, description, id, list, option, anyOption
+@docs Element, button, textButton, description, icon, id, list, option, anyOption
 @docs textOption, wrapper
 
 -}
@@ -70,6 +71,21 @@ description =
     Internal.Description
 
 
+{-| The icon of a ListBox.
+
+When inserting a node tagged as icon it will be added over the ListBox button,
+using an `div` container with an `absolute` position.
+
+When adding style to a control with `icon` it will add the style the container
+of the icon. Note that this style does not have any effect if we do not provide
+any icon node.
+
+-}
+icon : Element
+icon =
+    Internal.Icon
+
+
 {-| Given a base id of a ListBox and an element, returns the id that identifies
 that element.
 -}
@@ -81,6 +97,9 @@ id base subElement =
 
         Internal.Description ->
             base ++ "__desc"
+
+        Internal.Icon ->
+            base ++ "__icon"
 
         Internal.List ->
             base ++ "__list"
