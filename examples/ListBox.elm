@@ -17,10 +17,14 @@ import Widgets.Themes.Mint as Theme
 
 view : Model -> Html Msg
 view model =
-    H.div []
+    H.div
+        [ H.css
+            [ C.displayFlex
+            ]
+        ]
         [ Widgets.listBox { id = "unstyled", description = "A unstyled listbox example" }
             [ ListBox.attributes UnstyledListBoxMsg model.unstyled ]
-            (( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_down )
+            (icon model.unstyled
                 :: List.map
                     (\{ id, text } ->
                         let
@@ -51,7 +55,7 @@ view model =
             [ ListBox.attributes StyledListBoxMsg model.styled
             , Theme.listBox
             ]
-            (( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_down )
+            (icon model.styled
                 :: List.map
                     (\{ id, text } ->
                         let
@@ -63,22 +67,20 @@ view model =
                                 , text = text
                                 , id = id
                                 }
-                            , H.span
-                                [ H.css <|
-                                    K.fromMany
-                                        [ K.many
-                                            [ C.display C.inlineBlock
-                                            , C.width <| C.pct 100
-                                            ]
-                                        , K.ifTrue isSelected <| C.backgroundColor Color.blue
-                                        ]
-                                ]
-                                [ H.text text ]
+                            , H.span [] [ H.text text ]
                             )
                     )
                     styledOptions
             )
         ]
+
+
+icon : ListBox.Model -> ( ListBox.Element, Html msg )
+icon model =
+    if ListBox.isExpanded model then
+        ( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_up )
+    else
+        ( ListBox.icon, fromUnstyled <| FontAwesome.caret_square_down )
 
 
 
