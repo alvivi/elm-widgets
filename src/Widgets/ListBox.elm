@@ -59,8 +59,7 @@ listBox { id, description } attrs elements =
                 , K.one <|
                     H.css <|
                         K.fromMany
-                            [ K.one <| C.display C.inlineBlock
-                            , K.one <| C.position C.relative
+                            [ K.one <| C.position C.relative
                             , K.many <| Array.toList ctx.wrapperCss
                             ]
                 , K.many <| Array.toList ctx.wrapperAttrs
@@ -93,8 +92,7 @@ buttonView ctx =
             , K.one <|
                 Form.css Form.control <|
                     K.fromMany
-                        [ K.one <| C.width <| C.pct 100
-                        , K.maybeMap C.paddingRight <| iconPadding ctx
+                        [ K.maybeMap C.paddingRight <| iconPadding ctx
                         ]
             ]
         )
