@@ -68,6 +68,16 @@ listBox =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.id <| ListBox.id "id" ListBox.Description ]
                     |> Q.contains [ Html.text "custom foobar" ]
+        , T.test "Applies `whenExpanded` attributes when exapended" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    [ ListBox.whenExpanded [ ListBox.placeholder "foobar" ]
+                    , ListBox.expanded
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
         ]
 
 
