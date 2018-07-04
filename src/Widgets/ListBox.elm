@@ -24,6 +24,7 @@ import KeywordList as K exposing (KeywordList)
 import Widgets.Form as Form
 import Widgets.Form.Attributes as Form
 import Widgets.Form.Elements as Form
+import Widgets.Helpers.Css as C
 import Widgets.ListBox.Attributes exposing (Attribute)
 import Widgets.ListBox.Elements as Elements
 import Widgets.ListBox.Internal.Context as Context exposing (Context)
@@ -191,11 +192,13 @@ listView ctx =
                         [ K.many
                             [ C.backgroundColor Color.white
                             , C.border3 (C.px 1) C.solid Color.silver
+                            , C.intrinsicWidth
                             , C.listStyleType C.none
                             , C.margin C.zero
                             , C.paddingLeft C.zero
                             , C.position C.absolute
                             ]
+                        , K.ifTrue ctx.expanded <| C.display C.block
                         , K.ifFalse ctx.expanded <| C.display C.none
                         , K.many <| Array.toList ctx.listCss
                         ]
