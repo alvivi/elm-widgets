@@ -78,6 +78,19 @@ listBox =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "button" ]
                     |> Q.contains [ Html.text "foobar" ]
+        , T.test "Applies batched attribute modifiers (regression)" <|
+            \() ->
+                Widgets.listBox { id = "id", description = "desc" }
+                    [ ListBox.batch
+                        [ ListBox.whenExpanded
+                            [ ListBox.placeholder "foobar" ]
+                        ]
+                    , ListBox.expanded
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "button" ]
+                    |> Q.contains [ Html.text "foobar" ]
         ]
 
 
