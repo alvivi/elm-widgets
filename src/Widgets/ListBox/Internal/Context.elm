@@ -39,6 +39,8 @@ type alias Context msg =
     , optionsAttrs : Array (H.Attribute msg)
     , optionsCss : Array Style
     , placeholder : Maybe String
+    , selectedOptionAttrs : Array (H.Attribute msg)
+    , selectedOptionCss : Array Style
     , wrapperAttrs : Array (H.Attribute msg)
     , wrapperCss : Array Style
     }
@@ -65,6 +67,8 @@ empty =
     , optionsAttrs = Array.empty
     , optionsCss = Array.empty
     , placeholder = Nothing
+    , selectedOptionAttrs = Array.empty
+    , selectedOptionCss = Array.empty
     , wrapperAttrs = Array.empty
     , wrapperCss = Array.empty
     }
@@ -176,8 +180,11 @@ setCss element css ctx =
         Elements.List ->
             { ctx | listCss = Array.push css ctx.listCss }
 
-        Elements.Option _ ->
-            { ctx | optionsCss = Array.push css ctx.optionsCss }
+        Elements.Option { selected } ->
+            if Debug.log "SELECTED" selected then
+                { ctx | selectedOptionCss = Array.push css ctx.selectedOptionCss }
+            else
+                { ctx | optionsCss = Array.push css ctx.optionsCss }
 
         Elements.Wrapper ->
             { ctx | wrapperCss = Array.push css ctx.wrapperCss }
@@ -228,8 +235,11 @@ setHtmlAttributes element attrs ctx =
         Elements.List ->
             { ctx | listAttrs = Array.append (Array.fromList attrs) ctx.listAttrs }
 
-        Elements.Option _ ->
-            { ctx | optionsAttrs = Array.append (Array.fromList attrs) ctx.optionsAttrs }
+        Elements.Option { selected } ->
+            if selected then
+                { ctx | selectedOptionAttrs = Array.append (Array.fromList attrs) ctx.selectedOptionAttrs }
+            else
+                { ctx | optionsAttrs = Array.append (Array.fromList attrs) ctx.optionsAttrs }
 
         Elements.Wrapper ->
             { ctx | wrapperAttrs = Array.append (Array.fromList attrs) ctx.wrapperAttrs }

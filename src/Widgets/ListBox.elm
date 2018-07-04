@@ -211,9 +211,20 @@ listView ctx =
                 (H.li
                     (K.fromMany
                         [ K.many <| Array.toList ctx.optionsAttrs
+                        , if selected then
+                            K.many <| Array.toList ctx.selectedOptionAttrs
+                          else
+                            K.zero
                         , K.many
                             [ H.id id
-                            , H.css <| Array.toList ctx.optionsCss
+                            , H.css <|
+                                K.fromMany
+                                    [ K.many <| Array.toList ctx.optionsCss
+                                    , if selected then
+                                        K.many <| Array.toList ctx.selectedOptionCss
+                                      else
+                                        K.zero
+                                    ]
                             ]
                         , K.ifTrue selected (Aria.selected True)
                         , K.maybeMap (\handler -> H.onClick <| handler id) ctx.onOptionClick

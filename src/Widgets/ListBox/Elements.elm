@@ -10,6 +10,7 @@ module Widgets.ListBox.Elements
         , option
         , textButton
         , textOption
+        , selectedOption
         , wrapper
         )
 
@@ -24,7 +25,8 @@ the button, etc.
         , (Elements.option, H.text "Option Three")
         ]
 
-@docs Element, button, textButton, description, icon, id, list, option, anyOption
+@docs Element, button, textButton, description, icon, id, list, option
+@docs anyOption, selectedOption
 @docs textOption, wrapper
 
 -}
@@ -46,6 +48,15 @@ the ListBox use the `option` element instead of this one.
 anyOption : Element
 anyOption =
     Internal.Option { selected = False, id = "", text = "" }
+
+
+{-| The selected option of the ListBox. This element is an alias of `option`
+element and it is meant to be used by `css` and `html` attributes. For adding
+options to the ListBox use the `option` element instead of this one.
+-}
+selectedOption : Element
+selectedOption =
+    Internal.Option { selected = True, id = "", text = "" }
 
 
 {-| The button of the ListBox.
