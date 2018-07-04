@@ -5,6 +5,7 @@ module Widgets.ListBox.State
         , attributes
         , empty
         , insertOption
+        , isExpanded
         , selected
         , setPlaceholder
         , update
@@ -21,7 +22,7 @@ behaviour of a ListBox widget.
 
 # Creating, updating and quering the model
 
-@docs empty, insertOption, selected, setPlaceholder
+@docs empty, insertOption, isExpanded, selected, setPlaceholder
 
 
 # Wiring the view
@@ -115,6 +116,13 @@ view. Use selected to known which option is selected.
 insertOption : { id : String, text : String } -> Model -> Model
 insertOption option (Model model) =
     Model { model | options = Array.push option model.options }
+
+
+{-| Returns True if the ListBox is currently expanded.
+-}
+isExpanded : Model -> Bool
+isExpanded (Model { expanded }) =
+    expanded
 
 
 {-| Sets a placeholder for the ListBox.
