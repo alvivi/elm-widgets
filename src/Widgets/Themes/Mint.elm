@@ -1,4 +1,12 @@
-module Widgets.Themes.Mint exposing (button, global, input, text, select)
+module Widgets.Themes.Mint
+    exposing
+        ( button
+        , global
+        , input
+        , listBox
+        , select
+        , text
+        )
 
 {-| A basic theme for the whole Widgets library. The purpose of this theme
 is to be an example on how to build themes, but it can also be use for
@@ -16,7 +24,7 @@ This theme requires a css normalization base. See global for more information.
 
 # Theming Widgets
 
-@docs button, input, select
+@docs button, input, select, listBox
 
 
 # Theming Html Nodes
@@ -26,10 +34,11 @@ This theme requires a css normalization base. See global for more information.
 -}
 
 import Css as C exposing (Style)
-import Html.Styled as H exposing (Html)
+import Html.Styled as H exposing (Html, fromUnstyled)
 import Widgets.Form.Attributes as Form exposing (Attribute)
 import Widgets.Form.Elements as FormElements
-import Widgets.Helpers.Css as C
+import Widgets.ListBox.Attributes as ListBox
+import Widgets.ListBox.Elements as ListBox
 
 
 {-| Common styles needed by other parts of this theme. Use this to initialize
@@ -148,10 +157,66 @@ input =
         ]
 
 
+{-| Apply Mint theme to ListBox Widgets. Note that a listBox icon is also used.
+
+    Widgets.listBox { id = "my-id", description = "a listbox example" }
+        [ Widgets.Theme.Mint.listbox ]
+        [ Widgets.Theme.Mint.listboxIcon ]
+
+-}
+listBox : ListBox.Attribute msg
+listBox =
+    ListBox.batch
+        [ ListBox.css ListBox.button
+            [ text
+            , C.backgroundColor backgroundColor
+            , C.border3 (C.px 1) C.solid hintColor
+            , C.borderRadius <| C.px 3
+            , C.margin <| C.px 1
+            , C.padding4 (C.px 6) (C.px 10) (C.px 6) (C.px 6)
+            , C.focus
+                [ C.border3 (C.px 2) C.solid highlightColor
+                , C.margin C.zero
+                ]
+            , C.active
+                [ C.border3 (C.px 2) C.solid highlightColor
+                , C.margin C.zero
+                ]
+            , C.disabled
+                [ C.backgroundColor disabledBackgroundColor
+                ]
+            ]
+        , ListBox.css ListBox.icon
+            [ C.marginLeft <| C.px 6
+            , C.marginRight <| C.px 6
+            ]
+        , ListBox.css ListBox.list
+            [ text
+            , C.border3 (C.px 2) C.solid highlightColor
+            , C.borderRadius4 C.zero (C.px 3) (C.px 3) (C.px 3)
+            , C.outline C.zero
+            ]
+        , ListBox.css ListBox.anyOption
+            [ C.padding <| C.px 6
+            ]
+        , ListBox.css ListBox.selectedOption
+            [ C.backgroundColor highlightColor
+            , C.color backgroundColor
+            ]
+        , ListBox.whenExpanded
+            [ ListBox.css ListBox.button
+                [ C.border3 (C.px 2) C.solid hintColor
+                , C.margin C.zero
+                , C.borderRadius4 (C.px 3) (C.px 3) (C.px 3) C.zero
+                ]
+            ]
+        ]
+
+
 {-| Apply Mint theme to Widgets.Form select control.
 
     Form.select { id = "id" , description = "desc" }
-      [ Widgets.Themes.Mint.input ] []
+        [ Widgets.Themes.Mint.input ] []
 
 -}
 select : Attribute msg
