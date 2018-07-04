@@ -132,6 +132,9 @@ setAttribute attr ctx =
         Attributes.Placeholder placeholder ->
             { ctx | placeholder = Just placeholder }
 
+        Attributes.WhenExpanded _ ->
+            ctx
+
         Attributes.WhenHasIcon _ ->
             ctx
 
@@ -139,6 +142,12 @@ setAttribute attr ctx =
 setAttributeModifiers : Attribute msg -> Context msg -> Context msg
 setAttributeModifiers attr ctx =
     case attr of
+        Attributes.WhenExpanded expandedAttrs ->
+            if ctx.expanded then
+                insertAttributes expandedAttrs ctx
+            else
+                ctx
+
         Attributes.WhenHasIcon iconAttrs ->
             if Array.isEmpty ctx.iconHtml then
                 ctx

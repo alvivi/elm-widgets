@@ -10,6 +10,7 @@ module Widgets.ListBox.Internal.Attributes
             , OnOptionClick
             , Placeholder
             , WhenHasIcon
+            , WhenExpanded
             )
         )
 
@@ -28,4 +29,5 @@ type Attribute msg
     | Html Element (List (H.Attribute msg))
     | OnOptionClick (String -> msg)
     | Placeholder String
+    | WhenExpanded (List (Attribute msg))
     | WhenHasIcon (List (Attribute msg))
