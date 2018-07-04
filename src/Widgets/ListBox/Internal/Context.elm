@@ -142,6 +142,9 @@ setAttribute attr ctx =
 setAttributeModifiers : Attribute msg -> Context msg -> Context msg
 setAttributeModifiers attr ctx =
     case attr of
+        Attributes.Batch moreAttrs ->
+            List.foldl setAttributeModifiers ctx moreAttrs
+
         Attributes.WhenExpanded expandedAttrs ->
             if ctx.expanded then
                 insertAttributes expandedAttrs ctx
