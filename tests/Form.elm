@@ -247,6 +247,19 @@ input =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.tag "input" ]
                     |> Q.has [ S.attribute <| Html.attribute "foo" "bar" ]
+        , T.test "attributes modifiers overrides previous values" <|
+            \() ->
+                Form.input { id = "id", description = "desc", type_ = "text" }
+                    [ Form.focused
+                    , Form.whenFocused
+                        [ Form.html Elements.control [ H.attribute "foo" "two" ]
+                        ]
+                    , Form.html Elements.control [ H.attribute "foo" "one" ]
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.tag "input" ]
+                    |> Q.has [ S.attribute <| Html.attribute "foo" "two" ]
         ]
 
 
