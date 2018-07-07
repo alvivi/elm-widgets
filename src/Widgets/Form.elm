@@ -99,7 +99,6 @@ buttonView ctx content =
                 , K.maybeMap H.onClick ctx.onClick
                 , K.maybeMap H.onFocus ctx.onFocus
                 , K.maybeMap H.onKeyUp ctx.onKeyUp
-                , K.many (Array.toList ctx.controlAttrs)
                 , K.one <|
                     H.css <|
                         K.fromMany
@@ -108,6 +107,7 @@ buttonView ctx content =
                             , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.ifTrue (ctx.type_ == "link" && not ctx.disabled) (C.cursor C.default)
                             ]
+                , K.many (Array.toList ctx.controlAttrs)
                 ]
             )
             content

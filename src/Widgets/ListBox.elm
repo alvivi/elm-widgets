@@ -78,8 +78,7 @@ buttonView : Context msg -> Html msg
 buttonView ctx =
     Form.button
         (K.fromMany
-            [ K.many <| Array.toList ctx.buttonAttrs
-            , K.one <|
+            [ K.one <|
                 Form.html Form.control
                     (K.fromMany
                         [ K.many
@@ -95,6 +94,7 @@ buttonView ctx =
                     K.fromMany
                         [ K.maybeMap C.paddingRight <| iconPadding ctx
                         ]
+            , K.many <| Array.toList ctx.buttonAttrs
             ]
         )
         (K.fromMany
@@ -144,7 +144,7 @@ descriptionView ctx =
 
 
 iconView : Context msg -> KeywordList (Html msg)
-iconView { iconCss, iconHtml } =
+iconView { iconAttrs, iconCss, iconHtml } =
     if Array.isEmpty iconHtml then
         K.zero
     else
@@ -161,20 +161,25 @@ iconView { iconCss, iconHtml } =
                         ]
                     ]
                     [ H.span
-                        [ Aria.hidden True
-                        , H.css <|
-                            K.fromMany
-                                [ K.many
-                                    [ C.height iconSide
-                                    , C.width iconSide
-                                    , C.display C.inlineBlock
-                                    , C.position C.relative
-                                    , C.marginRight iconPaddingHorizontal
-                                    , C.top iconPaddingVertical
-                                    ]
-                                , K.many <| Array.toList iconCss
+                        (K.fromMany
+                            [ K.many
+                                [ Aria.hidden True
+                                , H.css <|
+                                    K.fromMany
+                                        [ K.many
+                                            [ C.height iconSide
+                                            , C.width iconSide
+                                            , C.display C.inlineBlock
+                                            , C.position C.relative
+                                            , C.marginRight iconPaddingHorizontal
+                                            , C.top iconPaddingVertical
+                                            ]
+                                        , K.many <| Array.toList iconCss
+                                        ]
                                 ]
-                        ]
+                            , K.many <| Array.toList iconAttrs
+                            ]
+                        )
                         (Array.toList iconHtml)
                     ]
 
@@ -205,20 +210,15 @@ listView ctx =
                     )
                 ]
             , K.maybeMap (.id >> Aria.activeDescendant) (Context.selected ctx)
-            , K.many <| Array.toList ctx.listAttrs
             , labelAttributes ctx
+            , K.many <| Array.toList ctx.listAttrs
             ]
         )
         (Array.foldr
             (\( { selected, id }, content ) list ->
                 (H.li
                     (K.fromMany
-                        [ K.many <| Array.toList ctx.optionsAttrs
-                        , if selected then
-                            K.many <| Array.toList ctx.selectedOptionAttrs
-                          else
-                            K.zero
-                        , K.many
+                        [ K.many
                             [ H.id id
                             , H.css <|
                                 K.fromMany
@@ -231,6 +231,11 @@ listView ctx =
                             ]
                         , K.ifTrue selected (Aria.selected True)
                         , K.maybeMap (\handler -> H.onClick <| handler id) ctx.onOptionClick
+                        , K.many <| Array.toList ctx.optionsAttrs
+                        , if selected then
+                            K.many <| Array.toList ctx.selectedOptionAttrs
+                          else
+                            K.zero
                         ]
                     )
                     [ content ]

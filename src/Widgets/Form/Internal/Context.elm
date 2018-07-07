@@ -264,7 +264,7 @@ setHtmlAttributes : Element -> List (H.Attribute msg) -> Context msg -> Context 
 setHtmlAttributes element attrs ctx =
     case element of
         Elements.Control ->
-            { ctx | controlAttrs = Array.append (Array.fromList attrs) ctx.controlAttrs }
+            { ctx | controlAttrs = Array.append ctx.controlAttrs (Array.fromList attrs) }
 
         _ ->
             let
