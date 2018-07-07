@@ -103,9 +103,9 @@ buttonView ctx content =
                     H.css <|
                         K.fromMany
                             [ K.one <| C.display C.inlineBlock
-                            , K.many <| Array.toList ctx.controlCss
                             , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.ifTrue (ctx.type_ == "link" && not ctx.disabled) (C.cursor C.default)
+                            , K.many <| Array.toList ctx.controlCss
                             ]
                 , K.many (Array.toList ctx.controlAttrs)
                 ]
@@ -427,10 +427,10 @@ inputView ctx =
                 , K.one <|
                     H.css <|
                         K.fromMany
-                            [ K.many <| Array.toList ctx.controlCss
-                            , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                            [ K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.one <| C.width <| C.pct 100
                             , K.maybeMap C.paddingLeft <| iconPadding ctx
+                            , K.many <| Array.toList ctx.controlCss
                             ]
                 , K.many <| Array.toList ctx.controlAttrs
                 ]
@@ -465,11 +465,11 @@ selectView ctx =
                     , K.one <|
                         H.css <|
                             K.fromMany
-                                [ K.many <| Array.toList ctx.controlCss
-                                , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                                [ K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                                 , K.ifTrue isAppearanceAffected (C.appearance "none")
                                 , K.one <| C.minHeight iconSide
                                 , K.one <| C.width <| C.pct 100
+                                , K.many <| Array.toList ctx.controlCss
                                 ]
                     , K.many <| Array.toList ctx.controlAttrs
                     ]
@@ -523,10 +523,10 @@ textareaView ctx =
                 , K.one <|
                     H.css <|
                         K.fromMany
-                            [ K.many <| Array.toList ctx.controlCss
-                            , K.ifTrue ctx.disabled <| C.cursor C.notAllowed
+                            [ K.ifTrue ctx.disabled <| C.cursor C.notAllowed
                             , K.one <| C.width <| C.pct 100
                             , K.maybeMap C.paddingLeft <| iconPadding ctx
+                            , K.many <| Array.toList ctx.controlCss
                             ]
                 , K.many <| Array.toList ctx.controlAttrs
                 ]
