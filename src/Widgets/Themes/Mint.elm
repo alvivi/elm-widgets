@@ -130,17 +130,19 @@ input =
             , C.paddingLeft <| C.px 2
             , C.paddingTop <| C.px 2
             ]
-        , Form.whenErred
-            [ Form.css FormElements.control
-                [ C.border3 (C.px 1) C.solid errorColor
-                ]
-            ]
         , Form.whenFocused
             [ Form.css FormElements.description
                 [ C.color primaryColor
                 ]
             , Form.css FormElements.icon
                 [ C.color primaryColor
+                ]
+            ]
+        , Form.whenErred
+            [ Form.css FormElements.control
+                [ C.border3 (C.px 1) C.solid errorColor
+                , C.focus
+                    [ C.border3 (C.px 2) C.solid errorColor ]
                 ]
             ]
         , Form.whenHasIcon
