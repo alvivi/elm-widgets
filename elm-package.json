@@ -7,6 +7,9 @@
         "src"
     ],
     "exposed-modules": [
+        "Widgets.Dialog",
+        "Widgets.Dialog.Attributes",
+        "Widgets.Dialog.Elements",
         "Widgets.Form",
         "Widgets.Form.Attributes",
         "Widgets.Form.Elements",
