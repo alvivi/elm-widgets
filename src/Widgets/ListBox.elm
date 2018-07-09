@@ -82,7 +82,7 @@ buttonView ctx =
                 Form.html Form.control
                     (K.fromMany
                         [ K.many
-                            [ Aria.hasPopup Popup.Listbox
+                            [ Aria.hasPopup Popup.ListBox
                             , H.id <| Elements.id ctx.id Elements.Button
                             ]
                         , K.ifTrue ctx.expanded (Aria.expanded True)
@@ -251,7 +251,7 @@ labelAttributes : Context msg -> KeywordList (H.Attribute msg)
 labelAttributes ctx =
     K.group
         [ K.ifTrue (Context.hasDescriptionVisible ctx)
-            (Aria.labeledBy
+            (Aria.labelledBy
                 [ Elements.id ctx.id Elements.Description
                 ]
             )

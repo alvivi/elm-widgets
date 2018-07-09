@@ -19,7 +19,7 @@
         "Widgets.Themes.Mint"
     ],
     "dependencies": {
-        "alvivi/elm-css-aria": "1.2.0 <= v < 2.0.0",
+        "alvivi/elm-css-aria": "2.0.0 <= v < 3.0.0",
         "alvivi/elm-keyword-list": "1.0.1 <= v < 2.0.0",
         "elm-lang/core": "5.1.1 <= v < 6.0.0",
         "elm-lang/dom": "1.1.1 <= v < 2.0.0",
