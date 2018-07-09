@@ -181,7 +181,7 @@ setCss element css ctx =
             { ctx | listCss = Array.push css ctx.listCss }
 
         Elements.Option { selected } ->
-            if Debug.log "SELECTED" selected then
+            if selected then
                 { ctx | selectedOptionCss = Array.push css ctx.selectedOptionCss }
             else
                 { ctx | optionsCss = Array.push css ctx.optionsCss }
