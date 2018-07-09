@@ -49,13 +49,13 @@ import Char exposing (KeyCode)
 import Css exposing (Style)
 import Html.Styled as H
 import Widgets.Form.Elements exposing (Element)
-import Widgets.Form.Internal.Attributes as A
+import Widgets.Form.Internal.Attributes as Internal
 
 
 {-| A Form control attribute
 -}
 type alias Attribute msg =
-    A.Attribute msg
+    Internal.Attribute msg
 
 
 {-| Set the type of autocomplete for the control. Valid options can be found
@@ -64,7 +64,7 @@ All controls exposed in Widgets.Form but input set this value for you.
 -}
 autocomplete : String -> Attribute msg
 autocomplete =
-    A.Autocomplete
+    Internal.Autocomplete
 
 
 {-| Batch several attributes together. Useful for making you own custom
@@ -72,14 +72,14 @@ controls.
 -}
 batch : List (Attribute msg) -> Attribute msg
 batch =
-    A.Batch
+    Internal.Batch
 
 
 {-| Sets custom css for an Element of the controls.
 -}
 css : Element -> List Style -> Attribute msg
 css element style =
-    A.Css element <| Css.batch style
+    Internal.Css element <| Css.batch style
 
 
 {-| Show the description as text. Note that this overridden if you provide your
@@ -87,63 +87,63 @@ own custom Label element.
 -}
 descriptionLabel : Attribute msg
 descriptionLabel =
-    A.DescriptionLabel
+    Internal.DescriptionLabel
 
 
 {-| Sets the control as disabled.
 -}
 disabled : Attribute msg
 disabled =
-    A.Disabled
+    Internal.Disabled
 
 
 {-| Sets an error message for the control. Usually used when validating fields.
 -}
 error : String -> Attribute msg
 error =
-    A.Error
+    Internal.Error
 
 
 {-| Sets the control as focused.
 -}
 focused : Attribute msg
 focused =
-    A.Focused
+    Internal.Focused
 
 
 {-| Sets a custom set of HTML attributes to an Element of the controls.
 -}
 html : Element -> List (H.Attribute msg) -> Attribute msg
 html =
-    A.Html
+    Internal.Html
 
 
 {-| Notifies when the control loose the focus.
 -}
 onBlur : msg -> Attribute msg
 onBlur =
-    A.OnBlur
+    Internal.OnBlur
 
 
 {-| Notifies when the control is clicked.
 -}
 onClick : msg -> Attribute msg
 onClick =
-    A.OnClick
+    Internal.OnClick
 
 
 {-| Notifies when the control is focused.
 -}
 onFocus : msg -> Attribute msg
 onFocus =
-    A.OnFocus
+    Internal.OnFocus
 
 
 {-| Notifies when the control has a new value.
 -}
 onInput : (String -> msg) -> Attribute msg
 onInput =
-    A.OnInput
+    Internal.OnInput
 
 
 {-| Notifies when the user releases a key on the keyboard while the control has
@@ -151,28 +151,28 @@ the focus.
 -}
 onKeyUp : (KeyCode -> msg) -> Attribute msg
 onKeyUp =
-    A.OnKeyUp
+    Internal.OnKeyUp
 
 
 {-| Sets the placeholder of the control.
 -}
 placeholder : String -> Attribute msg
 placeholder =
-    A.Placeholder
+    Internal.Placeholder
 
 
 {-| Sets the control as required.
 -}
 required : Attribute msg
 required =
-    A.Required
+    Internal.Required
 
 
 {-| Sets the value of the control.
 -}
 value : String -> Attribute msg
 value =
-    A.Value
+    Internal.Value
 
 
 {-| Applies attributes only when the control has an error. You can combine
@@ -181,7 +181,7 @@ error.
 -}
 whenErred : List (Attribute msg) -> Attribute msg
 whenErred =
-    A.WhenErred
+    Internal.WhenErred
 
 
 {-| Applies attributes only when the control is focused. You can combine this
@@ -189,7 +189,7 @@ attribute with css to add style to some elements when the control is focused.
 -}
 whenFocused : List (Attribute msg) -> Attribute msg
 whenFocused =
-    A.WhenFocused
+    Internal.WhenFocused
 
 
 {-| Applies attributes when the control has a description label. This can be
@@ -198,7 +198,7 @@ custom label element.
 -}
 whenHasDescriptionLabel : List (Attribute msg) -> Attribute msg
 whenHasDescriptionLabel =
-    A.WhenHasDescriptionLabel
+    Internal.WhenHasDescriptionLabel
 
 
 {-| Applies attributes only when the control has an icon. Useful for building
@@ -206,7 +206,7 @@ themes.
 -}
 whenHasIcon : List (Attribute msg) -> Attribute msg
 whenHasIcon =
-    A.WhenHasIcon
+    Internal.WhenHasIcon
 
 
 {-| Applies attributes only when the control type is equal to the provided
@@ -221,4 +221,4 @@ that we can use `"select"` for select controls, `"textarea"` for textareas, etc.
 -}
 whenHasType : String -> List (Attribute msg) -> Attribute msg
 whenHasType =
-    A.WhenHasType
+    Internal.WhenHasType
