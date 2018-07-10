@@ -7,6 +7,7 @@ import Widgets.Dialog.Attributes as Dialog
 import Widgets.Dialog.Elements as Dialog
 import Widgets.Form as Widgets
 import Widgets.Form.Attributes as Form
+import Widgets.Themes.Mint as Theme
 
 
 -- View --
@@ -20,6 +21,11 @@ view model =
             ]
             [ H.text "Open Unstyled Dialog"
             ]
+        , Widgets.button
+            [ Form.onClick OnOpenStyled
+            ]
+            [ H.text "Open Styled Dialog"
+            ]
         , Widgets.dialog { id = "dialog-unstyuled", title = "A simple dialog" }
             (K.fromMany
                 [ K.ifTrue model.unstyledOpen Dialog.open
@@ -28,6 +34,18 @@ view model =
             [ ( Dialog.window
               , Widgets.button
                     [ Form.onClick OnCloseUnstyled ]
+                    [ H.text "Close" ]
+              )
+            ]
+        , Widgets.dialog { id = "dialog-styled", title = "An styled dialog" }
+            (K.fromMany
+                [ K.one <| Theme.dialog
+                , K.ifTrue model.styledOpen Dialog.open
+                ]
+            )
+            [ ( Dialog.window
+              , Widgets.button
+                    [ Theme.button, Form.onClick OnCloseStyled ]
                     [ H.text "Close" ]
               )
             ]
@@ -40,12 +58,14 @@ view model =
 
 type alias Model =
     { unstyledOpen : Bool
+    , styledOpen : Bool
     }
 
 
 empty : Model
 empty =
     { unstyledOpen = False
+    , styledOpen = False
     }
 
 
@@ -54,15 +74,23 @@ empty =
 
 
 type Msg
-    = OnCloseUnstyled
+    = OnCloseStyled
+    | OnCloseUnstyled
+    | OnOpenStyled
     | OnOpenUnstyled
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        OnCloseStyled ->
+            ( { model | styledOpen = False }, Cmd.none )
+
         OnCloseUnstyled ->
             ( { model | unstyledOpen = False }, Cmd.none )
+
+        OnOpenStyled ->
+            ( { model | styledOpen = True }, Cmd.none )
 
         OnOpenUnstyled ->
             ( { model | unstyledOpen = True }, Cmd.none )
