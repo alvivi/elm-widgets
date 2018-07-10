@@ -2,6 +2,7 @@ module Dialog exposing (..)
 
 import Expect as E
 import Helpers
+import Html
 import Html.Attributes as Html
 import Html.Styled.Attributes as H
 import Test as T exposing (Test)
@@ -25,6 +26,23 @@ dialog =
                         , Q.index 1 >> Q.has [ S.id <| Dialog.id "foo" Dialog.window ]
                         , Q.index 2 >> Q.has [ S.attribute <| Html.tabindex 0 ]
                         ]
+        , T.test "A title header is added to the window by default" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
+                    |> Q.children [ S.tag "h2" ]
+                    |> Q.first
+                    |> Q.contains [ Html.text "bar" ]
+        , T.test "background is labeled by title" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" } [] []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has
+                        [ S.attribute <|
+                            Html.attribute "aria-labelledby" <|
+                                Dialog.id "foo" Dialog.title
+                        ]
         ]
 
 
@@ -39,6 +57,48 @@ backdrop =
                     []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.attribute <| Html.required True ]
+        ]
+
+
+title : Test
+title =
+    T.describe "Dialog.Title element"
+        [ T.test "Adds custom attributes" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    [ Dialog.html Dialog.title [ H.required True ]
+                    ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id <| Dialog.id "foo" Dialog.title ]
+                    |> Q.has [ S.attribute <| Html.required True ]
+        , T.test "`titleHidden` removes the title from the window" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    [ Dialog.titleHidden ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
+                    |> Q.children [ S.tag "h2" ]
+                    |> Q.count (E.equal 0)
+        , T.test "`titleHidden` removes labelledby attribute" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    [ Dialog.titleHidden ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.hasNot
+                        [ S.attribute <|
+                            Html.attribute "aria-labellby" <|
+                                Dialog.id "foo" Dialog.title
+                        ]
+        , T.test "`titleHidden` sets the label of the widget" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    [ Dialog.titleHidden ]
+                    []
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.attribute "aria-label" "bar" ]
         ]
 
 
