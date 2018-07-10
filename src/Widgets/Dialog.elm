@@ -66,7 +66,7 @@ dialog { id, title } attrs elements =
                                     , C.top C.zero
                                     ]
                               else
-                                K.zero
+                                K.one <| C.display C.none
                             , K.many <| Array.toList ctx.backdropCss
                             ]
                     ]
