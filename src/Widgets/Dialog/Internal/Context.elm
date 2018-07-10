@@ -24,6 +24,7 @@ type alias Context msg =
     , title : String
     , titleAttrs : Array (H.Attribute msg)
     , titleCss : Array Style
+    , titleHidden : Bool
     , titleHtml : Array (Html msg)
     , windowAttrs : Array (H.Attribute msg)
     , windowCss : Array Style
@@ -40,6 +41,7 @@ empty =
     , title = ""
     , titleAttrs = Array.empty
     , titleCss = Array.empty
+    , titleHidden = False
     , titleHtml = Array.empty
     , windowAttrs = Array.empty
     , windowCss = Array.empty
@@ -81,6 +83,9 @@ setAttribute attr ctx =
 
         Attributes.Open ->
             { ctx | opened = True }
+
+        Attributes.TitleHidden ->
+            { ctx | titleHidden = True }
 
 
 setCss : Element -> Style -> Context msg -> Context msg

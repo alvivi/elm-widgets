@@ -5,6 +5,7 @@ module Widgets.Dialog.Internal.Attributes
             , Css
             , Html
             , Open
+            , TitleHidden
             )
         )
 
@@ -18,3 +19,4 @@ type Attribute msg
     | Css Element Style
     | Html Element (List (H.Attribute msg))
     | Open
+    | TitleHidden

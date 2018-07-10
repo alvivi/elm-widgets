@@ -5,6 +5,7 @@ module Widgets.Dialog.Attributes
         , css
         , html
         , open
+        , titleHidden
         )
 
 {-| Attributes for the Dialog widget.
@@ -14,7 +15,7 @@ module Widgets.Dialog.Attributes
 
 # Properties
 
-@docs batch, open, css, html
+@docs batch, open, css, html, titleHidden
 
 -}
 
@@ -56,3 +57,11 @@ html =
 open : Attribute msg
 open =
     Internal.Open
+
+
+{-| Makes the title to not appear as a content of the Dialog window. Note that
+the content is still used as label (description) of the widget.
+-}
+titleHidden : Attribute msg
+titleHidden =
+    Internal.TitleHidden

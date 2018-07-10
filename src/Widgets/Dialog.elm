@@ -24,6 +24,8 @@ import Widgets.Dialog.Internal.Context as Context
 
 
 {-| A modal Dialog element. A id is always required to set ARIA relationships.
+A Dialog is not based in others HTML controls so this Widget has more CSS than
+the others. Of course, you can override any style.
 TODO: Add an example.
 -}
 dialog : { id : String, title : String } -> List (Attribute msg) -> List ( Element, Html msg ) -> Html msg
@@ -38,7 +40,9 @@ dialog { id, title } attrs elements =
     in
         H.div
             (K.fromMany
-                [ K.many
+                [ K.ifFalse ctx.titleHidden <| Aria.labelledBy [ Elements.id id Elements.title ]
+                , K.ifTrue ctx.titleHidden <| Aria.label title
+                , K.many
                     [ H.id <| Elements.id id Elements.backdrop
                     , H.css <|
                         K.fromMany
@@ -78,6 +82,19 @@ dialog { id, title } attrs elements =
                     , K.many <| Array.toList ctx.windowAttrs
                     ]
                 )
-                []
+                (K.fromMany
+                    [ if ctx.titleHidden then
+                        K.zero
+                      else
+                        K.one <|
+                            H.h2
+                                (K.fromMany
+                                    [ K.one <| H.id <| Elements.id id Elements.title
+                                    , K.many <| Array.toList ctx.titleAttrs
+                                    ]
+                                )
+                                [ H.text title ]
+                    ]
+                )
             , H.div [ H.tabindex 0 ] []
             ]
