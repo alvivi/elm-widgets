@@ -37,11 +37,20 @@ dialog { id, title } attrs elements =
                 |> Context.setTitle title
                 |> Context.insertElements elements
                 |> Context.insertAttributes attrs
+
+        isLabelled =
+            not ctx.titleHidden && Array.isEmpty ctx.titleHtml
+
+        titleTag =
+            if Array.isEmpty ctx.titleHtml then
+                H.h2
+            else
+                H.span
     in
         H.div
             (K.fromMany
-                [ K.ifFalse ctx.titleHidden <| Aria.labelledBy [ Elements.id id Elements.title ]
-                , K.ifTrue ctx.titleHidden <| Aria.label title
+                [ K.ifTrue isLabelled <| Aria.labelledBy [ Elements.id id Elements.title ]
+                , K.ifFalse isLabelled <| Aria.label title
                 , K.many
                     [ H.id <| Elements.id id Elements.backdrop
                     , H.css <|
@@ -87,13 +96,17 @@ dialog { id, title } attrs elements =
                         K.zero
                       else
                         K.one <|
-                            H.h2
+                            titleTag
                                 (K.fromMany
                                     [ K.one <| H.id <| Elements.id id Elements.title
                                     , K.many <| Array.toList ctx.titleAttrs
                                     ]
                                 )
-                                [ H.text title ]
+                                (if Array.isEmpty ctx.titleHtml then
+                                    [ H.text title ]
+                                 else
+                                    Array.toList ctx.titleHtml
+                                )
                     , K.many <| Array.toList ctx.windowHtml
                     ]
                 )
