@@ -80,13 +80,17 @@ dialog { id, title } attrs elements =
                         [ Aria.modal True
                         , Aria.role Role.Dialog
                         , H.id <| Elements.id id Elements.window
-                        , H.css
-                            [ C.backgroundColor <| C.rgb 255 255 255
-                            , C.border3 (C.px 1) C.solid (C.rgb 0 0 0)
-                            , C.margin2 (C.vh 10) C.auto
-                            , C.padding (C.px 5)
-                            , C.width <| C.pct 50
-                            ]
+                        , H.css <|
+                            K.fromMany
+                                [ K.many
+                                    [ C.backgroundColor <| C.rgb 255 255 255
+                                    , C.border3 (C.px 1) C.solid (C.rgb 0 0 0)
+                                    , C.margin2 (C.vh 10) C.auto
+                                    , C.padding (C.px 5)
+                                    , C.width <| C.pct 50
+                                    ]
+                                , K.many <| Array.toList ctx.windowCss
+                                ]
                         ]
                     , K.many <| Array.toList ctx.windowAttrs
                     ]
@@ -99,6 +103,7 @@ dialog { id, title } attrs elements =
                             titleTag
                                 (K.fromMany
                                     [ K.one <| H.id <| Elements.id id Elements.title
+                                    , K.one <| H.css <| Array.toList ctx.titleCss
                                     , K.many <| Array.toList ctx.titleAttrs
                                     ]
                                 )
