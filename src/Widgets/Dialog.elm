@@ -94,6 +94,7 @@ dialog { id, title } attrs elements =
                                     ]
                                 )
                                 [ H.text title ]
+                    , K.many <| Array.toList ctx.windowHtml
                     ]
                 )
             , H.div [ H.tabindex 0 ] []
