@@ -82,7 +82,7 @@ title =
                     |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
                     |> Q.children [ S.tag "h2" ]
                     |> Q.count (E.equal 0)
-        , T.test "`titleHidden` removes labelledby attribute" <|
+        , T.test "`titleHidden` removes `labelledby` attribute" <|
             \() ->
                 Widgets.dialog { id = "foo", title = "bar" }
                     [ Dialog.titleHidden ]
@@ -100,6 +100,33 @@ title =
                     []
                     |> Helpers.fromStyledHtml
                     |> Q.has [ S.attribute <| Html.attribute "aria-label" "bar" ]
+        , T.test "custom title removes `labelledby` attribute" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    []
+                    [ ( Dialog.title, H.text "" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.hasNot
+                        [ S.attribute <|
+                            Html.attribute "aria-labellby" <|
+                                Dialog.id "foo" Dialog.title
+                        ]
+        , T.test "custom title sets `labelledby` attribute" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    []
+                    [ ( Dialog.title, H.text "" ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.has [ S.attribute <| Html.attribute "aria-label" "bar" ]
+        , T.test "Adds custom node" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    []
+                    [ ( Dialog.title, H.h3 [] [ H.text "qux" ] ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
+                    |> Q.find [ S.tag "h3" ]
+                    |> Q.contains [ Html.text "qux" ]
         ]
 
 
