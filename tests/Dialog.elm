@@ -4,6 +4,7 @@ import Expect as E
 import Helpers
 import Html
 import Html.Attributes as Html
+import Html.Styled as H
 import Html.Styled.Attributes as H
 import Test as T exposing (Test)
 import Test.Html.Query as Q
@@ -125,4 +126,13 @@ window =
                     |> Helpers.fromStyledHtml
                     |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
                     |> Q.has [ S.attribute <| Html.required True ]
+        , T.test "Adds custom node" <|
+            \() ->
+                Widgets.dialog { id = "foo", title = "bar" }
+                    []
+                    [ ( Dialog.window, H.p [] [ H.text "qux" ] ) ]
+                    |> Helpers.fromStyledHtml
+                    |> Q.find [ S.id <| Dialog.id "foo" Dialog.window ]
+                    |> Q.find [ S.tag "p" ]
+                    |> Q.contains [ Html.text "qux" ]
         ]
