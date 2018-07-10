@@ -1,6 +1,7 @@
 module Widgets.Themes.Mint
     exposing
         ( button
+        , dialog
         , global
         , input
         , listBox
@@ -24,7 +25,7 @@ This theme requires a css normalization base. See global for more information.
 
 # Theming Widgets
 
-@docs button, input, select, listBox
+@docs button, dialog, input, select, listBox
 
 
 # Theming Html Nodes
@@ -35,6 +36,8 @@ This theme requires a css normalization base. See global for more information.
 
 import Css as C exposing (Style)
 import Html.Styled as H exposing (Html, fromUnstyled)
+import Widgets.Dialog.Attributes as Dialog
+import Widgets.Dialog.Elements as Dialog
 import Widgets.Form.Attributes as Form exposing (Attribute)
 import Widgets.Form.Elements as FormElements
 import Widgets.ListBox.Attributes as ListBox
@@ -84,6 +87,34 @@ button =
             , C.disabled
                 [ C.backgroundColor hintColor
                 ]
+            ]
+        ]
+
+
+{-| Apply Mint theme to Widgets.Dialog.
+
+    Widgets.dialog { id = "id" , title = "title"}
+      [ Widgets.Themes.Mint.dialog ] []
+
+-}
+dialog : Dialog.Attribute msg
+dialog =
+    Dialog.batch
+        [ Dialog.css Dialog.backdrop
+            [ C.property "backdrop-filter" "blur(2px)"
+            , C.property "-webkit-backdrop-filter" "blur(2px)"
+            ]
+        , Dialog.css Dialog.title
+            [ text
+            , C.fontSize <| C.px 20
+            , C.marginTop C.zero
+            , C.marginBottom <| C.px 26
+            ]
+        , Dialog.css Dialog.window
+            [ C.borderRadius <| C.px 4
+            , C.border C.zero
+            , C.boxShadow4 (C.px 0) (C.px 4) (C.px 12) (C.rgba 0 0 0 0.15)
+            , C.padding <| C.px 12
             ]
         ]
 
