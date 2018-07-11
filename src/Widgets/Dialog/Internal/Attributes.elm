@@ -4,6 +4,8 @@ module Widgets.Dialog.Internal.Attributes
             ( Batch
             , Css
             , Html
+            , OnFocusLeavesBackward
+            , OnFocusLeavesForward
             , Open
             , TitleHidden
             )
@@ -18,5 +20,7 @@ type Attribute msg
     = Batch (List (Attribute msg))
     | Css Element Style
     | Html Element (List (H.Attribute msg))
+    | OnFocusLeavesBackward msg
+    | OnFocusLeavesForward msg
     | Open
     | TitleHidden

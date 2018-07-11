@@ -20,6 +20,8 @@ type alias Context msg =
     { backdropAttrs : Array (H.Attribute msg)
     , backdropCss : Array Style
     , id : String
+    , onFocusLeavesBackward : Maybe msg
+    , onFocusLeavesForward : Maybe msg
     , opened : Bool
     , title : String
     , titleAttrs : Array (H.Attribute msg)
@@ -37,6 +39,8 @@ empty =
     { backdropAttrs = Array.empty
     , backdropCss = Array.empty
     , id = ""
+    , onFocusLeavesBackward = Nothing
+    , onFocusLeavesForward = Nothing
     , opened = False
     , title = ""
     , titleAttrs = Array.empty
@@ -80,6 +84,12 @@ setAttribute attr ctx =
 
         Attributes.Html element css ->
             setHtmlAttributes element css ctx
+
+        Attributes.OnFocusLeavesBackward msg ->
+            { ctx | onFocusLeavesBackward = Just msg }
+
+        Attributes.OnFocusLeavesForward msg ->
+            { ctx | onFocusLeavesForward = Just msg }
 
         Attributes.Open ->
             { ctx | opened = True }

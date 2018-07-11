@@ -4,6 +4,8 @@ module Widgets.Dialog.Attributes
         , batch
         , css
         , html
+        , onFocusLeavesBackward
+        , onFocusLeavesForward
         , open
         , titleHidden
         )
@@ -15,7 +17,7 @@ module Widgets.Dialog.Attributes
 
 # Properties
 
-@docs batch, open, css, html, titleHidden
+@docs batch, open, css, html, titleHidden, onFocusLeavesBackward, onFocusLeavesForward
 
 -}
 
@@ -65,3 +67,18 @@ the content is still used as label (description) of the widget.
 titleHidden : Attribute msg
 titleHidden =
     Internal.TitleHidden
+
+
+{-| Sets the msg that will be sent when the focus leaves the dialog using
+`shift + tab`.
+-}
+onFocusLeavesBackward : msg -> Attribute msg
+onFocusLeavesBackward =
+    Internal.OnFocusLeavesBackward
+
+
+{-| Sets the msg that will be sent when the focus leaves the dialog using `tab`.
+-}
+onFocusLeavesForward : msg -> Attribute msg
+onFocusLeavesForward =
+    Internal.OnFocusLeavesForward

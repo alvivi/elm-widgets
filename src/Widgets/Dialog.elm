@@ -17,6 +17,7 @@ import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Attributes.Aria as Aria
 import Html.Styled.Attributes.Aria.Role as Role
+import Html.Styled.Events as H
 import KeywordList as K
 import Widgets.Dialog.Attributes exposing (Attribute)
 import Widgets.Dialog.Elements as Elements exposing (Element)
@@ -73,7 +74,13 @@ dialog { id, title } attrs elements =
                 , K.many <| Array.toList ctx.backdropAttrs
                 ]
             )
-            [ H.div [ H.tabindex 0 ] []
+            [ H.div
+                (K.fromMany
+                    [ K.one <| H.tabindex 0
+                    , K.maybeMap H.onFocus ctx.onFocusLeavesBackward
+                    ]
+                )
+                []
             , H.div
                 (K.fromMany
                     [ K.many
@@ -115,5 +122,11 @@ dialog { id, title } attrs elements =
                     , K.many <| Array.toList ctx.windowHtml
                     ]
                 )
-            , H.div [ H.tabindex 0 ] []
+            , H.div
+                (K.fromMany
+                    [ K.one <| H.tabindex 0
+                    , K.maybeMap H.onFocus ctx.onFocusLeavesForward
+                    ]
+                )
+                []
             ]
