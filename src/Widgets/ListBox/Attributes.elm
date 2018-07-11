@@ -86,7 +86,7 @@ html =
     Internal.Html
 
 
-{-| Sets a event listener for click event on list options. The id of the
+{-| Sets an event listener for click event on list options. The id of the
 options is passed to the handler.
 -}
 onOptionClick : (String -> msg) -> Attribute msg
