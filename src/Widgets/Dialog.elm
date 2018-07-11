@@ -61,7 +61,7 @@ dialog { id, title } attrs elements =
                                     [ C.backgroundColor <| C.rgba 0 0 0 0.3
                                     , C.bottom C.zero
                                     , C.left C.zero
-                                    , C.overflowY C.scroll
+                                    , C.overflowY C.auto
                                     , C.position C.fixed
                                     , C.right C.zero
                                     , C.top C.zero
