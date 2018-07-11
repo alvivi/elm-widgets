@@ -1,12 +1,14 @@
 module Dialog exposing (main)
 
 import Html.Styled as H exposing (Html)
-import KeywordList as K
+import Html.Styled.Attributes as H
 import Widgets.Dialog as Widgets
 import Widgets.Dialog.Attributes as Dialog
 import Widgets.Dialog.Elements as Dialog
+import Widgets.Dialog.State as DialogState
 import Widgets.Form as Widgets
 import Widgets.Form.Attributes as Form
+import Widgets.Form.Elements as Form
 import Widgets.Themes.Mint as Theme
 
 
@@ -18,34 +20,36 @@ view model =
     H.div []
         [ Widgets.button
             [ Form.onClick OnOpenUnstyled
+            , Form.html Form.control [ H.id "unstyled-button-open" ]
             ]
             [ H.text "Open Unstyled Dialog"
             ]
         , Widgets.button
             [ Form.onClick OnOpenStyled
+            , Form.html Form.control [ H.id "styled-button-open" ]
             ]
             [ H.text "Open Styled Dialog"
             ]
         , Widgets.dialog { id = "dialog-unstyuled", title = "A simple dialog" }
-            (K.fromMany
-                [ K.ifTrue model.unstyledOpen Dialog.open
-                ]
-            )
+            [ DialogState.attributes UnstyledDialogMsg model.unstyledState ]
             [ ( Dialog.window
               , Widgets.button
-                    [ Form.onClick OnCloseUnstyled ]
+                    [ Form.onClick OnCloseUnstyled
+                    , Form.html Form.control [ H.id "unstyled-button-close" ]
+                    ]
                     [ H.text "Close" ]
               )
             ]
         , Widgets.dialog { id = "dialog-styled", title = "An styled dialog" }
-            (K.fromMany
-                [ K.one <| Theme.dialog
-                , K.ifTrue model.styledOpen Dialog.open
-                ]
-            )
+            [ Theme.dialog
+            , DialogState.attributes StyledDialogMsg model.styledState
+            ]
             [ ( Dialog.window
               , Widgets.button
-                    [ Theme.button, Form.onClick OnCloseStyled ]
+                    [ Theme.button
+                    , Form.onClick OnCloseStyled
+                    , Form.html Form.control [ H.id "styled-button-close" ]
+                    ]
                     [ H.text "Close" ]
               )
             ]
@@ -57,15 +61,15 @@ view model =
 
 
 type alias Model =
-    { unstyledOpen : Bool
-    , styledOpen : Bool
+    { unstyledState : DialogState.Model
+    , styledState : DialogState.Model
     }
 
 
 empty : Model
 empty =
-    { unstyledOpen = False
-    , styledOpen = False
+    { unstyledState = DialogState.empty
+    , styledState = DialogState.empty
     }
 
 
@@ -78,26 +82,82 @@ type Msg
     | OnCloseUnstyled
     | OnOpenStyled
     | OnOpenUnstyled
+    | UnstyledDialogMsg DialogState.Msg
+    | StyledDialogMsg DialogState.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         OnCloseStyled ->
-            ( { model | styledOpen = False }, Cmd.none )
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.close model.styledState
+            in
+                ( { model | styledState = nextState }, Cmd.map StyledDialogMsg nextMsg )
 
         OnCloseUnstyled ->
-            ( { model | unstyledOpen = False }, Cmd.none )
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.close model.unstyledState
+            in
+                ( { model | unstyledState = nextState }, Cmd.map UnstyledDialogMsg nextMsg )
 
         OnOpenStyled ->
-            ( { model | styledOpen = True }, Cmd.none )
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.open
+                        { enter = "styled-button-close"
+                        , first = "styled-button-close"
+                        , last = "styled-button-close"
+                        , leave = Just "styled-button-open"
+                        }
+                        model.styledState
+            in
+                ( { model | styledState = nextState }, Cmd.map StyledDialogMsg nextMsg )
 
         OnOpenUnstyled ->
-            ( { model | unstyledOpen = True }, Cmd.none )
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.open
+                        { enter = "unstyled-button-close"
+                        , first = "unstyled-button-close"
+                        , last = "unstyled-button-close"
+                        , leave = Just "unstyled-button-open"
+                        }
+                        model.unstyledState
+            in
+                ( { model | unstyledState = nextState }, Cmd.map UnstyledDialogMsg nextMsg )
+
+        UnstyledDialogMsg dialogMsg ->
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.update dialogMsg model.unstyledState
+            in
+                ( { model | unstyledState = nextState }
+                , Cmd.map UnstyledDialogMsg nextMsg
+                )
+
+        StyledDialogMsg dialogMsg ->
+            let
+                ( nextState, nextMsg ) =
+                    DialogState.update dialogMsg model.styledState
+            in
+                ( { model | styledState = nextState }
+                , Cmd.map StyledDialogMsg nextMsg
+                )
 
 
 
 -- Initialization --
+
+
+subscriptions : Model -> Sub Msg
+subscriptions { styledState, unstyledState } =
+    Sub.batch
+        [ DialogState.subscriptions StyledDialogMsg styledState
+        , DialogState.subscriptions UnstyledDialogMsg unstyledState
+        ]
 
 
 main : Program Never Model Msg
@@ -106,5 +166,5 @@ main =
         { init = ( empty, Cmd.none )
         , view = view
         , update = update
-        , subscriptions = always Sub.none
+        , subscriptions = subscriptions
         }
