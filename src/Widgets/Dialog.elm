@@ -12,6 +12,7 @@ another dialog window. Windows under a modal dialog are inert.
 
 import Array
 import Css as C
+import Css.Media as Media
 import Html.Styled as H exposing (Html)
 import Html.Styled.Attributes as H
 import Html.Styled.Attributes.Aria as Aria
@@ -92,9 +93,14 @@ dialog { id, title } attrs elements =
                                 [ K.many
                                     [ C.backgroundColor <| C.rgb 255 255 255
                                     , C.border3 (C.px 1) C.solid (C.rgb 0 0 0)
-                                    , C.margin2 (C.vh 10) C.auto
                                     , C.padding (C.px 5)
-                                    , C.width <| C.pct 50
+                                    , C.boxSizing C.borderBox
+                                    , C.minHeight <| C.vh 100
+                                    , Media.withMedia [ Media.only Media.screen [ Media.minWidth <| C.px 600 ] ]
+                                        [ C.margin2 (C.vh 10) C.auto
+                                        , C.property "min-height" "auto"
+                                        , C.width <| C.pct 50
+                                        ]
                                     ]
                                 , K.many <| Array.toList ctx.windowCss
                                 ]
