@@ -24,7 +24,7 @@ ARIA behaviour of a Dialog:
 
 # State Management (TEA)
 
-@docs Model, Msg, update
+@docs Model, Msg, update, subscriptions
 
 
 # Interacting with the Dialog
@@ -196,9 +196,12 @@ update msg ((Model { lastId, firstId }) as model) =
 -- Subscriptions --
 
 
-subscriptions : (Msg -> msg) -> Model -> Sub msg
-subscriptions mapMsg (Model { opened, ignoreKeyboardEvents }) =
+{-| Provides de current subscriptions of the model. Use `Sub.map` to wire it
+into your program.
+-}
+subscriptions : Model -> Sub Msg
+subscriptions (Model { opened, ignoreKeyboardEvents }) =
     if opened && not ignoreKeyboardEvents then
-        Keyboard.ups (OnKeyUp >> mapMsg)
+        Keyboard.ups OnKeyUp
     else
         Sub.none
