@@ -3,7 +3,6 @@ module Dialog exposing (main)
 import Html.Styled as H exposing (Html)
 import Html.Styled.Attributes as H
 import Widgets.Dialog as Widgets
-import Widgets.Dialog.Attributes as Dialog
 import Widgets.Dialog.Elements as Dialog
 import Widgets.Dialog.State as DialogState
 import Widgets.Form as Widgets
@@ -155,8 +154,8 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions { styledState, unstyledState } =
     Sub.batch
-        [ DialogState.subscriptions StyledDialogMsg styledState
-        , DialogState.subscriptions UnstyledDialogMsg unstyledState
+        [ Sub.map StyledDialogMsg <| DialogState.subscriptions styledState
+        , Sub.map UnstyledDialogMsg <| DialogState.subscriptions unstyledState
         ]
 
 
